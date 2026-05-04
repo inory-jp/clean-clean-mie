@@ -1,0 +1,142 @@
+---
+import Layout from "../layouts/Layout.astro";
+import site from "../data/site.json";
+
+const sections = [
+  {
+    no: "01",
+    title: "個人情報の取得項目",
+    body: "当店は以下の個人情報を取得する場合があります。",
+    list: [
+      "お名前（漢字・フリガナ）",
+      "ご住所（作業場所の住所を含む）",
+      "電話番号、メールアドレス",
+      "ご要望の内容（作業内容・対象機器・汚れの状況等）",
+      "ご希望日時、駐車場の有無・場所等の作業環境に関する情報",
+      "サイト閲覧時のCookie・アクセスログ・IPアドレス等",
+    ],
+  },
+  {
+    no: "02",
+    title: "利用目的",
+    body: "取得した個人情報は以下の目的で利用します。",
+    list: [
+      "お申込み内容の確認およびご連絡",
+      "ハウスクリーニングサービスの提供",
+      "お見積もり・お問い合わせへのご回答",
+      "施工事例・サービス内容の改善および品質向上のための分析",
+      "キャンペーンや営業に関するお知らせの送付",
+      "契約事項に関する重要なご連絡",
+      "法令に基づく必要な対応",
+    ],
+  },
+  {
+    no: "03",
+    title: "第三者への提供",
+    body: "ご本人の同意がある場合、または法令に基づき開示が求められた場合を除き、第三者へ提供することはありません。",
+  },
+  {
+    no: "04",
+    title: "個人情報の管理",
+    body: "通信時はSSL暗号化を使用し、適切な安全管理措置を講じます。利用目的達成後は、速やかに削除または匿名化いたします。",
+  },
+  {
+    no: "05",
+    title: "Cookie・アクセス解析",
+    body: "当サイトでは、利用状況の把握および改善のため Google Analytics（GA4）を利用しています。Cookieを利用することがありますが、個人を特定する情報は含まれません。Cookieの送信を希望されない場合は、ブラウザの設定で無効化、またはGoogleが提供するオプトアウト拡張機能をご利用ください。",
+  },
+  {
+    no: "06",
+    title: "開示・訂正・削除等のご請求",
+    body: `お客様ご本人からの個人情報の開示・訂正・利用停止・削除のご請求につきましては、${site.email} までメールにてご連絡ください。`,
+  },
+  {
+    no: "07",
+    title: "本ポリシーの改定",
+    body: "本プライバシーポリシーは、法令の改正やサービス内容の変更等に伴い、予告なく変更する場合があります。最新の内容は本ページに掲載いたします。",
+  },
+];
+---
+
+<Layout
+  title="プライバシーポリシー｜CLEAN×CLEAN 津中央店"
+  description="CLEAN×CLEAN 津中央店のプライバシーポリシー。個人情報の取扱い・取得項目・利用目的・第三者提供・Cookieの使用・開示請求窓口についてご案内します。"
+>
+  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
+    <div class="max-w-4xl mx-auto px-4 md:px-8 text-center">
+      <span class="label-en">PRIVACY POLICY</span>
+      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
+        プライバシー<span class="text-navy">ポリシー</span>
+      </h1>
+      <p class="mt-6 text-text-soft max-w-2xl mx-auto leading-relaxed">
+        {site.business_name}（以下「当店」）は、お客様の個人情報を以下の方針に基づき適切に取り扱います。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 md:px-8">
+      <div class="space-y-10">
+        {
+          sections.map((s) => (
+            <article>
+              <div class="flex items-start gap-4 mb-3">
+                <span class="num-mont text-navy text-2xl shrink-0 leading-none mt-1">
+                  {s.no}
+                </span>
+                <h2 class="text-xl font-black text-text leading-snug">
+                  {s.title}
+                </h2>
+              </div>
+              <div class="pl-12 text-text-soft text-sm leading-relaxed">
+                <p>{s.body}</p>
+                {s.list && (
+                  <ul class="mt-3 space-y-1.5 list-disc pl-5">
+                    {s.list.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))
+        }
+
+        <article class="bg-bg-soft rounded-2xl p-6 border border-line-soft">
+          <div class="flex items-start gap-4 mb-3">
+            <span class="num-mont text-navy text-2xl shrink-0 leading-none mt-1">
+              08
+            </span>
+            <h2 class="text-xl font-black text-text">事業者情報</h2>
+          </div>
+          <dl class="pl-12 text-sm text-text space-y-1.5">
+            <div class="flex gap-3">
+              <dt class="text-muted w-20 shrink-0">屋号</dt>
+              <dd>{site.business_name}</dd>
+            </div>
+            <div class="flex gap-3">
+              <dt class="text-muted w-20 shrink-0">代表者</dt>
+              <dd>{site.representative}</dd>
+            </div>
+            <div class="flex gap-3">
+              <dt class="text-muted w-20 shrink-0">所在地</dt>
+              <dd>〒{site.postal_code} {site.address}</dd>
+            </div>
+            <div class="flex gap-3">
+              <dt class="text-muted w-20 shrink-0">電話</dt>
+              <dd>{site.tel}</dd>
+            </div>
+            <div class="flex gap-3">
+              <dt class="text-muted w-20 shrink-0">メール</dt>
+              <dd>{site.email}</dd>
+            </div>
+          </dl>
+        </article>
+
+        <div class="text-right text-xs text-muted border-t border-line-soft pt-6">
+          制定日: 2026年5月1日
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
