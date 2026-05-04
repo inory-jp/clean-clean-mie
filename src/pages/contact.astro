@@ -149,8 +149,9 @@ const categories = menusData.categories;
                                       />
                                       <button
                                         type="button"
-                                        class="w-8 h-8 rounded-full bg-accent text-white font-black hover:bg-accent-deep text-sm"
-                                        @click={`addItem('${o.id}', '${o.name.replace(/'/g, "\\'")}（${m.name.replace(/'/g, "\\'")}用）', ${o.price}, '${o.duration}')`}
+                                        class="w-8 h-8 rounded-full bg-accent text-white font-black hover:bg-accent-deep text-sm disabled:bg-muted-soft disabled:cursor-not-allowed"
+                                        :disabled={`getQty('${o.id}') >= maxOptionQty(${JSON.stringify(o.applies_to)})`}
+                                        @click={`addOption('${o.id}', '${o.name.replace(/'/g, "\\'")}', ${o.price}, '${o.duration}', ${JSON.stringify(o.applies_to)})`}
                                       >
                                         ＋
                                       </button>
@@ -397,6 +398,8 @@ const categories = menusData.categories;
         submitting: false,
         submitError: "",
 
+        optionParents: {},
+
         init() {
           try {
             const saved = localStorage.getItem("ccmie_cart");
@@ -404,6 +407,7 @@ const categories = menusData.categories;
           } catch (e) {}
           this.$watch("cart", (v) => {
             try { localStorage.setItem("ccmie_cart", JSON.stringify(v)); } catch (e) {}
+            this.clampOptions();
           });
         },
 
@@ -411,10 +415,22 @@ const categories = menusData.categories;
           return this.cart.find((i) => i.id === id)?.qty || 0;
         },
 
+        maxOptionQty(parentIds) {
+          if (!parentIds || !parentIds.length) return Infinity;
+          return parentIds.reduce((sum, pid) => sum + this.getQty(pid), 0);
+        },
+
         addItem(id, name, price, duration) {
           const ex = this.cart.find((i) => i.id === id);
           if (ex) ex.qty++;
           else this.cart.push({ id, name, price, qty: 1, duration });
+        },
+
+        addOption(id, name, price, duration, appliesTo) {
+          const max = this.maxOptionQty(appliesTo);
+          if (this.getQty(id) >= max) return;
+          this.optionParents[id] = appliesTo;
+          this.addItem(id, name, price, duration);
         },
 
         updateQty(id, delta) {
@@ -426,6 +442,19 @@ const categories = menusData.categories;
 
         removeItem(id) {
           this.cart = this.cart.filter((i) => i.id !== id);
+        },
+
+        clampOptions() {
+          for (const optId in this.optionParents) {
+            const parents = this.optionParents[optId];
+            const max = this.maxOptionQty(parents);
+            const cur = this.getQty(optId);
+            if (cur > max) {
+              const item = this.cart.find((i) => i.id === optId);
+              if (max <= 0) this.removeItem(optId);
+              else if (item) item.qty = max;
+            }
+          }
         },
 
         total() {
