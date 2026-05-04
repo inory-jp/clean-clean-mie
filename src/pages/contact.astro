@@ -1,0 +1,465 @@
+---
+import Layout from "../layouts/Layout.astro";
+import menusData from "../data/menus.json";
+
+const categories = menusData.categories;
+---
+
+<Layout
+  title="お申込み・見積もり｜CLEAN×CLEAN 津中央店"
+  description="CLEAN×CLEAN 津中央店のお申込み・見積もりフォーム。メニューを選ぶだけで料金が即わかるカート式。三重県全域出張対応・損害保険完備で安心です。"
+>
+  <section class="bg-gradient-to-b from-sky-mist to-white py-12 md:py-16">
+    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
+      <span class="label-en">CONTACT &amp; ORDER</span>
+      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
+        お申込み・<span class="text-navy">見積もり</span>
+      </h1>
+      <p class="mt-5 text-text-soft max-w-2xl mx-auto text-sm md:text-base">
+        メニューを選択すると料金が自動計算されます。送信後、栗田より折り返しご連絡いたします（翌営業日中）。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-10 md:py-16 bg-white" x-data="orderForm()">
+    <div class="max-w-5xl mx-auto px-4 md:px-8">
+      <ol class="flex items-center justify-center gap-2 md:gap-6 mb-10 text-xs md:text-sm">
+        {
+          ["1. メニュー", "2. お客様情報", "3. 確認", "4. 完了"].map((s, i) => (
+            <li
+              class="flex items-center gap-2"
+              :class={`step >= ${i + 1} ? 'text-navy font-bold' : 'text-muted'`}
+            >
+              <span
+                class="w-7 h-7 rounded-full flex items-center justify-center num-mont border-2"
+                :class={`step >= ${i + 1} ? 'bg-navy text-white border-navy' : 'border-line text-muted'`}
+              >
+                {i + 1}
+              </span>
+              <span class="hidden sm:inline">{s.split(". ")[1]}</span>
+              {i < 3 && <span class="text-line">─</span>}
+            </li>
+          ))
+        }
+      </ol>
+
+      {/* STEP 1: メニュー選択 */}
+      <div x-show="step === 1" class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-10">
+          {
+            categories.map((cat) => (
+              <div>
+                <div class="flex items-center gap-3 mb-4">
+                  <span class="text-3xl">{cat.icon}</span>
+                  <h2 class="text-xl font-black text-text">{cat.name}</h2>
+                </div>
+                <div class="space-y-3">
+                  {cat.menus
+                    .filter((m) => m.published)
+                    .map((m) => (
+                      <div class="bg-bg-soft border border-line-soft rounded-xl p-4 flex items-start gap-4">
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-text">{m.name}</span>
+                            {m.tag && (
+                              <span class="text-[10px] bg-accent text-white px-2 py-0.5 rounded-full font-bold">
+                                {m.tag}
+                              </span>
+                            )}
+                          </div>
+                          {m.description && (
+                            <p class="text-xs text-muted mt-1">{m.description}</p>
+                          )}
+                          <div class="mt-2 flex items-baseline gap-2">
+                            <span class="num-mont text-lg text-accent-deep font-bold">
+                              {m.price != null
+                                ? `¥${m.price.toLocaleString()}`
+                                : (m as any).price_label}
+                            </span>
+                            <span class="text-xs text-muted">{m.duration}</span>
+                          </div>
+                        </div>
+                        {m.price != null ? (
+                          <div class="flex items-center gap-2 shrink-0">
+                            <button
+                              type="button"
+                              class="w-9 h-9 rounded-full border border-navy text-navy font-black hover:bg-sky-pale"
+                              @click={`updateQty('${m.id}', -1)`}
+                            >
+                              −
+                            </button>
+                            <span
+                              class="num-mont text-lg w-7 text-center"
+                              x-text={`getQty('${m.id}')`}
+                            />
+                            <button
+                              type="button"
+                              class="w-9 h-9 rounded-full bg-accent text-white font-black hover:bg-accent-deep"
+                              data-menu-id={m.id}
+                              data-menu-name={m.name}
+                              data-menu-price={m.price}
+                              data-menu-duration={m.duration}
+                              @click={`addItem('${m.id}', '${m.name.replace(/'/g, "\\'")}', ${m.price}, '${m.duration}')`}
+                            >
+                              ＋
+                            </button>
+                          </div>
+                        ) : (
+                          <a
+                            href="tel:0592715908"
+                            class="text-xs text-navy font-bold border border-navy rounded-full px-3 py-2 shrink-0"
+                          >
+                            お電話で
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  {cat.options.map((o) => (
+                    <div class="bg-sky-mist border border-sky-light rounded-xl p-4 flex items-start gap-4">
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="text-[10px] bg-sky text-white px-2 py-0.5 rounded font-bold">
+                            OPTION
+                          </span>
+                          <span class="font-bold text-text">{o.name}</span>
+                        </div>
+                        <p class="text-xs text-muted mt-1">{o.description}</p>
+                        <div class="mt-2 num-mont text-base text-accent">
+                          +¥{o.price.toLocaleString()} ({o.duration})
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          class="w-9 h-9 rounded-full border border-navy text-navy font-black hover:bg-sky-pale"
+                          @click={`updateQty('${o.id}', -1)`}
+                        >
+                          −
+                        </button>
+                        <span
+                          class="num-mont text-lg w-7 text-center"
+                          x-text={`getQty('${o.id}')`}
+                        />
+                        <button
+                          type="button"
+                          class="w-9 h-9 rounded-full bg-accent text-white font-black hover:bg-accent-deep"
+                          @click={`addItem('${o.id}', '${o.name.replace(/'/g, "\\'")} (${cat.name}OP)', ${o.price}, '${o.duration}')`}
+                        >
+                          ＋
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Cart */}
+        <aside class="lg:sticky lg:top-24 self-start">
+          <div class="bg-white border-2 border-navy rounded-2xl p-5 shadow-md">
+            <div class="font-black text-navy text-lg flex items-center gap-2">
+              🛒 カート
+              <span class="num-mont text-sm bg-navy text-white rounded-full px-2.5 py-0.5" x-text="cart.length"></span>
+            </div>
+            <div class="mt-4 space-y-3 max-h-72 overflow-y-auto" x-show="cart.length > 0">
+              <template x-for="item in cart" :key="item.id">
+                <div class="flex items-start justify-between gap-2 text-sm border-b border-line-soft pb-2">
+                  <div class="flex-1 min-w-0">
+                    <div class="font-bold text-text truncate" x-text="item.name"></div>
+                    <div class="text-xs text-muted num-mont" x-text="`¥${item.price.toLocaleString()} × ${item.qty}`"></div>
+                  </div>
+                  <button type="button" class="text-muted hover:text-accent text-xs" @click="removeItem(item.id)">削除</button>
+                </div>
+              </template>
+            </div>
+            <p class="text-xs text-muted mt-3" x-show="cart.length === 0">
+              メニューを選択してください。
+            </p>
+            <div class="mt-4 pt-4 border-t border-line">
+              <div class="flex justify-between text-sm">
+                <span class="text-muted">小計</span>
+                <span class="num-mont" x-text="`¥${total().toLocaleString()}`"></span>
+              </div>
+              <div class="flex justify-between font-black text-lg mt-1">
+                <span>合計（税込）</span>
+                <span class="num-mont text-accent-deep" x-text="`¥${total().toLocaleString()}`"></span>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="mt-5 w-full py-3 rounded-full bg-accent text-white font-bold hover:bg-accent-deep disabled:bg-muted-soft disabled:cursor-not-allowed"
+              :disabled="cart.length === 0"
+              @click="step = 2; scrollTop()"
+            >
+              次へ進む →
+            </button>
+          </div>
+        </aside>
+      </div>
+
+      {/* STEP 2: お客様情報 */}
+      <div x-show="step === 2" class="max-w-2xl mx-auto">
+        <h2 class="text-xl font-black text-text mb-6">お客様情報のご入力</h2>
+        <form @submit.prevent="step = 3; scrollTop()" class="space-y-5">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <label class="block">
+              <span class="text-sm font-bold text-text-soft">お名前 <span class="text-accent">*</span></span>
+              <input type="text" x-model="customer.name" required class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+            </label>
+            <label class="block">
+              <span class="text-sm font-bold text-text-soft">フリガナ <span class="text-accent">*</span></span>
+              <input type="text" x-model="customer.kana" required class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+            </label>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <label class="block">
+              <span class="text-sm font-bold text-text-soft">電話番号 <span class="text-accent">*</span></span>
+              <input type="tel" x-model="customer.tel" required pattern="[0-9-]+" class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+            </label>
+            <label class="block">
+              <span class="text-sm font-bold text-text-soft">メールアドレス <span class="text-accent">*</span></span>
+              <input type="email" x-model="customer.email" required class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+            </label>
+          </div>
+          <label class="block">
+            <span class="text-sm font-bold text-text-soft">郵便番号 <span class="text-accent">*</span></span>
+            <input type="text" x-model="customer.postal" required pattern="[0-9-]+" placeholder="514-0008" class="mt-1 w-full sm:w-48 px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+          </label>
+          <label class="block">
+            <span class="text-sm font-bold text-text-soft">ご住所（作業場所） <span class="text-accent">*</span></span>
+            <input type="text" x-model="customer.address" required placeholder="三重県津市..." class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+          </label>
+
+          <fieldset class="border border-line rounded-xl p-5">
+            <legend class="text-sm font-bold text-text-soft px-2">ご希望日時</legend>
+            <div class="space-y-3 mt-2">
+              <template x-for="(_, i) in [1,2,3]" :key="i">
+                <div class="grid sm:grid-cols-2 gap-3">
+                  <input type="date" x-model="customer.dates[i]" :required="i === 0" class="px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+                  <select x-model="customer.times[i]" :required="i === 0" class="px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light">
+                    <option value="">時間帯を選択</option>
+                    <option value="午前">午前（9:00〜12:00）</option>
+                    <option value="午後">午後（13:00〜17:00）</option>
+                    <option value="終日">終日（9:00〜17:00）</option>
+                  </select>
+                </div>
+              </template>
+              <p class="text-xs text-muted">第1希望は必須、第2・第3希望は任意です。</p>
+            </div>
+          </fieldset>
+
+          <label class="block">
+            <span class="text-sm font-bold text-text-soft">クーポンコード <span class="text-xs text-muted">(任意)</span></span>
+            <input type="text" x-model="customer.coupon" placeholder="GW2026 など" class="mt-1 w-full sm:w-64 px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light uppercase" />
+            <p class="mt-1 text-xs text-muted">※ 表示金額には反映されません。栗田より折り返し連絡時に適用後の金額をご案内します。</p>
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-bold text-text-soft">紹介者名 <span class="text-xs text-muted">(任意)</span></span>
+            <input type="text" x-model="customer.referrer" class="mt-1 w-full sm:w-80 px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light" />
+          </label>
+
+          <label class="block">
+            <span class="text-sm font-bold text-text-soft">備考 <span class="text-xs text-muted">(任意)</span></span>
+            <textarea x-model="customer.notes" rows="4" placeholder="駐車場の有無、当日連絡先、ご要望など" class="mt-1 w-full px-4 py-3 rounded-lg border border-line focus:border-navy focus:outline-none focus:ring-2 focus:ring-sky-light"></textarea>
+          </label>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button type="button" class="px-7 py-3 rounded-full bg-white border border-navy text-navy font-bold" @click="step = 1; scrollTop()">
+              ← 戻る
+            </button>
+            <button type="submit" class="px-7 py-3 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep flex-1">
+              確認画面へ進む →
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* STEP 3: 確認 */}
+      <div x-show="step === 3" class="max-w-2xl mx-auto">
+        <h2 class="text-xl font-black text-text mb-6">ご入力内容の確認</h2>
+        <div class="bg-bg-soft rounded-xl p-5 mb-5">
+          <div class="font-bold text-navy mb-3">選択メニュー</div>
+          <ul class="space-y-2 text-sm">
+            <template x-for="item in cart" :key="item.id">
+              <li class="flex justify-between border-b border-line-soft pb-2">
+                <span x-text="`${item.name} × ${item.qty}`"></span>
+                <span class="num-mont" x-text="`¥${(item.price * item.qty).toLocaleString()}`"></span>
+              </li>
+            </template>
+          </ul>
+          <div class="flex justify-between font-black text-lg mt-4 pt-3 border-t-2 border-navy">
+            <span>合計（税込）</span>
+            <span class="num-mont text-accent-deep" x-text="`¥${total().toLocaleString()}`"></span>
+          </div>
+          <p class="text-xs text-muted mt-3">
+            ※ 掲載料金は確定料金です。ただし現場状況により標準作業に含まれない追加作業が必要な場合は、別途お見積もりのうえご相談いたします。
+          </p>
+        </div>
+
+        <div class="bg-bg-soft rounded-xl p-5 mb-5 text-sm space-y-2">
+          <div class="font-bold text-navy mb-2">お客様情報</div>
+          <div><span class="text-muted">お名前: </span><span x-text="`${customer.name}（${customer.kana}）`"></span></div>
+          <div><span class="text-muted">電話: </span><span x-text="customer.tel"></span></div>
+          <div><span class="text-muted">メール: </span><span x-text="customer.email"></span></div>
+          <div><span class="text-muted">住所: </span><span x-text="`〒${customer.postal} ${customer.address}`"></span></div>
+          <div><span class="text-muted">第1希望: </span><span x-text="`${customer.dates[0]} ${customer.times[0]}`"></span></div>
+          <div x-show="customer.dates[1]"><span class="text-muted">第2希望: </span><span x-text="`${customer.dates[1]} ${customer.times[1] || ''}`"></span></div>
+          <div x-show="customer.dates[2]"><span class="text-muted">第3希望: </span><span x-text="`${customer.dates[2]} ${customer.times[2] || ''}`"></span></div>
+          <div x-show="customer.coupon"><span class="text-muted">クーポンコード: </span><span class="num-mont uppercase" x-text="customer.coupon"></span></div>
+          <div x-show="customer.referrer"><span class="text-muted">紹介者: </span><span x-text="customer.referrer"></span></div>
+          <div x-show="customer.notes"><span class="text-muted">備考: </span><span x-text="customer.notes" class="whitespace-pre-wrap"></span></div>
+        </div>
+
+        <div class="space-y-3 mb-6">
+          <label class="flex items-start gap-3 text-sm">
+            <input type="checkbox" x-model="agreements.privacy" class="mt-1 w-5 h-5" />
+            <span><a href="/privacy" target="_blank" class="text-navy underline">プライバシーポリシー</a>に同意します <span class="text-accent">*</span></span>
+          </label>
+          <label class="flex items-start gap-3 text-sm">
+            <input type="checkbox" x-model="agreements.additional" class="mt-1 w-5 h-5" />
+            <span>現場状況により追加作業が必要な場合は、別途お見積もりのうえ対応されることに同意します <span class="text-accent">*</span></span>
+          </label>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button type="button" class="px-7 py-3 rounded-full bg-white border border-navy text-navy font-bold" @click="step = 2; scrollTop()" :disabled="submitting">
+            ← 戻る
+          </button>
+          <button
+            type="button"
+            class="px-7 py-3 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep flex-1 disabled:bg-muted-soft disabled:cursor-not-allowed"
+            :disabled="!agreements.privacy || !agreements.additional || submitting"
+            @click="submit()"
+          >
+            <span x-show="!submitting">申込みを送信する</span>
+            <span x-show="submitting">送信中...</span>
+          </button>
+        </div>
+
+        <p x-show="submitError" class="mt-4 text-accent text-sm" x-text="submitError"></p>
+      </div>
+
+      {/* STEP 4: 完了 */}
+      <div x-show="step === 4" class="max-w-xl mx-auto text-center py-10">
+        <div class="text-6xl mb-4">✅</div>
+        <h2 class="text-2xl font-black text-text">お申込みありがとうございました</h2>
+        <p class="mt-5 text-text-soft leading-relaxed">
+          後ほど栗田よりご連絡いたします（翌営業日中）。<br />
+          ご入力いただいたメールアドレス宛に受付完了メールをお送りしました。
+        </p>
+        <div class="mt-8 bg-bg-soft rounded-xl p-5 inline-block">
+          <div class="text-xs text-muted">お急ぎの場合はお電話ください</div>
+          <a href="tel:0592715908" class="num-mont text-2xl text-navy font-bold mt-1 block">059-271-5908</a>
+          <div class="text-xs text-muted mt-1">営業時間 9:00〜18:00</div>
+        </div>
+        <div class="mt-8">
+          <a href="/" class="text-navy font-bold hover:underline">トップページへ戻る →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <script is:inline define:vars={{ menusData }}>
+    function orderForm() {
+      const params = new URLSearchParams(window.location.search);
+      const preselect = params.get("service");
+
+      return {
+        step: 1,
+        cart: [],
+        customer: {
+          name: "",
+          kana: "",
+          tel: "",
+          email: "",
+          postal: "",
+          address: "",
+          dates: ["", "", ""],
+          times: ["", "", ""],
+          coupon: "",
+          referrer: "",
+          notes: "",
+        },
+        agreements: { privacy: false, additional: false },
+        submitting: false,
+        submitError: "",
+
+        init() {
+          const saved = localStorage.getItem("ccmie_cart");
+          if (saved) {
+            try {
+              this.cart = JSON.parse(saved);
+            } catch (e) {}
+          }
+          if (preselect) {
+            const cat = menusData.categories.find((c) => c.slug === preselect);
+            const top = cat?.menus.find((m) => m.published && m.price);
+            if (top && this.getQty(top.id) === 0) {
+              this.addItem(top.id, top.name, top.price, top.duration);
+            }
+          }
+          this.$watch("cart", (v) => localStorage.setItem("ccmie_cart", JSON.stringify(v)));
+        },
+
+        getQty(id) {
+          return this.cart.find((i) => i.id === id)?.qty || 0;
+        },
+
+        addItem(id, name, price, duration) {
+          const ex = this.cart.find((i) => i.id === id);
+          if (ex) ex.qty++;
+          else this.cart.push({ id, name, price, qty: 1, duration });
+        },
+
+        updateQty(id, delta) {
+          const ex = this.cart.find((i) => i.id === id);
+          if (!ex) return;
+          ex.qty += delta;
+          if (ex.qty <= 0) this.removeItem(id);
+        },
+
+        removeItem(id) {
+          this.cart = this.cart.filter((i) => i.id !== id);
+        },
+
+        total() {
+          return this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+        },
+
+        scrollTop() {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+
+        async submit() {
+          this.submitting = true;
+          this.submitError = "";
+          try {
+            const res = await fetch("/api/submit", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                cart: this.cart,
+                total: this.total(),
+                customer: this.customer,
+              }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "送信に失敗しました");
+            localStorage.removeItem("ccmie_cart");
+            this.step = 4;
+            this.scrollTop();
+          } catch (e) {
+            this.submitError = e.message + "（恐れ入りますがお電話 059-271-5908 までご連絡ください）";
+          } finally {
+            this.submitting = false;
+          }
+        },
+      };
+    }
+  </script>
+</Layout>
