@@ -1,0 +1,122 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getNewsList, formatDate } from "../../lib/microcms";
+
+const { contents: news } = await getNewsList({ limit: 30 });
+const categories = Array.from(new Set(news.map((n) => n.category)));
+---
+
+<Layout
+  title="お知らせ・ブログ｜CLEAN×CLEAN 津中央店"
+  description="CLEAN×CLEAN 津中央店からのお知らせ・施工事例・お役立ちコラム。エアコン・お風呂クリーニングのプロが、季節のお手入れや業界の最新情報をお届けします。"
+>
+  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
+    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
+      <span class="label-en">NEWS &amp; BLOG</span>
+      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
+        お知らせ・<span class="text-navy">お役立ち情報</span>
+      </h1>
+      <p class="mt-6 text-text-soft max-w-2xl mx-auto text-sm md:text-base">
+        季節のお手入れのコツ、施工事例、お知らせを発信しています。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12 md:py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 md:px-8">
+      {
+        categories.length > 0 && (
+          <div class="flex flex-wrap gap-2 justify-center mb-10" id="newsFilters">
+            <button
+              type="button"
+              class="news-filter px-4 py-2 rounded-full text-sm font-bold border bg-navy text-white border-navy"
+              data-category=""
+            >
+              すべて
+            </button>
+            {categories.map((c) => (
+              <button
+                type="button"
+                class="news-filter px-4 py-2 rounded-full text-sm font-bold border bg-white text-text-soft border-line hover:border-navy hover:text-navy transition-colors"
+                data-category={c}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      {
+        news.length === 0 ? (
+          <div class="text-center py-16 text-muted">
+            <p class="text-lg">記事はまだありません。</p>
+            <p class="text-sm mt-2">準備中です。しばらくお待ちください。</p>
+          </div>
+        ) : (
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="newsGrid">
+            {news.map((n) => (
+              <a
+                href={`/news/${n.slug}`}
+                class="news-card bg-white rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden group"
+                data-category={n.category}
+              >
+                {n.eyecatch ? (
+                  <div class="aspect-video bg-bg-soft overflow-hidden">
+                    <img
+                      src={`${n.eyecatch.url}?w=600&fm=webp&q=80`}
+                      alt={n.title}
+                      width={n.eyecatch.width}
+                      height={n.eyecatch.height}
+                      loading="lazy"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </div>
+                ) : (
+                  <div class="aspect-video bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-6xl opacity-60">
+                    📝
+                  </div>
+                )}
+                <div class="p-5">
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full font-bold">
+                      {n.category}
+                    </span>
+                    <span class="text-xs text-muted num-mont">
+                      {formatDate(n.published_at || n.publishedAt)}
+                    </span>
+                  </div>
+                  <h2 class="font-bold text-text leading-snug line-clamp-2">
+                    {n.title}
+                  </h2>
+                </div>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>(".news-filter");
+  const cards = document.querySelectorAll<HTMLElement>(".news-card");
+
+  filters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cat = btn.dataset.category;
+      filters.forEach((b) => {
+        b.classList.remove("bg-navy", "text-white", "border-navy");
+        b.classList.add("bg-white", "text-text-soft", "border-line");
+      });
+      btn.classList.remove("bg-white", "text-text-soft", "border-line");
+      btn.classList.add("bg-navy", "text-white", "border-navy");
+
+      cards.forEach((c) => {
+        const show = !cat || c.dataset.category === cat;
+        c.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>

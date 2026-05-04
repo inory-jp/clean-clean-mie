@@ -1,64 +1,65 @@
 ---
-// TODO: microCMS連携後、最新3件をfetchで取得
-const news = [
-  {
-    href: "/news/01",
-    category: "お知らせ",
-    date: "2026.04.20",
-    title: "ゴールデンウィーク期間中のご予約について",
-  },
-  {
-    href: "/news/02",
-    category: "お役立ちコラム",
-    date: "2026.04.10",
-    title: "エアコン内部のカビ対策、シーズン前にやるべき3つのこと",
-  },
-  {
-    href: "/news/03",
-    category: "施工事例",
-    date: "2026.03.28",
-    title: "築20年のお風呂、エプロン内部を分解洗浄でリフレッシュ",
-  },
-];
+import { getNewsList, formatDate } from "../../lib/microcms";
+
+const { contents: news } = await getNewsList({ limit: 3 });
 ---
 
-<section id="news" class="bg-bg-soft py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
-    <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
-      <div>
-        <span class="label-en">NEWS &amp; BLOG</span>
-        <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-          お知らせ・<span class="text-navy">お役立ち情報</span>
-        </h2>
-      </div>
-      <a
-        href="/news"
-        class="text-navy font-bold text-sm hover:underline"
-      >
-        一覧を見る →
-      </a>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      {
-        news.map((n) => (
-          <a
-            href={n.href}
-            class="bg-white rounded-2xl p-6 border border-line-soft hover:shadow-md transition-shadow"
-          >
-            <div class="flex items-center gap-3 mb-3">
-              <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full font-bold">
-                {n.category}
-              </span>
-              <span class="text-xs text-muted num-mont">{n.date}</span>
-            </div>
-            <h3 class="text-base font-bold text-text leading-snug">
-              {n.title}
-            </h3>
-            <div class="mt-4 text-navy text-sm font-bold">続きを読む →</div>
+{
+  news.length > 0 && (
+    <section id="news" class="bg-bg-soft py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 md:px-8">
+        <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+          <div>
+            <span class="label-en">NEWS &amp; BLOG</span>
+            <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+              お知らせ・<span class="text-navy">お役立ち情報</span>
+            </h2>
+          </div>
+          <a href="/news" class="text-navy font-bold text-sm hover:underline">
+            一覧を見る →
           </a>
-        ))
-      }
-    </div>
-  </div>
-</section>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {news.map((n) => (
+            <a
+              href={`/news/${n.slug}`}
+              class="bg-white rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden"
+            >
+              {n.eyecatch ? (
+                <div class="aspect-video bg-bg-soft overflow-hidden">
+                  <img
+                    src={`${n.eyecatch.url}?w=600&fm=webp&q=80`}
+                    alt={n.title}
+                    width={n.eyecatch.width}
+                    height={n.eyecatch.height}
+                    loading="lazy"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div class="aspect-video bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-5xl opacity-60">
+                  📝
+                </div>
+              )}
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full font-bold">
+                    {n.category}
+                  </span>
+                  <span class="text-xs text-muted num-mont">
+                    {formatDate(n.published_at || n.publishedAt)}
+                  </span>
+                </div>
+                <h3 class="text-base font-bold text-text leading-snug line-clamp-2">
+                  {n.title}
+                </h3>
+                <div class="mt-4 text-navy text-sm font-bold">続きを読む →</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

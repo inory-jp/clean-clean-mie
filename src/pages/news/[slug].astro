@@ -1,0 +1,223 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  getAllNewsForPaths,
+  getNewsList,
+  formatDate,
+  type NewsArticle,
+} from "../../lib/microcms";
+
+export async function getStaticPaths() {
+  const all = await getAllNewsForPaths();
+  return all.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: NewsArticle;
+}
+
+const { article } = Astro.props;
+const { contents: related } = await getNewsList({ limit: 4 });
+const relatedItems = related.filter((n) => n.id !== article.id).slice(0, 3);
+
+const ogImage = article.eyecatch?.url
+  ? `${article.eyecatch.url}?w=1200&fm=webp&q=80`
+  : "/og-image.png";
+---
+
+<Layout
+  title={`${article.title}｜CLEAN×CLEAN 津中央店`}
+  description={article.title}
+  ogImage={ogImage}
+>
+  <article class="bg-white">
+    <header class="bg-gradient-to-b from-sky-mist to-white py-12 md:py-16 border-b border-line-soft">
+      <div class="max-w-3xl mx-auto px-4 md:px-8">
+        <a href="/news" class="text-navy text-sm font-bold hover:underline">
+          ← お知らせ・ブログ一覧へ
+        </a>
+        <div class="flex items-center gap-3 mt-4">
+          <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full font-bold">
+            {article.category}
+          </span>
+          <span class="text-xs text-muted num-mont">
+            {formatDate(article.published_at || article.publishedAt)}
+          </span>
+        </div>
+        <h1 class="text-2xl md:text-4xl font-black text-text mt-4 leading-snug">
+          {article.title}
+        </h1>
+        {
+          article.tags && article.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-5">
+              {article.tags.map((t) => (
+                <span class="text-xs bg-bg-soft text-text-soft px-2.5 py-1 rounded-full border border-line-soft">
+                  #{t}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    {
+      article.eyecatch && (
+        <div class="max-w-3xl mx-auto px-4 md:px-8 -mt-2">
+          <img
+            src={`${article.eyecatch.url}?w=1200&fm=webp&q=85`}
+            alt={article.title}
+            width={article.eyecatch.width}
+            height={article.eyecatch.height}
+            class="w-full h-auto rounded-2xl shadow-md"
+          />
+        </div>
+      )
+    }
+
+    <div class="py-10 md:py-14">
+      <div
+        class="prose-content max-w-3xl mx-auto px-4 md:px-8"
+        set:html={article.body}
+      />
+    </div>
+  </article>
+
+  {
+    relatedItems.length > 0 && (
+      <section class="bg-bg-soft py-14 md:py-20 border-t border-line-soft">
+        <div class="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 class="text-xl md:text-2xl font-black text-text mb-8 text-center">
+            関連記事
+          </h2>
+          <div class="grid md:grid-cols-3 gap-5">
+            {relatedItems.map((n) => (
+              <a
+                href={`/news/${n.slug}`}
+                class="bg-white rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden"
+              >
+                {n.eyecatch ? (
+                  <div class="aspect-video bg-bg-soft overflow-hidden">
+                    <img
+                      src={`${n.eyecatch.url}?w=600&fm=webp&q=80`}
+                      alt={n.title}
+                      width={n.eyecatch.width}
+                      height={n.eyecatch.height}
+                      loading="lazy"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div class="aspect-video bg-gradient-to-br from-sky-pale to-sky-light" />
+                )}
+                <div class="p-5">
+                  <div class="flex items-center gap-2 text-xs mb-2">
+                    <span class="bg-sky-pale text-navy px-2 py-0.5 rounded-full font-bold">
+                      {n.category}
+                    </span>
+                    <span class="text-muted num-mont">
+                      {formatDate(n.published_at || n.publishedAt)}
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-text text-sm leading-snug line-clamp-2">
+                    {n.title}
+                  </h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="bg-white py-12 text-center">
+    <a href="/news" class="text-navy font-bold hover:underline">
+      ← お知らせ・ブログ一覧へ戻る
+    </a>
+  </section>
+</Layout>
+
+<style>
+  .prose-content {
+    line-height: 1.85;
+    color: #1a2738;
+  }
+  .prose-content h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #1e88b0;
+  }
+  .prose-content h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 2rem 0 0.75rem;
+    color: #0d5b7a;
+  }
+  .prose-content p {
+    margin: 1.25rem 0;
+  }
+  .prose-content a {
+    color: #1e88b0;
+    text-decoration: underline;
+  }
+  .prose-content ul,
+  .prose-content ol {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+  }
+  .prose-content ul li {
+    list-style: disc;
+    margin: 0.5rem 0;
+  }
+  .prose-content ol li {
+    list-style: decimal;
+    margin: 0.5rem 0;
+  }
+  .prose-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .prose-content blockquote {
+    border-left: 4px solid #78c8e0;
+    padding: 0.75rem 1rem;
+    background: #f5fbfd;
+    margin: 1.5rem 0;
+    color: #3f4e63;
+  }
+  .prose-content code {
+    background: #f7fafc;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+    color: #e55f2c;
+  }
+  .prose-content pre {
+    background: #1a2738;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+  .prose-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+  .prose-content th,
+  .prose-content td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #e1e8f0;
+  }
+  .prose-content th {
+    background: #e8f5f9;
+    font-weight: 700;
+  }
+</style>
