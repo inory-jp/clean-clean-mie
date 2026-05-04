@@ -38,6 +38,10 @@
   --radius-xl: 28px;
 }
 
+[x-cloak] {
+  display: none !important;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
