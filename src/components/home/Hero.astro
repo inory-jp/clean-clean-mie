@@ -1,0 +1,135 @@
+---
+const slides = [
+  {
+    badge: "🎉 ゴールデンウィーク限定",
+    title: "エアコンクリーニング<br/>1,000円OFF キャンペーン",
+    priceOld: "通常 ¥12,100",
+    priceNew: "¥11,000",
+    priceOff: "−1,000円",
+    code: "GW2026",
+    meta: "⏰ 有効期限: 2026年5月6日まで",
+    bg: "from-sky-pale to-sky-light",
+  },
+  {
+    badge: "夏本番前にお得に",
+    title: "2台目以降<br/>10% OFF キャンペーン",
+    priceNew: "10%",
+    priceOff: "2台目から",
+    code: "SET2026",
+    meta: "複数台のエアコンをまとめて",
+    bg: "from-sky-light to-sky-mid",
+  },
+  {
+    badge: "お風呂特集",
+    title: "エプロン内部洗浄<br/>無料サービス",
+    priceOld: "通常 +¥6,050",
+    priceNew: "無料",
+    priceOff: "−6,050円",
+    code: "BATH26",
+    meta: "浴室まるごとプランにご利用いただけます",
+    bg: "from-sky-mist to-sky-pale",
+  },
+];
+---
+
+<section class="relative overflow-hidden">
+  <div class="relative" id="heroSlider">
+    {
+      slides.map((s, i) => (
+        <div
+          class={`hero-slide ${i === 0 ? "active" : ""} bg-gradient-to-br ${s.bg} transition-opacity duration-700`}
+          data-index={i}
+        >
+          <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <span class="inline-block bg-white text-navy text-xs font-bold px-4 py-2 rounded-full shadow-sm">
+                {s.badge}
+              </span>
+              <h2
+                class="mt-5 text-3xl md:text-5xl font-black leading-tight text-text"
+                set:html={s.title}
+              />
+              <div class="mt-6 flex items-baseline flex-wrap gap-3">
+                {s.priceOld && (
+                  <span class="text-muted line-through text-base">{s.priceOld}</span>
+                )}
+                <span class="num-mont text-4xl md:text-5xl text-accent">
+                  {s.priceNew}
+                </span>
+                <span class="text-accent-deep font-bold text-sm">{s.priceOff}</span>
+              </div>
+              <div class="mt-5 inline-flex items-center bg-white border-2 border-dashed border-accent rounded-xl px-5 py-3 shadow-md">
+                <span class="text-xs text-muted font-bold mr-3 num-mont">CODE</span>
+                <span class="num-mont text-xl text-accent-deep">{s.code}</span>
+              </div>
+              <div class="mt-4 text-sm text-text-soft">{s.meta}</div>
+              <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                <a
+                  href="/contact"
+                  class="inline-flex justify-center items-center px-7 py-3.5 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
+                >
+                  📋 お申込み・見積もり
+                </a>
+                <a
+                  href="tel:0592715908"
+                  class="inline-flex justify-center items-center gap-2 px-7 py-3.5 rounded-full bg-white border-2 border-navy text-navy font-bold"
+                >
+                  📞 <span class="num-mont">059-271-5908</span>
+                </a>
+              </div>
+            </div>
+            <div class="hidden md:flex justify-center">
+              <div class="w-72 h-72 rounded-full bg-white/40 backdrop-blur flex items-center justify-center text-9xl">
+                {i === 0 ? "❄" : i === 1 ? "⚙" : "🛁"}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+    {
+      slides.map((_, i) => (
+        <button
+          type="button"
+          class={`hero-dot w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? "bg-navy w-8" : "bg-white"}`}
+          data-index={i}
+          aria-label={`スライド ${i + 1}`}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .hero-slide {
+    display: none;
+  }
+  .hero-slide.active {
+    display: block;
+  }
+</style>
+
+<script>
+  const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+  const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
+  let cur = 0;
+
+  function show(i: number) {
+    slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+    dots.forEach((d, idx) => {
+      d.classList.toggle("bg-navy", idx === i);
+      d.classList.toggle("w-8", idx === i);
+      d.classList.toggle("bg-white", idx !== i);
+    });
+    cur = i;
+  }
+
+  dots.forEach((d, i) => d.addEventListener("click", () => show(i)));
+
+  if (slides.length > 1) {
+    setInterval(() => show((cur + 1) % slides.length), 6000);
+  }
+</script>

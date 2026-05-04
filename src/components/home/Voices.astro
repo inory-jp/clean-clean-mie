@@ -1,0 +1,67 @@
+---
+const voices = [
+  {
+    name: "M.K 様",
+    date: "2026年4月",
+    rating: 5,
+    body: "エアコンの中がこんなに汚れているとは思いませんでした。完全分解で見違えるようにキレイに。栗田さんの丁寧な対応に感動しました。",
+    service: "エアコンクリーニング",
+  },
+  {
+    name: "T.S 様",
+    date: "2026年3月",
+    rating: 5,
+    body: "時間通りに来ていただき、養生もしっかり、価格も明朗で安心できました。お風呂もエプロン内部まで開けて洗ってもらえて、満足です。",
+    service: "お風呂クリーニング",
+  },
+  {
+    name: "A.N 様",
+    date: "2026年2月",
+    rating: 4,
+    body: "説明がわかりやすく、こちらの質問にも丁寧に答えてくれました。換気扇の油汚れがピカピカになって本当にうれしいです。",
+    service: "キッチン・換気扇",
+  },
+];
+---
+
+<section id="voices" class="bg-white py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-10">
+      <span class="label-en">CUSTOMER VOICES</span>
+      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+        お客様の<span class="text-navy">ありがとう</span>
+      </h2>
+      <div
+        class="mt-6 inline-flex items-center gap-3 bg-bg-soft rounded-full px-5 py-2.5 border border-line-soft"
+      >
+        <span class="text-gold text-xl">★★★★★</span>
+        <span class="num-mont text-2xl text-text">4.8</span>
+        <span class="text-muted text-sm">/ 5.0</span>
+        <span class="text-muted text-xs ml-2">Google レビュー</span>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {
+        voices.map((v) => (
+          <article class="bg-bg-soft rounded-2xl p-6 border border-line-soft">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-gold">
+                {"★".repeat(v.rating)}
+                <span class="text-line">{"★".repeat(5 - v.rating)}</span>
+              </span>
+              <span class="text-xs text-muted num-mont">{v.date}</span>
+            </div>
+            <p class="text-text-soft text-sm leading-relaxed">{v.body}</p>
+            <div class="mt-5 pt-4 border-t border-line-soft flex items-center justify-between">
+              <span class="font-bold text-text">{v.name}</span>
+              <span class="text-xs text-navy bg-sky-pale px-2.5 py-1 rounded-full">
+                {v.service}
+              </span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

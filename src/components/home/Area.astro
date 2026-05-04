@@ -1,0 +1,76 @@
+---
+const primaryAreas = ["津市", "松阪市", "鈴鹿市"];
+const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名市", "他三重県全域"];
+---
+
+<section id="area" class="bg-white py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-12">
+      <span class="label-en">SERVICE AREA</span>
+      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+        三重県全域に<span class="text-navy">対応しています</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div class="bg-sky-mist rounded-2xl p-6 md:p-8">
+        <img
+          src="/assets/mie-map.png"
+          alt="三重県エリアマップ"
+          class="w-full h-auto"
+        />
+      </div>
+
+      <div>
+        <p class="text-text-soft mb-6 leading-relaxed">
+          津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いいたします。エリア外の方もまずはお気軽にご相談ください。
+        </p>
+
+        <div class="mb-6">
+          <div class="text-xs text-muted font-bold mb-3">主要対応エリア</div>
+          <div class="flex flex-wrap gap-2">
+            {
+              primaryAreas.map((a) => (
+                <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full">
+                  {a}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-xs text-muted font-bold mb-3">その他対応エリア</div>
+          <div class="flex flex-wrap gap-2">
+            {
+              otherAreas.map((a) => (
+                <span class="bg-sky-pale text-navy text-sm px-3 py-1.5 rounded-full">
+                  {a}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
+            <div class="num-mont text-lg text-navy">三重県全域</div>
+            <div class="text-xs text-muted mt-1">対応エリア</div>
+          </div>
+          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
+            <div class="num-mont text-lg text-accent-deep">無料</div>
+            <div class="text-xs text-muted mt-1">県内出張費</div>
+          </div>
+          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
+            <div class="num-mont text-lg text-navy">即日</div>
+            <div class="text-xs text-muted mt-1">お見積もり相談</div>
+          </div>
+        </div>
+
+        <div class="bg-sky-pale rounded-xl p-4 text-sm text-navy-deep">
+          💬 エリア外の方もまずはお気軽にご相談ください。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

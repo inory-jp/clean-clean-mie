@@ -1,0 +1,90 @@
+---
+const services = [
+  {
+    href: "/service/aircon",
+    icon: "❄",
+    name: "エアコンクリーニング",
+    tag: "★ 人気No.1",
+    tagColor: "bg-accent text-white",
+    price: "¥12,100〜",
+    features: ["壁掛け", "お掃除機能付", "天井埋込", "完全分解OP"],
+  },
+  {
+    href: "/service/bath",
+    icon: "🛁",
+    name: "お風呂クリーニング",
+    tag: "セット割対象",
+    tagColor: "bg-gold text-text",
+    price: "¥18,150〜",
+    features: ["浴室まるごと", "エプロン内部", "鏡うろこ取り", "防カビ"],
+  },
+  {
+    href: "/service/kitchen",
+    icon: "🍳",
+    name: "キッチン・換気扇",
+    tag: "大掃除におすすめ",
+    tagColor: "bg-navy text-white",
+    price: "¥12,100〜",
+    features: ["レンジフード型", "プロペラ型"],
+  },
+  {
+    href: "/service/other",
+    icon: "✨",
+    name: "その他クリーニング",
+    tag: "幅広く対応",
+    tagColor: "bg-sky-mid text-navy-deep",
+    price: "¥9,680〜",
+    features: ["トイレ", "洗面所", "洗濯機", "冷蔵庫", "窓ガラス"],
+  },
+];
+---
+
+<section id="services" class="bg-sky-mist py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-12">
+      <span class="label-en">OUR SERVICES</span>
+      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+        清潔と安心を、<span class="text-navy">プロの技術で</span>
+      </h2>
+      <p class="text-text-soft mt-4 max-w-2xl mx-auto text-sm md:text-base">
+        ご家庭の主要な水回り・空調設備を、高品質な技術と専用機材で隅々まで美しく仕上げます。
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        services.map((s) => (
+          <a
+            href={s.href}
+            class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all border border-line-soft hover:-translate-y-1"
+          >
+            <div class="flex items-start justify-between">
+              <div class="text-5xl">{s.icon}</div>
+              <span
+                class={`text-[10px] font-bold px-2.5 py-1 rounded-full ${s.tagColor}`}
+              >
+                {s.tag}
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg font-black text-text">{s.name}</h3>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="num-mont text-2xl text-accent-deep">{s.price}</span>
+              <span class="text-xs text-muted">税込</span>
+            </div>
+            <ul class="mt-4 space-y-1.5 text-xs text-text-soft">
+              {s.features.map((f) => (
+                <li class="flex items-center gap-1.5">
+                  <span class="text-sky">✓</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
+              詳しく見る →
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

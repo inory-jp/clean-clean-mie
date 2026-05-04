@@ -1,0 +1,43 @@
+---
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
+---
+
+<section class="relative bg-gradient-to-br from-navy to-navy-deep text-white py-20 md:py-28 overflow-hidden">
+  <div class="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-sky/30 blur-3xl"></div>
+  <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-accent/20 blur-3xl"></div>
+
+  <div class="relative max-w-4xl mx-auto px-4 md:px-8 text-center">
+    <h2 class="text-3xl md:text-5xl font-black leading-tight">
+      暮らしを、もっとキレイに。
+    </h2>
+    <p class="mt-6 text-sky-light leading-relaxed">
+      料金をその場でご確認いただけます。<br class="md:hidden" />送信後、栗田より折り返しご連絡いたします。
+    </p>
+
+    <div class="mt-10 flex flex-col md:flex-row gap-4 justify-center">
+      <a
+        href="/contact"
+        class="relative inline-flex flex-col items-center justify-center px-10 py-5 rounded-2xl bg-accent hover:bg-accent-deep text-white font-bold shadow-orange transition-colors"
+      >
+        <span class="absolute -top-3 right-3 bg-gold text-text text-[10px] font-black px-2 py-0.5 rounded-full">
+          ★ おすすめ
+        </span>
+        <span class="text-lg">📋 お申込み・見積もりフォーム</span>
+        <span class="text-xs text-white/80 mt-1">カート式申込みで料金が即わかる</span>
+      </a>
+
+      <a
+        href={telHref}
+        class="inline-flex flex-col items-center justify-center px-10 py-5 rounded-2xl bg-white text-navy-deep font-bold transition-colors hover:bg-sky-pale"
+      >
+        <span class="text-sm">📞 お電話でのご相談</span>
+        <span class="num-mont text-2xl mt-1">{tel}</span>
+      </a>
+    </div>
+
+    <div class="mt-10 text-xs text-sky-light/80">
+      営業時間 9:00〜18:00 / 不定休 ／ 翌営業日中に一次返信 ／ 損害保険完備
+    </div>
+  </div>
+</section>

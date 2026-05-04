@@ -1,0 +1,54 @@
+---
+const items = [
+  {
+    no: "01",
+    title: "店主が直接施工",
+    body: "下請けに出さず、店主である栗田が全工程を責任を持って担当。お一人おひとりに顔の見える安心施工をお届けします。",
+    tag: "✓ 一貫責任体制",
+    icon: "👨‍🔧",
+  },
+  {
+    no: "02",
+    title: "損害保険完備",
+    body: "万一の事故にも備え、損害賠償保険に加入済み。大切なご自宅を守る体制を整えていますので安心してお任せください。",
+    tag: "✓ 補償体制完備",
+    icon: "🛡️",
+  },
+  {
+    no: "03",
+    title: "三重県全域対応",
+    body: "津・松阪・鈴鹿を中心に三重県全域へ。地域密着で、迅速な対応が可能です。エリア外もまずはご相談ください。",
+    tag: "✓ 地域密着",
+    icon: "📍",
+  },
+];
+---
+
+<section id="strengths" class="bg-white py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-12">
+      <span class="label-en">OUR STRENGTHS</span>
+      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+        選ばれる<span class="text-navy">3つの理由</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {
+        items.map((it) => (
+          <div class="bg-bg-soft rounded-2xl p-8 border border-line-soft hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <span class="num-mont text-5xl text-sky-light">{it.no}</span>
+              <span class="text-4xl">{it.icon}</span>
+            </div>
+            <h3 class="text-xl font-black text-text mb-3">{it.title}</h3>
+            <p class="text-text-soft text-sm leading-relaxed">{it.body}</p>
+            <div class="mt-5 inline-block bg-sky-pale text-navy text-xs font-bold px-3 py-1.5 rounded-full">
+              {it.tag}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
