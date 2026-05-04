@@ -53,103 +53,116 @@ const categories = menusData.categories;
                   <span class="text-3xl">{cat.icon}</span>
                   <h2 class="text-xl font-black text-text">{cat.name}</h2>
                 </div>
-                <div class="space-y-3">
+                <div class="space-y-4">
                   {cat.menus
                     .filter((m) => m.published)
-                    .map((m) => (
-                      <div class="bg-bg-soft border border-line-soft rounded-xl p-4 flex items-start gap-4">
-                        <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <span class="font-bold text-text">{m.name}</span>
-                            {m.tag && (
-                              <span class="text-[10px] bg-accent text-white px-2 py-0.5 rounded-full font-bold">
-                                {m.tag}
-                              </span>
+                    .map((m) => {
+                      const menuOptions = (cat.options as any[]).filter(
+                        (o) => o.applies_to?.includes(m.id),
+                      );
+                      return (
+                        <div class="bg-bg-soft border border-line-soft rounded-xl overflow-hidden">
+                          <div class="p-4 flex items-start gap-4">
+                            <div class="flex-1 min-w-0">
+                              <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-bold text-text">{m.name}</span>
+                                {m.tag && (
+                                  <span class="text-[10px] bg-accent text-white px-2 py-0.5 rounded-full font-bold">
+                                    {m.tag}
+                                  </span>
+                                )}
+                              </div>
+                              {m.description && (
+                                <p class="text-xs text-muted mt-1">{m.description}</p>
+                              )}
+                              <div class="mt-2 flex items-baseline gap-2">
+                                <span class="num-mont text-lg text-accent-deep font-bold">
+                                  {m.price != null
+                                    ? `¥${m.price.toLocaleString()}`
+                                    : (m as any).price_label}
+                                </span>
+                                <span class="text-xs text-muted">{m.duration}</span>
+                              </div>
+                            </div>
+                            {m.price != null ? (
+                              <div class="flex items-center gap-2 shrink-0">
+                                <button
+                                  type="button"
+                                  class="w-9 h-9 rounded-full border border-navy text-navy font-black hover:bg-sky-pale"
+                                  @click={`updateQty('${m.id}', -1)`}
+                                >
+                                  −
+                                </button>
+                                <span
+                                  class="num-mont text-lg w-7 text-center"
+                                  x-text={`getQty('${m.id}')`}
+                                />
+                                <button
+                                  type="button"
+                                  class="w-9 h-9 rounded-full bg-accent text-white font-black hover:bg-accent-deep"
+                                  @click={`addItem('${m.id}', '${m.name.replace(/'/g, "\\'")}', ${m.price}, '${m.duration}')`}
+                                >
+                                  ＋
+                                </button>
+                              </div>
+                            ) : (
+                              <a
+                                href="tel:0592715908"
+                                class="text-xs text-navy font-bold border border-navy rounded-full px-3 py-2 shrink-0"
+                              >
+                                お電話で
+                              </a>
                             )}
                           </div>
-                          {m.description && (
-                            <p class="text-xs text-muted mt-1">{m.description}</p>
+
+                          {menuOptions.length > 0 && (
+                            <div
+                              class="border-t border-sky-light bg-sky-mist px-4 py-3"
+                              x-show={`getQty('${m.id}') > 0`}
+                              x-cloak
+                            >
+                              <div class="text-[10px] font-bold text-navy-deep mb-2 flex items-center gap-1.5">
+                                <span class="bg-sky text-white px-2 py-0.5 rounded text-[9px]">＋OPTION</span>
+                                追加できるオプション
+                              </div>
+                              <div class="space-y-2">
+                                {menuOptions.map((o) => (
+                                  <div class="flex items-start gap-3 bg-white rounded-lg p-3">
+                                    <div class="flex-1 min-w-0">
+                                      <div class="font-bold text-sm text-text">{o.name}</div>
+                                      <p class="text-xs text-muted mt-0.5">{o.description}</p>
+                                      <div class="mt-1 num-mont text-sm text-accent">
+                                        +¥{o.price.toLocaleString()} ({o.duration})
+                                      </div>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 shrink-0">
+                                      <button
+                                        type="button"
+                                        class="w-8 h-8 rounded-full border border-navy text-navy font-black hover:bg-sky-pale text-sm"
+                                        @click={`updateQty('${o.id}', -1)`}
+                                      >
+                                        −
+                                      </button>
+                                      <span
+                                        class="num-mont text-base w-6 text-center"
+                                        x-text={`getQty('${o.id}')`}
+                                      />
+                                      <button
+                                        type="button"
+                                        class="w-8 h-8 rounded-full bg-accent text-white font-black hover:bg-accent-deep text-sm"
+                                        @click={`addItem('${o.id}', '${o.name.replace(/'/g, "\\'")}（${m.name.replace(/'/g, "\\'")}用）', ${o.price}, '${o.duration}')`}
+                                      >
+                                        ＋
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           )}
-                          <div class="mt-2 flex items-baseline gap-2">
-                            <span class="num-mont text-lg text-accent-deep font-bold">
-                              {m.price != null
-                                ? `¥${m.price.toLocaleString()}`
-                                : (m as any).price_label}
-                            </span>
-                            <span class="text-xs text-muted">{m.duration}</span>
-                          </div>
                         </div>
-                        {m.price != null ? (
-                          <div class="flex items-center gap-2 shrink-0">
-                            <button
-                              type="button"
-                              class="w-9 h-9 rounded-full border border-navy text-navy font-black hover:bg-sky-pale"
-                              @click={`updateQty('${m.id}', -1)`}
-                            >
-                              −
-                            </button>
-                            <span
-                              class="num-mont text-lg w-7 text-center"
-                              x-text={`getQty('${m.id}')`}
-                            />
-                            <button
-                              type="button"
-                              class="w-9 h-9 rounded-full bg-accent text-white font-black hover:bg-accent-deep"
-                              data-menu-id={m.id}
-                              data-menu-name={m.name}
-                              data-menu-price={m.price}
-                              data-menu-duration={m.duration}
-                              @click={`addItem('${m.id}', '${m.name.replace(/'/g, "\\'")}', ${m.price}, '${m.duration}')`}
-                            >
-                              ＋
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="tel:0592715908"
-                            class="text-xs text-navy font-bold border border-navy rounded-full px-3 py-2 shrink-0"
-                          >
-                            お電話で
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  {cat.options.map((o) => (
-                    <div class="bg-sky-mist border border-sky-light rounded-xl p-4 flex items-start gap-4">
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap">
-                          <span class="text-[10px] bg-sky text-white px-2 py-0.5 rounded font-bold">
-                            OPTION
-                          </span>
-                          <span class="font-bold text-text">{o.name}</span>
-                        </div>
-                        <p class="text-xs text-muted mt-1">{o.description}</p>
-                        <div class="mt-2 num-mont text-base text-accent">
-                          +¥{o.price.toLocaleString()} ({o.duration})
-                        </div>
-                      </div>
-                      <div class="flex items-center gap-2 shrink-0">
-                        <button
-                          type="button"
-                          class="w-9 h-9 rounded-full border border-navy text-navy font-black hover:bg-sky-pale"
-                          @click={`updateQty('${o.id}', -1)`}
-                        >
-                          −
-                        </button>
-                        <span
-                          class="num-mont text-lg w-7 text-center"
-                          x-text={`getQty('${o.id}')`}
-                        />
-                        <button
-                          type="button"
-                          class="w-9 h-9 rounded-full bg-accent text-white font-black hover:bg-accent-deep"
-                          @click={`addItem('${o.id}', '${o.name.replace(/'/g, "\\'")} (${cat.name}OP)', ${o.price}, '${o.duration}')`}
-                        >
-                          ＋
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                    })}
                 </div>
               </div>
             ))

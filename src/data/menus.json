@@ -44,7 +44,8 @@
           "name": "完全分解",
           "description": "熱交換器を本体から取り外して洗浄（10年以上経過・カビ臭が強い場合に推奨）",
           "price": 9680,
-          "duration": "+1時間"
+          "duration": "+1時間",
+          "applies_to": ["aircon-wall", "aircon-auto"]
         }
       ],
       "flow": [
@@ -84,21 +85,24 @@
           "name": "エプロン内部洗浄",
           "description": "普段見えない内部の黒カビ・ヘドロを除去",
           "price": 4400,
-          "duration": "+30分"
+          "duration": "+30分",
+          "applies_to": ["bath-full"]
         },
         {
           "id": "bath-dryer",
           "name": "浴室乾燥機クリーニング",
           "description": "天井埋込タイプの内部フィン・ファン洗浄",
           "price": 13200,
-          "duration": "+1時間"
+          "duration": "+1時間",
+          "applies_to": ["bath-full"]
         },
         {
           "id": "bath-mirror",
           "name": "鏡のウロコ取り",
           "description": "水垢を専用研磨剤で除去",
           "price": 3300,
-          "duration": "+30分"
+          "duration": "+30分",
+          "applies_to": ["bath-full"]
         }
       ],
       "flow": [
