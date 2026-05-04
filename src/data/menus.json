@@ -1,0 +1,238 @@
+{
+  "$schema_version": "1.0",
+  "$note": "全料金は税込。改定時はこのファイル単一更新で全ページ反映される",
+  "categories": [
+    {
+      "slug": "aircon",
+      "name": "エアコンクリーニング",
+      "icon": "❄",
+      "tagline": "分解洗浄でカビ・ホコリをすっきり除去",
+      "lead": "津市・松阪市を中心に、店主直接施工でお応えするエアコンクリーニング。分解洗浄で内部のカビ・ホコリを徹底除去し、嫌な臭い・効きの悪さ・電気代のお悩みを解決します。",
+      "starting_price": 12100,
+      "duration": "2〜3時間",
+      "menus": [
+        {
+          "id": "aircon-wall",
+          "name": "壁掛けエアコン",
+          "description": "一般的な家庭用エアコン（自動清掃機能なし）",
+          "price": 12100,
+          "duration": "2〜3時間",
+          "tag": "★ 人気No.1",
+          "published": true
+        },
+        {
+          "id": "aircon-auto",
+          "name": "お掃除機能付エアコン",
+          "description": "自動清掃ユニット付きの機種",
+          "price": 21780,
+          "duration": "3〜4時間",
+          "published": true
+        },
+        {
+          "id": "aircon-ceiling",
+          "name": "天井埋込エアコン",
+          "description": "店舗・オフィス向け天カセタイプ",
+          "price": null,
+          "price_label": "要問合せ",
+          "duration": "3〜4時間",
+          "published": true
+        }
+      ],
+      "options": [
+        {
+          "id": "aircon-deep",
+          "name": "完全分解",
+          "description": "熱交換器を本体から取り外して洗浄（10年以上経過・カビ臭が強い場合に推奨）",
+          "price": 9680,
+          "duration": "+1時間"
+        }
+      ],
+      "flow": [
+        { "step": "01", "title": "養生", "duration": "15〜20分", "body": "エアコン周辺を防水シートで保護します" },
+        { "step": "02", "title": "分解", "duration": "20〜30分", "body": "カバー・フィルター・ドレンパン等を取り外します" },
+        { "step": "03", "title": "高圧洗浄", "duration": "40〜60分", "body": "熱交換器・送風ファンを徹底洗浄します" },
+        { "step": "04", "title": "仕上げ・組立", "duration": "20〜30分", "body": "すすぎ・乾燥後、パーツを正しく組み付けます" },
+        { "step": "05", "title": "動作確認", "duration": "10〜15分", "body": "冷暖房運転をチェックしてお引渡しです" }
+      ],
+      "notes": [
+        "設置から12年以上経過した機種は部品供給がない場合があり、修理対応できないことがあります",
+        "お掃除機能付の見分け方: 本体上部にダストボックスまたは「自動お掃除」表記があります"
+      ]
+    },
+    {
+      "slug": "bath",
+      "name": "お風呂クリーニング",
+      "icon": "🛁",
+      "tagline": "皮脂汚れ・カビ・水垢を専用薬剤で徹底洗浄",
+      "lead": "津市・松阪市を中心に、店主直接施工でお応えするお風呂クリーニング。皮脂汚れ・カビ・水垢を専用薬剤と高圧洗浄で徹底洗浄。エプロン内部・浴室乾燥機にも対応します。",
+      "starting_price": 18150,
+      "duration": "2.5〜3時間",
+      "menus": [
+        {
+          "id": "bath-full",
+          "name": "浴室まるごと（基本セット）",
+          "description": "浴槽・床・壁・天井・鏡・蛇口・排水口・ドアまで一通り",
+          "price": 18150,
+          "duration": "2.5〜3時間",
+          "tag": "★ 人気No.1",
+          "published": true
+        }
+      ],
+      "options": [
+        {
+          "id": "bath-apron",
+          "name": "エプロン内部洗浄",
+          "description": "普段見えない内部の黒カビ・ヘドロを除去",
+          "price": 4400,
+          "duration": "+30分"
+        },
+        {
+          "id": "bath-dryer",
+          "name": "浴室乾燥機クリーニング",
+          "description": "天井埋込タイプの内部フィン・ファン洗浄",
+          "price": 13200,
+          "duration": "+1時間"
+        },
+        {
+          "id": "bath-mirror",
+          "name": "鏡のウロコ取り",
+          "description": "水垢を専用研磨剤で除去",
+          "price": 3300,
+          "duration": "+30分"
+        }
+      ],
+      "flow": [
+        { "step": "01", "title": "養生", "duration": "10〜15分", "body": "洗面所・脱衣所・電装パネル等を保護します" },
+        { "step": "02", "title": "薬剤塗布", "duration": "20〜30分", "body": "専用薬剤を浴槽・床・壁・天井に塗布します" },
+        { "step": "03", "title": "ブラッシング・高圧洗浄", "duration": "60〜80分", "body": "専用ブラシと高圧水で汚れを徹底除去します" },
+        { "step": "04", "title": "鏡・蛇口磨き", "duration": "20〜30分", "body": "専用研磨剤で水垢をピカピカに仕上げます" },
+        { "step": "05", "title": "仕上げ・確認", "duration": "15〜20分", "body": "すすぎ・拭き上げ後、お客様と仕上がりを確認します" }
+      ],
+      "notes": [
+        "エプロンが外せない機種もあります（TOTO・LIXIL一部機種）。事前にメーカー・型番をご確認ください",
+        "築年数が古い機種では、エプロン取り外しができない場合があります"
+      ]
+    },
+    {
+      "slug": "kitchen",
+      "name": "キッチン・換気扇クリーニング",
+      "icon": "🍳",
+      "tagline": "頑固な油汚れもスッキリ分解洗浄",
+      "lead": "津市・松阪市を中心に、店主直接施工でお応えするキッチン・換気扇クリーニング。シロッコファン・整流板まで分解し、ベタつく油・焦げ付き・嫌な臭いを専用洗剤で徹底除去します。",
+      "starting_price": 12100,
+      "duration": "1.5〜5時間",
+      "menus": [
+        {
+          "id": "kitchen-sirocco",
+          "name": "レンジフード（シロッコファン）",
+          "description": "最近の主流タイプ。整流板・フィルター・シロッコファンを分解洗浄",
+          "price": 16500,
+          "duration": "2〜2.5時間",
+          "tag": "★ 人気No.1",
+          "published": true
+        },
+        {
+          "id": "kitchen-propeller",
+          "name": "レンジフード（プロペラファン）",
+          "description": "壁に直接付くタイプ。プロペラ羽根・カバーを分解洗浄",
+          "price": 12100,
+          "duration": "1.5〜2時間",
+          "published": true
+        },
+        {
+          "id": "kitchen-full",
+          "name": "キッチン全体（シンク・コンロ・周辺）",
+          "description": "シンク・水栓・コンロ天板・五徳・周辺壁面（換気扇は別）",
+          "price": 19800,
+          "duration": "2.5〜3時間",
+          "published": true
+        },
+        {
+          "id": "kitchen-set",
+          "name": "セット（換気扇＋キッチン全体）",
+          "description": "年末・引越し前におすすめのセットメニュー",
+          "price": 33000,
+          "duration": "4〜5時間",
+          "tag": "SET",
+          "published": true
+        }
+      ],
+      "options": [],
+      "flow": [
+        { "step": "01", "title": "養生", "duration": "15〜20分", "body": "コンロ・シンク・床・壁面を防水シートで保護します" },
+        { "step": "02", "title": "分解", "duration": "20〜30分", "body": "フィルター・整流板・シロッコ/プロペラファンを取り外します" },
+        { "step": "03", "title": "浸け置き＋洗浄", "duration": "40〜60分", "body": "業務用アルカリ洗剤に浸け置きし、酸化油を分解します" },
+        { "step": "04", "title": "コンロ周り・壁面拭き上げ", "duration": "30〜45分", "body": "五徳・天板・周辺壁面・キッチンパネルの油を拭き取ります" },
+        { "step": "05", "title": "組立・動作確認", "duration": "15〜20分", "body": "パーツを正しく組み付け、動作・異音を確認します" }
+      ],
+      "notes": [
+        "建築年数・機種により対応が異なる場合があります"
+      ]
+    },
+    {
+      "slug": "other",
+      "name": "その他クリーニング",
+      "icon": "✨",
+      "tagline": "トイレ・洗面・水まわりから引っ越し前後まで",
+      "lead": "トイレ・洗面・水まわり、気になる場所をプロが対応。窓・サッシ、床ワックス、引っ越し前後の大掃除まで、店主直接施工でまとめてお任せください。",
+      "starting_price": 9900,
+      "duration": "1〜2時間",
+      "menus": [
+        {
+          "id": "other-toilet",
+          "name": "トイレクリーニング",
+          "description": "便器内外・縁裏の尿石／床・壁・換気口一式",
+          "price": 9900,
+          "duration": "1〜1.5時間",
+          "tag": "★ 人気No.1",
+          "published": true
+        },
+        {
+          "id": "other-washroom",
+          "name": "洗面所クリーニング",
+          "description": "洗面ボウル水垢・蛇口・鏡・収納まわり一式洗浄",
+          "price": 9900,
+          "duration": "1〜1.5時間",
+          "published": true
+        },
+        {
+          "id": "other-window",
+          "name": "窓・サッシクリーニング",
+          "description": "5枚まで／窓ガラス両面・サッシレール・網戸込み",
+          "price": 11000,
+          "duration": "1.5〜2時間",
+          "published": true
+        },
+        {
+          "id": "other-floor-wax",
+          "name": "床ワックスがけ",
+          "description": "古いワックスの剥離から重ね塗りまで対応",
+          "price": null,
+          "price_label": "要見積り",
+          "duration": "面積による",
+          "published": true
+        },
+        {
+          "id": "other-whole",
+          "name": "室内丸ごと・特殊清掃",
+          "description": "引越前後・空き家・退去前原状回復等",
+          "price": null,
+          "price_label": "要見積り",
+          "duration": "現場による",
+          "published": true
+        }
+      ],
+      "options": [],
+      "flow": [],
+      "notes": [
+        "現場設置状況により別途特殊作業費が発生する場合があります"
+      ]
+    }
+  ],
+  "common_notes": [
+    "掲載料金は確定料金です（税込）。現場状況により標準作業に含まれない追加作業が必要な場合は別途お見積もりとなります",
+    "料金は予告なく改定される場合があります",
+    "高所・狭所による特殊作業費が発生する場合があります",
+    "三重県内出張費は無料です"
+  ]
+}

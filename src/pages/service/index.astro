@@ -1,0 +1,120 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import menusData from "../../data/menus.json";
+
+const categories = menusData.categories;
+const formatPrice = (n: number | null, label?: string) =>
+  n != null ? `¥${n.toLocaleString()}` : (label ?? "要問合せ");
+---
+
+<Layout
+  title="サービス一覧｜CLEAN×CLEAN 津中央店"
+  description="エアコン・お風呂・キッチン換気扇・その他クリーニング。津市・松阪市・鈴鹿市を中心に、店主直接施工でお応えするハウスクリーニングのメニュー一覧と料金をご案内します。"
+>
+  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 text-center">
+      <span class="label-en">OUR SERVICES</span>
+      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
+        サービス・<span class="text-navy">料金一覧</span>
+      </h1>
+      <p class="mt-6 text-text-soft max-w-2xl mx-auto">
+        各サービスの代表料金は税込表示です。詳細は各ページの料金表をご確認ください。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        categories.map((c) => (
+          <a
+            href={`/service/${c.slug}`}
+            class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg border border-line-soft hover:-translate-y-1 transition-all"
+          >
+            <div class="text-5xl">{c.icon}</div>
+            <h2 class="mt-4 text-lg font-black text-text">{c.name}</h2>
+            <p class="mt-2 text-xs text-text-soft leading-relaxed">{c.tagline}</p>
+            <div class="mt-4 flex items-baseline gap-1">
+              <span class="num-mont text-2xl text-accent-deep">
+                {formatPrice(c.starting_price)}
+              </span>
+              <span class="text-xs text-muted">〜（税込）</span>
+            </div>
+            <div class="mt-1 text-xs text-muted">所要 {c.duration}</div>
+            <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
+              詳しく見る →
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bg-bg-soft py-16">
+    <div class="max-w-5xl mx-auto px-4 md:px-8">
+      <h2 class="text-2xl md:text-3xl font-black text-text text-center mb-8">
+        全サービス料金一覧
+      </h2>
+      <div class="space-y-8">
+        {
+          categories.map((c) => (
+            <div class="bg-white rounded-2xl border border-line-soft overflow-hidden">
+              <div class="bg-navy text-white px-5 py-3 flex items-center gap-3">
+                <span class="text-2xl">{c.icon}</span>
+                <h3 class="font-bold">{c.name}</h3>
+              </div>
+              <table class="w-full text-sm">
+                <thead class="bg-sky-pale text-navy-deep text-xs">
+                  <tr>
+                    <th class="text-left px-4 py-2 font-bold">メニュー</th>
+                    <th class="text-right px-4 py-2 font-bold w-32">料金（税込）</th>
+                    <th class="text-right px-4 py-2 font-bold w-24 hidden sm:table-cell">所要時間</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {c.menus.filter((m) => m.published).map((m) => (
+                    <tr class="border-t border-line-soft">
+                      <td class="px-4 py-3 text-text">{m.name}</td>
+                      <td class="px-4 py-3 text-right num-mont text-accent-deep font-bold">
+                        {formatPrice(m.price, (m as any).price_label)}
+                      </td>
+                      <td class="px-4 py-3 text-right text-muted text-xs hidden sm:table-cell">
+                        {m.duration}
+                      </td>
+                    </tr>
+                  ))}
+                  {c.options.map((o) => (
+                    <tr class="border-t border-line-soft bg-sky-mist">
+                      <td class="px-4 py-3 text-text-soft text-xs">
+                        ＋オプション: {o.name}
+                      </td>
+                      <td class="px-4 py-3 text-right num-mont text-accent text-sm">
+                        +¥{o.price.toLocaleString()}
+                      </td>
+                      <td class="px-4 py-3 text-right text-muted text-xs hidden sm:table-cell">
+                        {o.duration}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 bg-white border border-line-soft rounded-xl p-5 text-xs text-text-soft space-y-1.5">
+        {menusData.common_notes.map((n) => <p>※ {n}</p>)}
+      </div>
+
+      <div class="mt-10 text-center">
+        <a
+          href="/contact"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
+        >
+          📋 お申込み・見積もりへ進む
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
