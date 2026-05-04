@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+import Notice from "../components/Notice.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingCTA from "../components/FloatingCTA.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "CLEAN×CLEAN 津中央店｜三重県のハウスクリーニング",
+  description = "三重県津市・松阪市・鈴鹿市を中心に対応。エアコン・お風呂・キッチン換気扇・水回りのハウスクリーニングなら、店主が直接施工するCLEAN×CLEAN津中央店へ。損害保険加入済で安心。",
+  ogImage = "/og-image.png",
+} = Astro.props;
+
+const siteUrl = "https://cleanclean-mie.jp";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).toString()} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="pb-20 md:pb-0">
+    <Notice />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <FloatingCTA />
+  </body>
+</html>

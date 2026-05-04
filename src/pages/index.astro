@@ -1,17 +1,42 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-28">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 text-center">
+      <span class="label-en">HOUSE CLEANING IN MIE</span>
+      <h1 class="text-3xl md:text-5xl font-black leading-tight mt-4">
+        ありがとうの輪を、地域へ。<br />
+        <span class="text-navy">三重のハウスクリーニング</span>
+      </h1>
+      <p class="mt-6 text-text-soft text-base md:text-lg max-w-2xl mx-auto">
+        津市・松阪市・鈴鹿市を中心に、店主が直接施工。<br
+          class="hidden md:inline"
+        />損害保険完備で、安心して任せられるクリーニングをお届けします。
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
+        >
+          お申込み・見積もり
+        </a>
+        <a
+          href="tel:0592715908"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-navy text-navy font-bold hover:bg-sky-pale transition-colors"
+        >
+          📞 <span class="num-mont">059-271-5908</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
+      <p class="text-muted text-sm">
+        ※ このページは制作中です。共通レイアウトの動作確認用プレースホルダです。
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,97 @@
+---
+const navItems = [
+  { href: "/service", label: "サービス" },
+  { href: "/about", label: "会社概要" },
+  { href: "/news", label: "お知らせ" },
+  { href: "/faq", label: "よくある質問" },
+];
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
+---
+
+<header
+  class="sticky top-0 z-50 bg-white/92 backdrop-blur-xl backdrop-saturate-150 border-b border-line-soft"
+>
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between gap-4">
+    <a href="/" class="flex items-center shrink-0">
+      <img src="/assets/logo.png" alt="CLEAN×CLEAN" class="h-10 md:h-12 w-auto" />
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="text-text-soft hover:text-navy transition-colors"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2 md:gap-3">
+      <a
+        href={telHref}
+        class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-navy/20 text-navy text-sm font-bold hover:bg-sky-pale transition-colors"
+      >
+        <span>📞</span>
+        <span class="num-mont">{tel}</span>
+      </a>
+      <a
+        href="/contact"
+        class="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-accent text-white text-sm font-bold shadow-orange hover:bg-accent-deep transition-colors"
+      >
+        お申込み・見積もり
+      </a>
+      <button
+        type="button"
+        id="menuToggle"
+        class="lg:hidden p-2 rounded-md text-navy hover:bg-sky-pale"
+        aria-label="メニューを開く"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobileMenu"
+    class="lg:hidden hidden border-t border-line-soft bg-white"
+  >
+    <div class="px-4 py-3 flex flex-col gap-1">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="py-3 px-3 text-text-soft hover:bg-sky-pale rounded-md text-sm font-medium"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={telHref}
+        class="mt-2 py-3 px-3 text-navy font-bold flex items-center gap-2 border-t border-line-soft"
+      >
+        📞 <span class="num-mont">{tel}</span>
+      </a>
+      <a
+        href="/contact"
+        class="mt-2 py-3 px-3 bg-accent text-white text-center rounded-full font-bold"
+      >
+        お申込み・見積もり
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("menuToggle");
+  const menu = document.getElementById("mobileMenu");
+  toggle?.addEventListener("click", () => {
+    menu?.classList.toggle("hidden");
+  });
+</script>

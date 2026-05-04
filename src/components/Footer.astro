@@ -1,0 +1,85 @@
+---
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
+const services = [
+  { href: "/service/aircon", label: "エアコンクリーニング" },
+  { href: "/service/bath", label: "お風呂クリーニング" },
+  { href: "/service/kitchen", label: "キッチン・換気扇クリーニング" },
+  { href: "/service/other", label: "その他クリーニング" },
+];
+const info = [
+  { href: "/about", label: "会社概要・店主紹介" },
+  { href: "/news", label: "お知らせ・ブログ" },
+  { href: "/faq", label: "よくある質問" },
+  { href: "/privacy", label: "プライバシーポリシー" },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-deep text-white">
+  <div class="bg-navy">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">📞</div>
+        <div>
+          <div class="text-xs text-sky-light">TEL</div>
+          <a href={telHref} class="num-mont text-base hover:text-gold">{tel}</a>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">🕐</div>
+        <div>
+          <div class="text-xs text-sky-light">営業時間</div>
+          <div>9:00〜18:00 / 不定休</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">📍</div>
+        <div>
+          <div class="text-xs text-sky-light">所在地</div>
+          <div>三重県津市上浜町3-15-2</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">🛡️</div>
+        <div>
+          <div class="text-xs text-sky-light">保険</div>
+          <div>損害賠償保険加入済</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 grid lg:grid-cols-4 gap-10">
+    <div class="lg:col-span-2">
+      <a href="/" class="inline-block">
+        <img src="/assets/logo.png" alt="CLEAN×CLEAN" class="h-12 w-auto bg-white p-2 rounded-md" />
+      </a>
+      <div class="mt-4 text-gold font-bold">ありがとうの輪を、地域へ。</div>
+      <p class="mt-3 text-sky-light text-sm leading-relaxed max-w-md">
+        <strong class="text-white">CLEAN×CLEAN 津中央店</strong><br />
+        三重県津市・松阪市・鈴鹿市を中心に活動するハウスクリーニング店。下請けに出さず、店主が直接施工。損害保険完備で安心の作業をお届けします。
+      </p>
+    </div>
+
+    <div>
+      <div class="text-gold font-bold mb-4">サービス</div>
+      <ul class="space-y-2 text-sm text-sky-light">
+        {services.map((s) => <li><a href={s.href} class="hover:text-white">{s.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <div class="text-gold font-bold mb-4">情報</div>
+      <ul class="space-y-2 text-sm text-sky-light">
+        {info.map((s) => <li><a href={s.href} class="hover:text-white">{s.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 text-xs text-sky-light text-center">
+      © {year} CLEAN×CLEAN 津中央店 All Rights Reserved.
+    </div>
+  </div>
+</footer>

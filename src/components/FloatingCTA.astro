@@ -1,0 +1,21 @@
+---
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
+---
+
+<div class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-line shadow-lg">
+  <div class="grid grid-cols-2 gap-2 p-2">
+    <a
+      href={telHref}
+      class="flex items-center justify-center gap-2 py-3 rounded-full border border-navy text-navy font-bold"
+    >
+      📞 <span class="num-mont text-sm">電話する</span>
+    </a>
+    <a
+      href="/contact"
+      class="flex items-center justify-center py-3 rounded-full bg-accent text-white font-bold"
+    >
+      お申込み
+    </a>
+  </div>
+</div>
