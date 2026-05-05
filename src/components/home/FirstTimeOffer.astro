@@ -2,27 +2,32 @@
 import Icon from "../Icon.astro";
 ---
 
-<section class="bg-gradient-to-r from-accent to-accent-deep text-white py-6 md:py-7 px-5 md:px-6 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px); background-size: 32px 32px;"></div>
+<section class="bg-gradient-to-r from-accent to-accent-deep text-white py-7 md:py-7 px-5 md:px-6 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px); background-size: 32px 32px;"></div>
 
-  <div class="relative max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
-    <div class="flex items-center gap-3 md:gap-4 text-center md:text-left">
-      <div class="hidden sm:flex bg-white/20 backdrop-blur rounded-full w-14 h-14 md:w-16 md:h-16 items-center justify-center shrink-0 leading-none">
-        <span class="text-2xl md:text-3xl font-black">初</span>
+  <div class="relative max-w-5xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-6 text-center md:text-left">
+    {/* Text block */}
+    <div class="flex items-center gap-3 md:gap-4 justify-center md:justify-start">
+      <div class="hidden sm:flex bg-white/20 backdrop-blur rounded-full w-14 h-14 md:w-16 md:h-16 items-center justify-center shrink-0">
+        <span class="text-2xl md:text-3xl font-black leading-none">初</span>
       </div>
-      <div>
-        <div class="text-[10px] md:text-xs tracking-widest opacity-90 font-bold mb-1">FIRST-TIME OFFER</div>
-        <div class="text-base md:text-2xl font-black leading-tight">
-          初めての方、<span class="text-gold">¥1,000 OFF</span>
+      <div class="min-w-0">
+        <div class="text-[10px] md:text-xs tracking-widest opacity-90 font-bold mb-1">
+          FIRST-TIME OFFER
         </div>
-        <div class="text-[11px] md:text-xs opacity-90 mt-1">
-          クーポンコード <strong class="num-mont bg-white/15 px-2 py-0.5 rounded">FIRST</strong> をお申込み時にご入力ください
+        <div class="text-xl md:text-2xl font-black leading-tight">
+          初めての方、<span class="text-gold whitespace-nowrap">¥1,000 OFF</span>
+        </div>
+        <div class="text-[11px] md:text-xs opacity-90 mt-1.5 leading-relaxed">
+          クーポンコード <strong class="num-mont bg-white/20 px-2 py-0.5 rounded">FIRST</strong> をお申込み時にご入力ください
         </div>
       </div>
     </div>
+
+    {/* CTA */}
     <a
       href="/contact"
-      class="inline-flex items-center gap-2 bg-white text-accent-deep px-6 py-3 rounded-full font-extrabold shadow-lg hover:bg-gold hover:text-text transition-colors whitespace-nowrap"
+      class="inline-flex items-center justify-center gap-2 bg-white text-accent-deep px-6 py-3 rounded-full font-extrabold shadow-lg hover:bg-gold hover:text-text transition-colors whitespace-nowrap shrink-0 self-center md:self-auto"
     >
       <Icon name="clipboard" size={18} />
       今すぐ申込む
