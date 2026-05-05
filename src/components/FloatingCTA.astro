@@ -4,19 +4,27 @@ const tel = "059-271-5908";
 const telHref = "tel:0592715908";
 ---
 
-<div class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-line shadow-lg">
-  <div class="grid grid-cols-2 gap-2 p-2">
+<div class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/97 backdrop-blur border-t-2 border-navy shadow-lg">
+  <div class="grid grid-cols-2 gap-2 p-2.5">
     <a
       href={telHref}
-      class="flex items-center justify-center gap-2 py-3 rounded-full border border-navy text-navy font-bold"
+      class="flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl border-2 border-navy text-navy font-bold"
     >
-      <Icon name="phone" size={16} /> <span class="num-mont text-sm">電話する</span>
+      <span class="flex items-center gap-1.5">
+        <Icon name="phone" size={16} />
+        <span class="text-xs">電話で相談</span>
+      </span>
+      <span class="num-mont text-base font-black leading-tight">059-271-5908</span>
     </a>
     <a
       href="/contact"
-      class="flex items-center justify-center gap-2 py-3 rounded-full bg-accent text-white font-bold"
+      class="flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl bg-accent text-white font-bold"
     >
-      <Icon name="clipboard" size={16} /> お申込み
+      <span class="flex items-center gap-1.5">
+        <Icon name="clipboard" size={16} />
+        <span class="text-xs">フォームで申込</span>
+      </span>
+      <span class="text-base font-black leading-tight">見積もり無料</span>
     </a>
   </div>
 </div>
