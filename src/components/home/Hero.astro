@@ -210,15 +210,49 @@ const hasCampaigns = campaigns.length > 0;
 
 <script>
   const track = document.getElementById("slidesTrack");
-  const slides = document.querySelectorAll<HTMLElement>(".slide");
+  const realSlides = Array.from(document.querySelectorAll<HTMLElement>(".slide"));
   const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const noticeBar = document.getElementById("noticeBar");
   const noticeText = document.getElementById("noticeText");
   const noticeLink = document.getElementById("noticeLink") as HTMLAnchorElement | null;
-  let cur = 0;
+  const total = realSlides.length;
+  let cur = 0; // logical index 0..total-1
+  let pos = total > 1 ? 1 : 0; // physical index in track (with clones)
+  let animating = false;
   let timer: ReturnType<typeof setInterval> | null = null;
+  const transition = "transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1)";
+
+  // Insert clones for infinite loop
+  if (track && total > 1) {
+    const firstClone = realSlides[0].cloneNode(true) as HTMLElement;
+    const lastClone = realSlides[total - 1].cloneNode(true) as HTMLElement;
+    firstClone.classList.remove("active");
+    lastClone.classList.remove("active");
+    firstClone.dataset.clone = "1";
+    lastClone.dataset.clone = "1";
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, track.firstChild);
+  }
+
+  const allSlides = track ? Array.from(track.querySelectorAll<HTMLElement>(".slide")) : [];
+
+  function getSlideWidth() {
+    return window.innerWidth * 0.84 + 24;
+  }
+
+  function applyPos(animate = true) {
+    if (!track) return;
+    track.style.transition = animate ? transition : "none";
+    track.style.transform = `translateX(${-pos * getSlideWidth()}px)`;
+  }
+
+  function setActive() {
+    allSlides.forEach((s, i) => s.classList.toggle("active", i === pos));
+    dots.forEach((d, idx) => d.classList.toggle("active", idx === cur));
+    if (realSlides[cur]) syncNotice(realSlides[cur]);
+  }
 
   function syncNotice(slide: HTMLElement) {
     if (!noticeBar || !noticeText) return;
@@ -243,29 +277,60 @@ const hasCampaigns = campaigns.length > 0;
     }
   }
 
-  function show(i: number) {
-    if (!track) return;
-    cur = (i + slides.length) % slides.length;
-    // 84vw + 24px gap = each slide slot
-    const slideWidth = (window.innerWidth * 0.84) + 24;
-    const offset = -cur * slideWidth;
-    track.style.transform = `translateX(${offset}px)`;
-    slides.forEach((s, idx) => s.classList.toggle("active", idx === cur));
-    dots.forEach((d, idx) => d.classList.toggle("active", idx === cur));
-    if (slides[cur]) syncNotice(slides[cur]);
+  function next() {
+    if (animating || total <= 1) return;
+    animating = true;
+    pos++;
+    cur = (cur + 1) % total;
+    applyPos(true);
+    setActive();
+  }
+
+  function prev() {
+    if (animating || total <= 1) return;
+    animating = true;
+    pos--;
+    cur = (cur - 1 + total) % total;
+    applyPos(true);
+    setActive();
+  }
+
+  function jumpTo(i: number) {
+    if (animating || total <= 1) return;
+    animating = true;
+    cur = i;
+    pos = i + 1;
+    applyPos(true);
+    setActive();
+  }
+
+  if (track) {
+    track.addEventListener("transitionend", () => {
+      animating = false;
+      // If we slid onto a clone, snap to the real slide without animation
+      if (pos === 0) {
+        pos = total;
+        applyPos(false);
+      } else if (pos === total + 1) {
+        pos = 1;
+        applyPos(false);
+      }
+    });
   }
 
   function startTimer() {
-    if (slides.length <= 1) return;
+    if (total <= 1) return;
     if (timer) clearInterval(timer);
-    timer = setInterval(() => show(cur + 1), 6000);
+    timer = setInterval(next, 6000);
   }
 
-  dots.forEach((d, i) => d.addEventListener("click", () => { show(i); startTimer(); }));
-  prevBtn?.addEventListener("click", () => { show(cur - 1); startTimer(); });
-  nextBtn?.addEventListener("click", () => { show(cur + 1); startTimer(); });
-  window.addEventListener("resize", () => show(cur));
+  dots.forEach((d, i) => d.addEventListener("click", () => { jumpTo(i); startTimer(); }));
+  prevBtn?.addEventListener("click", () => { prev(); startTimer(); });
+  nextBtn?.addEventListener("click", () => { next(); startTimer(); });
+  window.addEventListener("resize", () => applyPos(false));
 
-  if (slides[0]) syncNotice(slides[0]);
+  // initial
+  applyPos(false);
+  setActive();
   startTimer();
 </script>
