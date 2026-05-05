@@ -170,46 +170,59 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     )
   }
 
-  {/* Before & After */}
+  {/* Cases: Before/After for cleaning, Single image for akiya */}
   {
-    beforeAfter.length > 0 && (
-      <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-          <div class="text-center mb-10 md:mb-14">
-            <span class="label-en">BEFORE &amp; AFTER</span>
-            <h2 class="section-h2 mt-2">
-              施工事例<span class="accent">（Before / After）</span>
-            </h2>
-            <p class="text-muted mt-4 text-sm md:text-base">
-              実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。
-            </p>
-            <p class="text-xs text-muted mt-2">※ 表示中の画像はAI生成のサンプル。栗田さんから実写真受領後に差し替え予定</p>
-          </div>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {beforeAfter.map((ba, i) => (
-              <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
-                <div class="relative aspect-[3/2] overflow-hidden">
-                  <img
-                    src={`/assets/before-after/${category.slug}-${String(i + 1).padStart(2, "0")}.png`}
-                    alt={ba.title}
-                    width="1536"
-                    height="1024"
-                    loading="lazy"
-                    class="w-full h-full object-cover"
-                  />
-                  <span class="absolute top-2 left-2 bg-text-soft/90 text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
-                  <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
+    beforeAfter.length > 0 && (() => {
+      const isSingleStyle = category.slug === "akiya";
+      return (
+        <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+          <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10 md:mb-14">
+              <span class="label-en">{isSingleStyle ? "OUR SERVICES" : "BEFORE & AFTER"}</span>
+              <h2 class="section-h2 mt-2">
+                {isSingleStyle ? (
+                  <>サービス<span class="accent">事例</span></>
+                ) : (
+                  <>施工事例<span class="accent">（Before / After）</span></>
+                )}
+              </h2>
+              <p class="text-muted mt-4 text-sm md:text-base">
+                {isSingleStyle
+                  ? "実際の現場でこんな対応をしています。お客様のお困りごとに合わせて柔軟にご相談ください。"
+                  : "実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。"}
+              </p>
+              <p class="text-xs text-muted mt-2">※ 表示中の画像はAI生成のサンプル。実写真受領後に差し替え予定</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+              {beforeAfter.map((ba, i) => (
+                <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
+                  <div class="relative aspect-[3/2] overflow-hidden">
+                    <img
+                      src={`/assets/before-after/${category.slug}-${String(i + 1).padStart(2, "0")}.png`}
+                      alt={ba.title}
+                      width="1536"
+                      height="1024"
+                      loading="lazy"
+                      class="w-full h-full object-cover"
+                    />
+                    {!isSingleStyle && (
+                      <>
+                        <span class="absolute top-2 left-2 bg-text-soft/90 text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
+                        <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
+                      </>
+                    )}
+                  </div>
+                  <div class="p-4">
+                    <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
+                    <p class="text-muted text-[11px] mt-1.5 leading-relaxed">{ba.meta}</p>
+                  </div>
                 </div>
-                <div class="p-4">
-                  <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
-                  <p class="text-muted text-[11px] mt-1.5 leading-relaxed">{ba.meta}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    )
+        </section>
+      );
+    })()
   }
 
   {/* Pricing Table */}
