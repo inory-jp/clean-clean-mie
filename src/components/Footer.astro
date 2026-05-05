@@ -27,22 +27,22 @@ const infoItems = [
 
 <footer class="bg-navy-deep text-white">
   <div class="bg-navy">
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 grid grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
       {
         infoItems.map((it) => (
-          <div class="flex items-start gap-3">
+          <div class="flex items-start gap-2.5">
             <div
-              class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white"
-              style="background: linear-gradient(135deg, #78C8E0, #4FB0CE); box-shadow: 0 4px 12px rgba(120,200,224,0.30);"
+              class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-white"
+              style="background: linear-gradient(135deg, #78C8E0, #4FB0CE);"
             >
-              <Icon name={it.icon} size={20} />
+              <Icon name={it.icon} size={16} />
             </div>
             <div>
-              <div class="text-[11px] text-sky-light tracking-wider font-bold">{it.label}</div>
+              <div class="text-[10px] text-sky-light tracking-wider font-bold">{it.label}</div>
               {it.href ? (
-                <a href={it.href} class="num-mont text-base hover:text-gold">{it.value}</a>
+                <a href={it.href} class="num-mont text-sm hover:text-gold">{it.value}</a>
               ) : (
-                <div>{it.value}</div>
+                <div class="text-xs">{it.value}</div>
               )}
             </div>
           </div>
