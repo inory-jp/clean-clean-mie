@@ -1,12 +1,5 @@
 ---
-const primaryAreas = ["津市", "松阪市", "鈴鹿市"];
 const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名市", "他三重県全域"];
-
-const pins = [
-  { city: "津", top: "42%", left: "50%" },
-  { city: "松阪", top: "51%", left: "54%" },
-  { city: "鈴鹿", top: "34%", left: "58%" },
-];
 ---
 
 <section id="area" class="relative py-24 md:py-28 px-6 overflow-hidden bg-gradient-to-br from-white via-sky-mist to-sky-pale">
@@ -19,69 +12,26 @@ const pins = [
         三重県全域に<span class="accent">対応しています</span>
       </h2>
       <p class="text-muted mt-4 text-sm">
-        津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いします
+        津市を中心に、三重県全域へお伺いします
       </p>
     </div>
 
-    {/* Big map with floating city tags */}
-    <div class="relative bg-white rounded-[32px] shadow-xl p-6 md:p-12 max-w-5xl mx-auto">
-      <div class="relative max-w-2xl mx-auto">
+    <div class="bg-white rounded-[32px] shadow-xl p-6 md:p-12 max-w-5xl mx-auto">
+      <div class="area-map-wrap">
         <img
           src="/assets/mie-map.png"
           alt="三重県エリアマップ"
-          class="w-full h-auto"
+          class="w-full h-auto relative z-[1]"
         />
-        {
-          pins.map((p, idx) => (
-            <div
-              class="absolute -translate-x-1/2 -translate-y-full"
-              style={`top: ${p.top}; left: ${p.left};`}
-            >
-              <div class="relative">
-                {idx === 0 && (
-                  <span class="absolute inset-0 rounded-full bg-accent/40 animate-ping" style="width: 18px; height: 18px;"></span>
-                )}
-                <span class="relative block w-[18px] h-[18px] rounded-full bg-accent shadow-md ring-2 ring-white"></span>
-                <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 whitespace-nowrap text-xs font-black text-accent-deep bg-white px-2 py-0.5 rounded shadow-md border border-accent/30">
-                  {p.city}
-                </span>
-              </div>
-            </div>
-          ))
-        }
-
-        {/* Floating city tags surrounding the map */}
-        <div class="hidden md:block absolute -left-4 top-1/4 -translate-x-full">
-          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
-            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
-            <div class="text-navy font-extrabold text-sm">津市</div>
-          </div>
-        </div>
-        <div class="hidden md:block absolute -right-4 top-1/3 translate-x-full">
-          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
-            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
-            <div class="text-navy font-extrabold text-sm">鈴鹿市</div>
-          </div>
-        </div>
-        <div class="hidden md:block absolute -left-4 bottom-1/4 -translate-x-full">
-          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
-            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
-            <div class="text-navy font-extrabold text-sm">松阪市</div>
-          </div>
+        <div class="ripple-container" aria-hidden="true">
+          <span class="ripple-gradient"></span>
+          <span class="ripple ripple-1"></span>
+          <span class="ripple ripple-2"></span>
+          <span class="ripple ripple-3"></span>
+          <span class="ripple-core"></span>
         </div>
       </div>
 
-      {/* Mobile-friendly area tags */}
-      <div class="md:hidden mt-7">
-        <div class="text-xs text-muted font-bold mb-2 tracking-wider text-center">主要対応エリア</div>
-        <div class="flex flex-wrap gap-2 justify-center">
-          {primaryAreas.map((a) => (
-            <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full">{a}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Stats + other areas (always visible) */}
       <div class="mt-10 pt-8 border-t border-line-soft grid md:grid-cols-3 gap-5">
         <div class="text-center">
           <div class="num-mont text-2xl text-navy font-extrabold">三重県全域</div>
@@ -112,3 +62,92 @@ const pins = [
     </div>
   </div>
 </section>
+
+<style>
+  .area-map-wrap {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Center coordinates for Tsu (matches map's Tsu position) */
+  .ripple-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Subtle radial gradient covering the prefecture */
+  .ripple-gradient {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 70%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 122, 69, 0.22) 0%,
+      rgba(255, 122, 69, 0.10) 40%,
+      transparent 70%
+    );
+    mix-blend-mode: multiply;
+  }
+
+  /* Pulsing core dot at Tsu */
+  .ripple-core {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #FF7A45;
+    box-shadow: 0 0 0 2px #fff, 0 4px 12px rgba(255, 122, 69, 0.45);
+    z-index: 3;
+  }
+
+  /* Ripple rings */
+  .ripple {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%) scale(1);
+    border-radius: 50%;
+    border: 2px solid #FF7A45;
+    opacity: 0;
+    animation: ripple-spread 4s cubic-bezier(0, 0.55, 0.45, 1) infinite;
+  }
+  .ripple-1 { animation-delay: 0s; }
+  .ripple-2 { animation-delay: 1.3s; }
+  .ripple-3 { animation-delay: 2.6s; }
+
+  @keyframes ripple-spread {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.7;
+      border-width: 2px;
+    }
+    80% {
+      opacity: 0.05;
+      border-width: 1px;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(28);
+      opacity: 0;
+      border-width: 1px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ripple {
+      animation: none;
+      opacity: 0.3;
+    }
+  }
+</style>
