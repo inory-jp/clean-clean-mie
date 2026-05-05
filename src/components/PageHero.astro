@@ -1,0 +1,64 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  accent?: string;
+  lead?: string;
+  breadcrumb?: { label: string; href: string }[];
+}
+
+const { label, title, accent, lead, breadcrumb = [] } = Astro.props;
+---
+
+<section class="relative overflow-hidden py-14 md:py-20 px-5 md:px-6" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
+  <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.25) 0%, transparent 70%);"></div>
+  <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(194,229,239,0.30) 0%, transparent 70%);"></div>
+
+  <div class="relative max-w-5xl mx-auto text-center">
+    {
+      breadcrumb.length > 0 && (
+        <nav class="text-xs text-muted mb-5">
+          <a href="/" class="hover:text-navy">HOME</a>
+          {breadcrumb.map((b) => (
+            <>
+              <span class="mx-2 text-muted-soft">/</span>
+              <a href={b.href} class="hover:text-navy">{b.label}</a>
+            </>
+          ))}
+        </nav>
+      )
+    }
+    <span class="label-en">{label}</span>
+    <h1 class="section-h2 mt-3" style="font-size: 28px;">
+      <span set:html={
+        accent
+          ? title.replace(accent, `<span class="accent">${accent}</span>`)
+          : title
+      } />
+    </h1>
+    {
+      lead && (
+        <p class="mt-5 text-text-soft max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+          {lead}
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  h1.section-h2 {
+    font-size: 28px;
+  }
+  @media (min-width: 640px) {
+    h1.section-h2 {
+      font-size: 34px;
+    }
+  }
+  @media (min-width: 768px) {
+    h1.section-h2 {
+      font-size: 44px;
+      line-height: 1.25;
+    }
+  }
+</style>

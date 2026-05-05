@@ -1,0 +1,59 @@
+---
+import Icon from "./Icon.astro";
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
+---
+
+<section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-8 md:mb-10">
+      <span class="label-en">CONTACT</span>
+      <h2 class="section-h2 mt-3">
+        まずは<span class="accent">お見積もり</span>から
+      </h2>
+      <p class="text-text-soft mt-4 leading-relaxed text-sm md:text-base">
+        メニューを選ぶだけで料金を自動計算。送信後、栗田より折り返しご連絡いたします。
+      </p>
+    </div>
+
+    <div class="bg-white rounded-[24px] md:rounded-[28px] shadow-xl p-5 md:p-9 border border-line-soft">
+      <div class="grid md:grid-cols-2 gap-4">
+        <a
+          href="/contact"
+          class="group relative flex flex-col text-center bg-accent text-white rounded-2xl px-5 md:px-6 py-7 md:py-9 hover:bg-accent-deep transition-colors shadow-orange md:min-h-[220px] justify-center"
+        >
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-text text-[10px] font-black px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
+            ★ おすすめ
+          </span>
+          <div class="flex justify-center mb-3">
+            <Icon name="clipboard" size={32} />
+          </div>
+          <div class="text-[11px] tracking-widest opacity-90 font-bold mb-2">FORM</div>
+          <div class="text-lg md:text-xl font-extrabold leading-tight">お申込み・見積もり</div>
+          <div class="num-mont text-2xl md:text-3xl mt-2 font-bold opacity-95" style="letter-spacing: 0.04em;">24h送信OK</div>
+          <div class="mt-3 text-[11px] opacity-85">カート式で料金が即わかる ／ 返信は翌営業日中</div>
+        </a>
+
+        <a
+          href={telHref}
+          class="group flex flex-col text-center bg-white border-2 border-navy text-navy rounded-2xl px-5 md:px-6 py-7 md:py-9 hover:bg-sky-pale transition-colors md:min-h-[220px] justify-center"
+        >
+          <div class="flex justify-center mb-3">
+            <Icon name="phone" size={32} />
+          </div>
+          <div class="text-[11px] tracking-widest text-muted font-bold mb-2">TEL</div>
+          <div class="text-lg md:text-xl font-extrabold leading-tight">お電話でのご相談</div>
+          <div class="num-mont text-2xl md:text-3xl mt-2 font-bold" style="letter-spacing: 0.04em;">{tel}</div>
+          <div class="mt-3 text-[11px] text-muted">9:00〜18:00 ／ 不定休</div>
+        </a>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-line-soft flex flex-wrap gap-x-5 gap-y-2 justify-center text-[11px] md:text-xs text-text-soft">
+        <span class="flex items-center gap-1.5"><Icon name="check" size={14} class="text-accent" />翌営業日中に一次返信</span>
+        <span class="flex items-center gap-1.5"><Icon name="check" size={14} class="text-accent" />見積もりキャンセル無料</span>
+        <span class="flex items-center gap-1.5"><Icon name="check" size={14} class="text-accent" />損害保険完備</span>
+        <span class="flex items-center gap-1.5"><Icon name="check" size={14} class="text-accent" />三重県内出張費 無料</span>
+      </div>
+    </div>
+  </div>
+</section>

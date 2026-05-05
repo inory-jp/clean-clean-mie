@@ -1,48 +1,57 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import PageCTA from "../../components/PageCTA.astro";
 import { getNewsList, formatDate } from "../../lib/microcms";
 
 const { contents: news } = await getNewsList({ limit: 30 });
 const categories = Array.from(new Set(news.map((n) => n.category)));
+
+const categoryColor: Record<string, string> = {
+  お知らせ: "bg-navy text-white",
+  施工事例: "bg-accent text-white",
+  お役立ちコラム: "bg-sky text-white",
+};
 ---
 
 <Layout
   title="お知らせ・ブログ｜CLEAN×CLEAN 津中央店"
   description="CLEAN×CLEAN 津中央店からのお知らせ・施工事例・お役立ちコラム。エアコン・お風呂クリーニングのプロが、季節のお手入れや業界の最新情報をお届けします。"
 >
-  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
-    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
-      <span class="label-en">NEWS &amp; BLOG</span>
-      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
-        お知らせ・<span class="text-navy">お役立ち情報</span>
-      </h1>
-      <p class="mt-6 text-text-soft max-w-2xl mx-auto text-sm md:text-base">
-        季節のお手入れのコツ、施工事例、お知らせを発信しています。
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="NEWS &amp; BLOG"
+    title="お知らせ・お役立ち情報"
+    accent="お役立ち情報"
+    lead="季節のお手入れのコツ、施工事例、お知らせを発信しています。"
+    breadcrumb={[{ label: "お知らせ・ブログ", href: "/news" }]}
+  />
 
-  <section class="py-12 md:py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-4 md:px-8">
+  <section class="py-12 md:py-16 px-5 md:px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
       {
         categories.length > 0 && (
           <div class="flex flex-wrap gap-2 justify-center mb-10" id="newsFilters">
             <button
               type="button"
-              class="news-filter px-4 py-2 rounded-full text-sm font-bold border bg-navy text-white border-navy"
+              class="news-filter px-4 py-2 rounded-full text-sm font-bold border-2 bg-navy text-white border-navy"
               data-category=""
             >
               すべて
+              <span class="ml-1.5 text-[10px] opacity-90">{news.length}</span>
             </button>
-            {categories.map((c) => (
-              <button
-                type="button"
-                class="news-filter px-4 py-2 rounded-full text-sm font-bold border bg-white text-text-soft border-line hover:border-navy hover:text-navy transition-colors"
-                data-category={c}
-              >
-                {c}
-              </button>
-            ))}
+            {categories.map((c) => {
+              const count = news.filter((n) => n.category === c).length;
+              return (
+                <button
+                  type="button"
+                  class="news-filter px-4 py-2 rounded-full text-sm font-bold border-2 bg-white text-text-soft border-line hover:border-navy hover:text-navy transition-colors"
+                  data-category={c}
+                >
+                  {c}
+                  <span class="ml-1.5 text-[10px] text-muted">{count}</span>
+                </button>
+              );
+            })}
           </div>
         )
       }
@@ -54,41 +63,47 @@ const categories = Array.from(new Set(news.map((n) => n.category)));
             <p class="text-sm mt-2">準備中です。しばらくお待ちください。</p>
           </div>
         ) : (
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="newsGrid">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6" id="newsGrid">
             {news.map((n) => (
               <a
                 href={`/news/${n.slug}`}
-                class="news-card bg-white rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden group"
+                class="news-card bg-white rounded-[20px] md:rounded-[24px] border border-line-soft hover:shadow-lg transition-all overflow-hidden flex flex-col group"
                 data-category={n.category}
               >
                 {n.eyecatch ? (
-                  <div class="aspect-video bg-bg-soft overflow-hidden">
+                  <div class="aspect-video bg-line-soft overflow-hidden">
                     <img
                       src={`${n.eyecatch.url}?w=600&fm=webp&q=80`}
                       alt={n.title}
                       width={n.eyecatch.width}
                       height={n.eyecatch.height}
                       loading="lazy"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 ) : (
-                  <div class="aspect-video bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-6xl opacity-60">
-                    📝
+                  <div class="aspect-video bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-navy/40">
+                    <svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true">
+                      <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg>
                   </div>
                 )}
-                <div class="p-5">
-                  <div class="flex items-center gap-3 mb-2">
-                    <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full font-bold">
+                <div class="p-5 flex-1 flex flex-col">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class:list={["text-[10px] px-2.5 py-1 rounded-full font-bold", categoryColor[n.category] || "bg-sky-pale text-navy"]}>
                       {n.category}
                     </span>
-                    <span class="text-xs text-muted num-mont">
+                    <span class="text-[10px] text-muted num-mont">
                       {formatDate(n.published_at || n.publishedAt)}
                     </span>
                   </div>
-                  <h2 class="font-bold text-text leading-snug line-clamp-2">
+                  <h2 class="font-bold text-text leading-snug line-clamp-2 text-sm md:text-base">
                     {n.title}
                   </h2>
+                  <div class="mt-auto pt-4 text-navy text-xs font-bold inline-flex items-center gap-1">
+                    続きを読む
+                    <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </div>
                 </div>
               </a>
             ))}
@@ -97,6 +112,8 @@ const categories = Array.from(new Set(news.map((n) => n.category)));
       }
     </div>
   </section>
+
+  <PageCTA />
 </Layout>
 
 <script>

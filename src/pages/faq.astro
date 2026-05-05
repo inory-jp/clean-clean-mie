@@ -1,121 +1,227 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import PageCTA from "../components/PageCTA.astro";
+import Icon from "../components/Icon.astro";
 import faqs from "../data/faqs.json";
 
-const categories = ["すべて", ...Array.from(new Set(faqs.map((f) => f.category)))];
+const cats = [
+  { id: "", label: "すべて", icon: "clipboard" },
+  { id: "料金", label: "料金", icon: "money" },
+  { id: "作業", label: "作業", icon: "tools" },
+  { id: "お申込み", label: "お申込み", icon: "document" },
+  { id: "支払い", label: "お支払い", icon: "card" },
+  { id: "その他", label: "その他", icon: "chat" },
+];
 ---
 
 <Layout
   title="よくある質問｜CLEAN×CLEAN 津中央店"
   description="CLEAN×CLEAN 津中央店へよくいただくご質問と回答。料金・作業内容・お申込み・お支払いについて、事前に知っておきたいポイントをまとめています。"
 >
-  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
-    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
-      <span class="label-en">FAQ</span>
-      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
-        よくある<span class="text-navy">ご質問</span>
-      </h1>
-      <p class="mt-6 text-text-soft max-w-2xl mx-auto">
-        ご検討いただく際によくいただくご質問にお答えします。<br />
-        ここに無いご質問はお気軽にお電話またはフォームでお問い合わせください。
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="FAQ"
+    title="よくあるご質問"
+    accent="ご質問"
+    lead="ご検討いただく際によくいただくご質問にお答えします。ここに無いご質問はお気軽にお電話またはフォームでお問い合わせください。"
+    breadcrumb={[{ label: "よくある質問", href: "/faq" }]}
+  />
 
-  <section class="py-12 md:py-16 bg-white">
-    <div class="max-w-3xl mx-auto px-4 md:px-8">
-      <div class="flex flex-wrap gap-2 justify-center mb-10" id="faqFilters">
-        {
-          categories.map((c, i) => (
+  <section class="py-12 md:py-16 px-5 md:px-6 bg-white">
+    <div class="faq-cats max-w-3xl mx-auto">
+      {
+        cats.map((c, i) => {
+          const count = c.id ? faqs.filter((f) => f.category === c.id).length : faqs.length;
+          return (
             <button
               type="button"
-              class:list={[
-                "faq-filter px-4 py-2 rounded-full text-sm font-bold border transition-colors",
-                i === 0
-                  ? "bg-navy text-white border-navy"
-                  : "bg-white text-text-soft border-line hover:border-navy hover:text-navy",
-              ]}
-              data-category={c}
+              class={`faq-cat ${i === 0 ? "active" : ""}`}
+              data-category={c.id}
             >
-              {c}
+              <Icon name={c.icon} size={14} />
+              {c.label}
+              <span class="faq-cat-count">{count}</span>
             </button>
-          ))
-        }
-      </div>
+          );
+        })
+      }
+    </div>
 
-      <div class="space-y-3" id="faqList">
-        {
-          faqs.map((f, i) => (
-            <details
-              class="faq-item bg-bg-soft rounded-2xl border border-line-soft overflow-hidden group"
-              data-category={f.category}
-            >
-              <summary class="flex items-start gap-4 px-5 py-4 cursor-pointer list-none">
-                <span class="num-mont text-navy text-sm shrink-0 mt-0.5">
-                  Q{String(i + 1).padStart(2, "0")}
-                </span>
-                <span class="flex-1 font-bold text-text">{f.question}</span>
-                <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full shrink-0 font-bold">
-                  {f.category}
-                </span>
-                <span class="text-navy text-xl shrink-0 group-open:rotate-45 transition-transform">
-                  ＋
-                </span>
-              </summary>
-              <div class="px-5 pb-5 pt-0 pl-14 text-text-soft text-sm leading-relaxed">
-                {f.answer}
-              </div>
-            </details>
-          ))
-        }
-      </div>
+    <div class="faq-grid grid md:grid-cols-2 gap-3 md:gap-4 max-w-5xl mx-auto mt-10">
+      {
+        faqs.map((f, i) => (
+          <details class="faq-item" data-category={f.category} open={i === 0}>
+            <summary class="faq-q-row">
+              <div class="faq-q-mark">Q</div>
+              <div class="faq-q-text">{f.question}</div>
+              <div class="faq-q-arrow">▼</div>
+            </summary>
+            <div class="faq-a-content">
+              <div class="faq-a-mark">A</div>
+              <div class="faq-a-text">{f.answer}</div>
+            </div>
+          </details>
+        ))
+      }
     </div>
   </section>
 
-  <section class="bg-bg-soft py-16">
-    <div class="max-w-3xl mx-auto px-4 md:px-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-black text-text">
-        他にご質問がある場合は
-      </h2>
-      <p class="mt-4 text-text-soft">
-        お気軽にお電話またはフォームでお問い合わせください。
-      </p>
-      <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-        <a
-          href="/contact"
-          class="inline-flex justify-center items-center px-7 py-3.5 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
-        >
-          📋 お申込み・見積もり
-        </a>
-        <a
-          href="tel:0592715908"
-          class="inline-flex justify-center items-center gap-2 px-7 py-3.5 rounded-full bg-white border-2 border-navy text-navy font-bold"
-        >
-          📞 <span class="num-mont">059-271-5908</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <PageCTA />
 </Layout>
 
+<style>
+  .faq-cats {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 768px) {
+    .faq-cats { gap: 10px; }
+  }
+  .faq-cat {
+    padding: 8px 14px;
+    border: 2px solid #E1E8F0;
+    border-radius: 999px;
+    background: #FFF;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6B7A8F;
+    transition: all 0.25s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  @media (min-width: 768px) {
+    .faq-cat { padding: 10px 22px; font-size: 13px; gap: 8px; }
+  }
+  .faq-cat:hover {
+    border-color: #78C8E0;
+    color: #1E88B0;
+  }
+  .faq-cat.active {
+    background: #1E88B0;
+    color: #FFF;
+    border-color: #1E88B0;
+  }
+  .faq-cat-count {
+    background: rgba(255,255,255,0.2);
+    color: inherit;
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-left: 2px;
+  }
+  .faq-cat:not(.active) .faq-cat-count {
+    background: #F7FAFC;
+    color: #6B7A8F;
+  }
+
+  .faq-item {
+    background: #FFF;
+    border: 1px solid #E1E8F0;
+    border-radius: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .faq-item:hover { border-color: #78C8E0; }
+  .faq-item[open] {
+    border-color: #1E88B0;
+    box-shadow: 0 4px 12px rgba(30, 136, 176, 0.08);
+  }
+  .faq-q-row {
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    user-select: none;
+    list-style: none;
+  }
+  .faq-q-row::-webkit-details-marker { display: none; }
+  .faq-q-mark {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #1E88B0;
+    color: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  .faq-q-text {
+    flex: 1;
+    font-weight: 700;
+    color: #1E88B0;
+    font-size: 14px;
+    line-height: 1.55;
+    padding-top: 4px;
+  }
+  .faq-q-arrow {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #F7FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7A8F;
+    font-size: 10px;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+  }
+  .faq-item[open] .faq-q-arrow {
+    background: #FF7A45;
+    color: #FFF;
+    transform: rotate(180deg);
+  }
+  .faq-a-content {
+    display: flex;
+    gap: 12px;
+    padding: 0 18px 18px 18px;
+    align-items: flex-start;
+  }
+  .faq-a-mark {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #FF7A45;
+    color: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  .faq-a-text {
+    flex: 1;
+    color: #3F4E63;
+    font-size: 13px;
+    line-height: 1.85;
+  }
+</style>
+
 <script>
-  const filters = document.querySelectorAll<HTMLButtonElement>(".faq-filter");
-  const items = document.querySelectorAll<HTMLDetailsElement>(".faq-item");
+  const cats = document.querySelectorAll<HTMLButtonElement>(".faq-cat");
+  const items = document.querySelectorAll<HTMLElement>(".faq-item");
 
-  filters.forEach((btn) => {
+  cats.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const cat = btn.dataset.category;
-
-      filters.forEach((b) => {
-        b.classList.remove("bg-navy", "text-white", "border-navy");
-        b.classList.add("bg-white", "text-text-soft", "border-line");
-      });
-      btn.classList.add("bg-navy", "text-white", "border-navy");
-      btn.classList.remove("bg-white", "text-text-soft", "border-line");
-
-      items.forEach((item) => {
-        const show = cat === "すべて" || item.dataset.category === cat;
-        item.style.display = show ? "" : "none";
+      cats.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const cat = btn.dataset.category || "";
+      items.forEach((it) => {
+        const show = !cat || it.dataset.category === cat;
+        it.style.display = show ? "" : "none";
       });
     });
   });

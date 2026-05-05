@@ -1,48 +1,82 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import PageCTA from "../../components/PageCTA.astro";
 import menusData from "../../data/menus.json";
 
 const categories = menusData.categories;
 const formatPrice = (n: number | null, label?: string) =>
   n != null ? `¥${n.toLocaleString()}` : (label ?? "要問合せ");
+
+const tagStyle = (slug: string) => {
+  const map: Record<string, string> = {
+    aircon: "bg-accent text-white",
+    bath: "bg-gold text-text",
+    kitchen: "bg-navy text-white",
+    other: "bg-sky-mid text-navy-deep",
+  };
+  return map[slug] || "bg-navy text-white";
+};
+const tagText = (slug: string) => {
+  const map: Record<string, string> = {
+    aircon: "★ 人気No.1",
+    bath: "セット割対象",
+    kitchen: "大掃除におすすめ",
+    other: "幅広く対応",
+  };
+  return map[slug] || "";
+};
 ---
 
 <Layout
   title="サービス一覧｜CLEAN×CLEAN 津中央店"
   description="エアコン・お風呂・キッチン換気扇・その他クリーニング。津市・松阪市・鈴鹿市を中心に、店主直接施工でお応えするハウスクリーニングのメニュー一覧と料金をご案内します。"
 >
-  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 text-center">
-      <span class="label-en">OUR SERVICES</span>
-      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
-        サービス・<span class="text-navy">料金一覧</span>
-      </h1>
-      <p class="mt-6 text-text-soft max-w-2xl mx-auto">
-        各サービスの代表料金は税込表示です。詳細は各ページの料金表をご確認ください。
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="OUR SERVICES"
+    title="サービス・料金一覧"
+    accent="料金一覧"
+    lead="ご家庭の主要な水回り・空調設備を、高品質な技術と専用機材で隅々まで美しく仕上げます。各サービスの代表料金は税込表示です。"
+    breadcrumb={[{ label: "サービス", href: "/service" }]}
+  />
 
-  <section class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+    <div class="max-w-6xl mx-auto grid sm:grid-cols-2 gap-6 md:gap-8">
       {
         categories.map((c) => (
           <a
             href={`/service/${c.slug}`}
-            class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg border border-line-soft hover:-translate-y-1 transition-all"
+            class="group bg-white rounded-[24px] md:rounded-[28px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow flex flex-col cursor-pointer"
           >
-            <div class="text-5xl">{c.icon}</div>
-            <h2 class="mt-4 text-lg font-black text-text">{c.name}</h2>
-            <p class="mt-2 text-xs text-text-soft leading-relaxed">{c.tagline}</p>
-            <div class="mt-4 flex items-baseline gap-1">
-              <span class="num-mont text-2xl text-accent-deep">
-                {formatPrice(c.starting_price)}
+            <div class="relative aspect-video overflow-hidden bg-sky-pale">
+              <img
+                src={`/assets/services/${c.slug}.png`}
+                alt={c.name}
+                width="700"
+                height="700"
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%);" />
+              <span class:list={["absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-extrabold tracking-wider shadow-sm", tagStyle(c.slug)]}>
+                {tagText(c.slug)}
               </span>
-              <span class="text-xs text-muted">〜（税込）</span>
             </div>
-            <div class="mt-1 text-xs text-muted">所要 {c.duration}</div>
-            <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
-              詳しく見る →
+            <div class="p-6 md:p-8 flex-1 flex flex-col">
+              <h2 class="text-navy text-lg md:text-xl font-extrabold leading-tight">{c.name}</h2>
+              <p class="text-text-soft text-sm mt-2 leading-[1.7]">{c.tagline}</p>
+              <div class="flex items-baseline gap-2 mt-5 pt-4 border-t border-dashed border-line">
+                <span class="text-[11px] text-muted">料金</span>
+                <span class="num-mont text-accent text-2xl md:text-3xl font-bold leading-none">
+                  {formatPrice(c.starting_price)}
+                </span>
+                <span class="text-muted text-xs">〜（税込）</span>
+              </div>
+              <div class="mt-2 text-xs text-muted">所要 {c.duration}</div>
+              <span class="inline-flex items-center gap-2 text-navy font-bold text-sm mt-5">
+                詳しく見る
+                <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
             </div>
           </a>
         ))
@@ -50,48 +84,54 @@ const formatPrice = (n: number | null, label?: string) =>
     </div>
   </section>
 
-  <section class="bg-bg-soft py-16">
-    <div class="max-w-5xl mx-auto px-4 md:px-8">
-      <h2 class="text-2xl md:text-3xl font-black text-text text-center mb-8">
-        全サービス料金一覧
-      </h2>
-      <div class="space-y-8">
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10 md:mb-12">
+        <span class="label-en">PRICE LIST</span>
+        <h2 class="section-h2 mt-2">
+          全サービス<span class="accent">料金一覧</span>
+        </h2>
+      </div>
+
+      <div class="space-y-7">
         {
           categories.map((c) => (
-            <div class="bg-white rounded-2xl border border-line-soft overflow-hidden">
-              <div class="bg-navy text-white px-5 py-3 flex items-center gap-3">
-                <span class="text-2xl">{c.icon}</span>
-                <h3 class="font-bold">{c.name}</h3>
+            <div class="bg-white rounded-[20px] md:rounded-[24px] border border-line-soft overflow-hidden">
+              <div class="bg-navy text-white px-5 md:px-6 py-3 md:py-4 flex items-center gap-3">
+                <span class:list={["text-[10px] px-2.5 py-0.5 rounded-full font-extrabold", tagStyle(c.slug)]}>
+                  {tagText(c.slug)}
+                </span>
+                <h3 class="font-bold text-sm md:text-base">{c.name}</h3>
               </div>
               <table class="w-full text-sm">
                 <thead class="bg-sky-pale text-navy-deep text-xs">
                   <tr>
-                    <th class="text-left px-4 py-2 font-bold">メニュー</th>
-                    <th class="text-right px-4 py-2 font-bold w-32">料金（税込）</th>
-                    <th class="text-right px-4 py-2 font-bold w-24 hidden sm:table-cell">所要時間</th>
+                    <th class="text-left px-4 md:px-5 py-2.5 font-bold">メニュー</th>
+                    <th class="text-right px-4 md:px-5 py-2.5 font-bold w-28 md:w-36">料金（税込）</th>
+                    <th class="text-right px-4 md:px-5 py-2.5 font-bold w-24 hidden sm:table-cell">所要</th>
                   </tr>
                 </thead>
                 <tbody>
                   {c.menus.filter((m) => m.published).map((m) => (
                     <tr class="border-t border-line-soft">
-                      <td class="px-4 py-3 text-text">{m.name}</td>
-                      <td class="px-4 py-3 text-right num-mont text-accent-deep font-bold">
+                      <td class="px-4 md:px-5 py-3 text-text">{m.name}</td>
+                      <td class="px-4 md:px-5 py-3 text-right num-mont text-accent-deep font-bold">
                         {formatPrice(m.price, (m as any).price_label)}
                       </td>
-                      <td class="px-4 py-3 text-right text-muted text-xs hidden sm:table-cell">
+                      <td class="px-4 md:px-5 py-3 text-right text-muted text-xs hidden sm:table-cell">
                         {m.duration}
                       </td>
                     </tr>
                   ))}
-                  {c.options.map((o) => (
+                  {(c.options as any[]).map((o) => (
                     <tr class="border-t border-line-soft bg-sky-mist">
-                      <td class="px-4 py-3 text-text-soft text-xs">
-                        ＋オプション: {o.name}
+                      <td class="px-4 md:px-5 py-3 text-text-soft text-xs">
+                        ＋OP: {o.name}
                       </td>
-                      <td class="px-4 py-3 text-right num-mont text-accent text-sm">
+                      <td class="px-4 md:px-5 py-3 text-right num-mont text-accent text-sm">
                         +¥{o.price.toLocaleString()}
                       </td>
-                      <td class="px-4 py-3 text-right text-muted text-xs hidden sm:table-cell">
+                      <td class="px-4 md:px-5 py-3 text-right text-muted text-xs hidden sm:table-cell">
                         {o.duration}
                       </td>
                     </tr>
@@ -103,18 +143,11 @@ const formatPrice = (n: number | null, label?: string) =>
         }
       </div>
 
-      <div class="mt-10 bg-white border border-line-soft rounded-xl p-5 text-xs text-text-soft space-y-1.5">
+      <div class="mt-8 bg-white border border-line-soft rounded-2xl p-5 text-xs text-text-soft space-y-1.5">
         {menusData.common_notes.map((n) => <p>※ {n}</p>)}
-      </div>
-
-      <div class="mt-10 text-center">
-        <a
-          href="/contact"
-          class="inline-flex items-center px-8 py-4 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
-        >
-          📋 お申込み・見積もりへ進む
-        </a>
       </div>
     </div>
   </section>
+
+  <PageCTA />
 </Layout>

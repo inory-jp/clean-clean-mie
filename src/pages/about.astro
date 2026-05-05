@@ -1,35 +1,40 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import PageCTA from "../components/PageCTA.astro";
+import Icon from "../components/Icon.astro";
 import site from "../data/site.json";
 
 const companyInfo = [
   { label: "屋号", value: site.business_name },
   { label: "代表者", value: `${site.representative}（${site.representative_kana}）` },
-  { label: "所在地", value: `〒${site.postal_code} ${site.address}` },
-  { label: "電話", value: site.tel },
+  { label: "所在地", value: `〒${site.postal_code} ${site.address}`, icon: "pin" },
+  { label: "電話", value: site.tel, href: site.tel_href, icon: "phone" },
   { label: "携帯", value: site.mobile },
-  { label: "メール", value: site.email },
-  { label: "営業時間", value: site.hours },
-  { label: "定休日", value: site.holiday },
+  { label: "メール", value: site.email, href: `mailto:${site.email}`, icon: "envelope" },
+  { label: "営業時間", value: `${site.hours}（${site.holiday}）`, icon: "clock" },
   { label: "対応エリア", value: site.service_area },
-  { label: "加盟保険", value: site.insurance },
+  { label: "加盟保険", value: site.insurance, icon: "shield" },
 ];
 
-const strengths = [
+const values = [
   {
     no: "01",
     title: "ありがとうの輪を広げる",
     body: "お客様からの「ありがとう」が原動力。一軒一軒に丁寧に向き合い、笑顔の連鎖を地域に広げていきます。",
+    svg: '<path d="M12 2l2.6 6.4L21 10l-5 4.5 1.6 6.5L12 17.5 6.4 21 8 14.5 3 10l6.4-1.6L12 2z"/>',
   },
   {
     no: "02",
     title: "下請けに出さない",
     body: "ご依頼は店主・栗田が自らの手で。顔の見える施工と、ご家庭ごとに合わせた最適な作業をお約束します。",
+    svg: '<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>',
   },
   {
     no: "03",
     title: "地域密着",
     body: "津市・松阪市・鈴鹿市を中心に三重県全域へ。地元だからこそできる迅速な対応と長くお付き合いできる関係づくりを大切にします。",
+    svg: '<path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>',
   },
 ];
 ---
@@ -38,78 +43,82 @@ const strengths = [
   title="会社概要・店主紹介｜CLEAN×CLEAN 津中央店"
   description="CLEAN×CLEAN 津中央店の会社概要と店主紹介。代表 栗田祐志（宅地建物取引士）。三重県津市・松阪市・鈴鹿市を中心に対応するハウスクリーニング店です。"
 >
-  <section class="bg-gradient-to-b from-sky-mist to-white py-16 md:py-20">
-    <div class="max-w-5xl mx-auto px-4 md:px-8 text-center">
-      <span class="label-en">ABOUT US</span>
-      <h1 class="text-3xl md:text-5xl font-black text-text mt-3">
-        会社概要・<span class="text-navy">店主紹介</span>
-      </h1>
-      <p class="mt-6 text-text-soft max-w-2xl mx-auto leading-relaxed">
-        地域に根ざした、店主直接施工のハウスクリーニング。<br
-          class="hidden sm:inline"
-        />顔の見える安心と、ありがとうの輪を、三重県の暮らしへ。
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="ABOUT US"
+    title="会社概要・店主紹介"
+    accent="店主紹介"
+    lead="地域に根ざした、店主直接施工のハウスクリーニング。顔の見える安心と、ありがとうの輪を、三重県の暮らしへ。"
+    breadcrumb={[{ label: "会社概要", href: "/about" }]}
+  />
 
-  <section class="py-16 md:py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-10">
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10 md:mb-12">
         <span class="label-en">COMPANY</span>
-        <h2 class="text-2xl md:text-3xl font-black text-text mt-2">会社情報</h2>
+        <h2 class="section-h2 mt-2">
+          会社<span class="accent">情報</span>
+        </h2>
       </div>
-      <div class="bg-bg-soft rounded-2xl border border-line-soft overflow-hidden">
+      <div class="bg-bg-soft rounded-[24px] md:rounded-[28px] border border-line-soft overflow-hidden">
         <table class="w-full text-sm">
-          {
-            companyInfo.map((row, i) => (
-              <tr class={i > 0 ? "border-t border-line-soft" : ""}>
-                <th class="bg-sky-pale text-navy-deep text-left px-5 py-4 w-32 sm:w-40 font-bold align-top">
-                  {row.label}
-                </th>
-                <td class="px-5 py-4 text-text">{row.value}</td>
-              </tr>
-            ))
-          }
+          <tbody>
+            {
+              companyInfo.map((row, i) => (
+                <tr class={i > 0 ? "border-t border-line-soft" : ""}>
+                  <th class="bg-sky-pale text-navy-deep text-left px-4 md:px-6 py-3 md:py-4 w-28 md:w-44 font-bold align-top">
+                    <div class="flex items-center gap-2">
+                      {row.icon && <Icon name={row.icon} size={16} class="text-navy" />}
+                      <span class="text-xs md:text-sm">{row.label}</span>
+                    </div>
+                  </th>
+                  <td class="px-4 md:px-6 py-3 md:py-4 text-text text-xs md:text-sm">
+                    {row.href ? (
+                      <a href={row.href} class="hover:text-navy">{row.value}</a>
+                    ) : (
+                      row.value
+                    )}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <section class="py-16 md:py-20 bg-bg-soft">
-    <div class="max-w-4xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-10">
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10 md:mb-12">
         <span class="label-en">REPRESENTATIVE</span>
-        <h2 class="text-2xl md:text-3xl font-black text-text mt-2">
-          店主<span class="text-navy">ごあいさつ</span>
+        <h2 class="section-h2 mt-2">
+          店主<span class="accent">ごあいさつ</span>
         </h2>
       </div>
 
-      <div class="bg-white rounded-2xl border border-line-soft p-6 md:p-10 grid md:grid-cols-3 gap-8 items-start">
+      <div class="bg-white rounded-[24px] md:rounded-[28px] shadow-md p-6 md:p-10 grid md:grid-cols-3 gap-7 md:gap-10 items-start">
         <div class="text-center">
           <div
-            class="w-40 h-40 mx-auto rounded-full bg-sky-pale flex items-center justify-center text-7xl"
+            class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full flex items-center justify-center text-white"
+            style="background: linear-gradient(135deg, #78C8E0, #1E88B0); box-shadow: 0 12px 32px rgba(30,136,176,0.25);"
           >
-            👨‍🔧
+            <svg viewBox="0 0 24 24" width="80" height="80" fill="currentColor" aria-hidden="true">
+              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+            </svg>
           </div>
           <div class="mt-4 font-black text-lg text-text">栗田 祐志</div>
           <div class="text-xs text-muted">くりた ゆうじ</div>
           <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
-            <span class="text-[10px] bg-navy text-white px-2 py-1 rounded-full font-bold">
-              宅地建物取引士
-            </span>
-            <span class="text-[10px] bg-sky text-white px-2 py-1 rounded-full font-bold">
-              元おそうじ本舗
-            </span>
+            <span class="text-[10px] bg-navy text-white px-2 py-1 rounded-full font-bold">宅地建物取引士</span>
+            <span class="text-[10px] bg-sky text-white px-2 py-1 rounded-full font-bold">元おそうじ本舗</span>
           </div>
         </div>
 
         <div class="md:col-span-2">
-          <p class="text-text-soft leading-relaxed">
+          <p class="text-text-soft leading-[1.95] text-sm md:text-base">
             はじめまして、CLEAN×CLEAN 津中央店の栗田です。<br /><br />
-            長年お世話になってきたハウスクリーニングの世界で、お客様からいただく「ありがとう」のひと言こそが、何よりの励みでした。<br
-            /><br />
-            だからこそ私は、下請けには出さず、店主である私が直接、責任を持って施工いたします。一軒一軒のご家庭に丁寧に向き合い、お引渡しの瞬間に笑顔を交わせる。<br
-            /><br />
+            長年お世話になってきたハウスクリーニングの世界で、お客様からいただく「ありがとう」のひと言こそが、何よりの励みでした。<br /><br />
+            だからこそ私は、下請けには出さず、店主である私が直接、責任を持って施工いたします。一軒一軒のご家庭に丁寧に向き合い、お引渡しの瞬間に笑顔を交わせる。<br /><br />
             そんな仕事を、地元・津からお届けしていきます。
           </p>
         </div>
@@ -117,21 +126,32 @@ const strengths = [
     </div>
   </section>
 
-  <section class="py-16 md:py-20 bg-white">
-    <div class="max-w-5xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-10">
-        <span class="label-en">OUR PHILOSOPHY</span>
-        <h2 class="text-2xl md:text-3xl font-black text-text mt-2">
-          私たちが大切にしている<span class="text-navy">3つのこと</span>
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10 md:mb-14">
+        <span class="label-en">OUR VALUES</span>
+        <h2 class="section-h2 mt-2">
+          私たちが大切にしている<span class="accent">3つのこと</span>
         </h2>
       </div>
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-3 gap-7">
         {
-          strengths.map((s) => (
-            <div class="bg-bg-soft rounded-2xl p-7 border border-line-soft">
-              <div class="num-mont text-5xl text-sky-light">{s.no}</div>
-              <h3 class="mt-3 font-black text-text text-lg">{s.title}</h3>
-              <p class="mt-3 text-text-soft text-sm leading-relaxed">{s.body}</p>
+          values.map((v) => (
+            <div class="strength-card relative bg-bg-soft rounded-[24px] md:rounded-[28px] px-7 md:px-9 pt-10 md:pt-12 pb-8 md:pb-10 border border-line-soft overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
+              <div
+                class="num-mont absolute top-5 right-5 md:top-6 md:right-7 text-[56px] md:text-[76px] leading-none text-sky-pale pointer-events-none"
+                style="letter-spacing: -0.04em; font-weight: 700;"
+              >
+                {v.no}
+              </div>
+              <div
+                class="w-[60px] h-[60px] md:w-[72px] md:h-[72px] mb-6 rounded-[16px] md:rounded-[18px] flex items-center justify-center"
+                style="background: linear-gradient(135deg, #E8F5F9, #9CD8E8); box-shadow: 0 6px 20px rgba(120,200,224,0.30);"
+              >
+                <svg viewBox="0 0 24 24" class="w-8 h-8 md:w-9 md:h-9" fill="white" set:html={v.svg} />
+              </div>
+              <h3 class="text-navy mb-3 text-lg md:text-[22px] font-extrabold leading-snug">{v.title}</h3>
+              <p class="text-text-soft text-sm leading-[1.85]">{v.body}</p>
             </div>
           ))
         }
@@ -139,30 +159,44 @@ const strengths = [
     </div>
   </section>
 
-  <section class="bg-bg-soft py-16">
-    <div class="max-w-3xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-8">
+  <section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
         <span class="label-en">STORE LOCATION</span>
-        <h2 class="text-2xl md:text-3xl font-black text-text mt-2">店舗情報</h2>
+        <h2 class="section-h2 mt-2">
+          店舗<span class="accent">情報</span>
+        </h2>
       </div>
-      <div class="bg-white rounded-2xl border border-line-soft overflow-hidden">
+      <div class="bg-white rounded-[24px] md:rounded-[28px] shadow-md overflow-hidden">
         <iframe
           src="https://www.google.com/maps?q=三重県津市上浜町3-15-2&output=embed"
           loading="lazy"
-          class="w-full h-72 border-0"
+          class="w-full h-64 md:h-80 border-0"
           title="CLEAN×CLEAN 津中央店 地図"
         ></iframe>
-        <div class="p-6 grid sm:grid-cols-2 gap-4 text-sm">
-          <div>
-            <div class="text-xs text-muted font-bold mb-1">所在地</div>
-            <div class="text-text">〒{site.postal_code}<br />{site.address}</div>
+        <div class="p-5 md:p-8 grid sm:grid-cols-2 gap-5 text-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style="background: linear-gradient(135deg, #78C8E0, #4FB0CE);">
+              <Icon name="pin" size={18} />
+            </div>
+            <div>
+              <div class="text-[10px] text-muted font-bold tracking-wider mb-1">所在地</div>
+              <div class="text-text">〒{site.postal_code}<br />{site.address}</div>
+            </div>
           </div>
-          <div>
-            <div class="text-xs text-muted font-bold mb-1">営業時間</div>
-            <div class="text-text">{site.hours}<br />（{site.holiday}）</div>
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style="background: linear-gradient(135deg, #78C8E0, #4FB0CE);">
+              <Icon name="clock" size={18} />
+            </div>
+            <div>
+              <div class="text-[10px] text-muted font-bold tracking-wider mb-1">営業時間</div>
+              <div class="text-text">{site.hours}<br />{site.holiday}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <PageCTA />
 </Layout>
