@@ -1,14 +1,15 @@
 ---
+import Icon from "../Icon.astro";
 import faqs from "../../data/faqs.json";
 
 const featured = faqs.slice(0, 5);
 
 const cats = [
-  { id: "", label: "すべて", icon: "📋" },
-  { id: "料金", label: "料金", icon: "💰" },
-  { id: "作業", label: "作業", icon: "🛠" },
-  { id: "お申込み", label: "お申込み", icon: "📝" },
-  { id: "支払い", label: "お支払い", icon: "💳" },
+  { id: "", label: "すべて", icon: "clipboard" },
+  { id: "料金", label: "料金", icon: "money" },
+  { id: "作業", label: "作業", icon: "tools" },
+  { id: "お申込み", label: "お申込み", icon: "document" },
+  { id: "支払い", label: "お支払い", icon: "card" },
 ];
 ---
 
@@ -31,7 +32,7 @@ const cats = [
           class={`faq-cat ${i === 0 ? "active" : ""}`}
           data-category={c.id}
         >
-          <span class="faq-cat-icon">{c.icon}</span>
+          <Icon name={c.icon} size={14} />
           {c.label}
         </button>
       ))
@@ -63,7 +64,7 @@ const cats = [
       <h4>解決しないお困りごとはありませんか？</h4>
       <p>こちらに掲載していないご質問・ご相談もお気軽にお問い合わせください。</p>
     </div>
-    <a href="/faq" class="btn">📋 すべてのFAQを見る →</a>
+    <a href="/faq" class="btn"><Icon name="clipboard" size={16} /> すべてのFAQを見る →</a>
   </div>
 </section>
 
@@ -129,7 +130,7 @@ const cats = [
     font-family: inherit;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
   .faq-cat:hover {
     border-color: #78C8E0;
@@ -281,6 +282,7 @@ const cats = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     background: #FFF;
     color: #1E88B0;
     padding: 14px 28px;

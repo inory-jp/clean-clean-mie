@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 const navItems = [
   { href: "/service", label: "サービス" },
   { href: "/about", label: "会社概要" },
@@ -33,15 +35,16 @@ const telHref = "tel:0592715908";
     <div class="flex items-center gap-2 md:gap-3">
       <a
         href={telHref}
-        class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-navy/20 text-navy text-sm font-bold hover:bg-sky-pale transition-colors"
+        class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-navy/20 text-navy text-sm font-bold hover:bg-sky-pale transition-colors"
       >
-        <span>📞</span>
+        <Icon name="phone" size={16} />
         <span class="num-mont">{tel}</span>
       </a>
       <a
         href="/contact"
-        class="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-accent text-white text-sm font-bold shadow-orange hover:bg-accent-deep transition-colors"
+        class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-white text-sm font-bold shadow-orange hover:bg-accent-deep transition-colors"
       >
+        <Icon name="clipboard" size={16} />
         お申込み・見積もり
       </a>
       <button
@@ -76,12 +79,14 @@ const telHref = "tel:0592715908";
         href={telHref}
         class="mt-2 py-3 px-3 text-navy font-bold flex items-center gap-2 border-t border-line-soft"
       >
-        📞 <span class="num-mont">{tel}</span>
+        <Icon name="phone" size={18} />
+        <span class="num-mont">{tel}</span>
       </a>
       <a
         href="/contact"
-        class="mt-2 py-3 px-3 bg-accent text-white text-center rounded-full font-bold"
+        class="mt-2 py-3 px-3 bg-accent text-white text-center rounded-full font-bold inline-flex items-center justify-center gap-2"
       >
+        <Icon name="clipboard" size={16} />
         お申込み・見積もり
       </a>
     </div>

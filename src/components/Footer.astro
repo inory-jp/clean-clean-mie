@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 const tel = "059-271-5908";
 const telHref = "tel:0592715908";
 const services = [
@@ -14,39 +16,38 @@ const info = [
   { href: "/privacy", label: "プライバシーポリシー" },
 ];
 const year = new Date().getFullYear();
+
+const infoItems = [
+  { icon: "phone", label: "TEL", value: tel, href: telHref },
+  { icon: "clock", label: "営業時間", value: "9:00〜18:00 / 不定休" },
+  { icon: "pin", label: "所在地", value: "三重県津市上浜町3-15-2" },
+  { icon: "shield", label: "保険", value: "損害賠償保険加入済" },
+];
 ---
 
 <footer class="bg-navy-deep text-white">
   <div class="bg-navy">
     <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-      <div class="flex items-start gap-3">
-        <div class="text-2xl">📞</div>
-        <div>
-          <div class="text-xs text-sky-light">TEL</div>
-          <a href={telHref} class="num-mont text-base hover:text-gold">{tel}</a>
-        </div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="text-2xl">🕐</div>
-        <div>
-          <div class="text-xs text-sky-light">営業時間</div>
-          <div>9:00〜18:00 / 不定休</div>
-        </div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="text-2xl">📍</div>
-        <div>
-          <div class="text-xs text-sky-light">所在地</div>
-          <div>三重県津市上浜町3-15-2</div>
-        </div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="text-2xl">🛡️</div>
-        <div>
-          <div class="text-xs text-sky-light">保険</div>
-          <div>損害賠償保険加入済</div>
-        </div>
-      </div>
+      {
+        infoItems.map((it) => (
+          <div class="flex items-start gap-3">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white"
+              style="background: linear-gradient(135deg, #78C8E0, #4FB0CE); box-shadow: 0 4px 12px rgba(120,200,224,0.30);"
+            >
+              <Icon name={it.icon} size={20} />
+            </div>
+            <div>
+              <div class="text-[11px] text-sky-light tracking-wider font-bold">{it.label}</div>
+              {it.href ? (
+                <a href={it.href} class="num-mont text-base hover:text-gold">{it.value}</a>
+              ) : (
+                <div>{it.value}</div>
+              )}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 
@@ -55,7 +56,7 @@ const year = new Date().getFullYear();
       <a href="/" class="inline-block">
         <img src="/assets/logo.png" alt="CLEAN×CLEAN" class="h-12 w-auto bg-white p-2 rounded-md" />
       </a>
-      <div class="mt-4 text-gold font-bold">ありがとうの輪を、地域へ。</div>
+      <div class="mt-4 text-gold font-bold tracking-wider">ありがとうの輪を、地域へ。</div>
       <p class="mt-3 text-sky-light text-sm leading-relaxed max-w-md">
         <strong class="text-white">CLEAN×CLEAN 津中央店</strong><br />
         三重県津市・松阪市・鈴鹿市を中心に活動するハウスクリーニング店。下請けに出さず、店主が直接施工。損害保険完備で安心の作業をお届けします。
