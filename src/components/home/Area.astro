@@ -9,103 +9,106 @@ const pins = [
 ];
 ---
 
-<section id="area" class="relative py-24 md:py-32 px-6 overflow-hidden bg-gradient-to-br from-white via-sky-mist to-sky-pale">
+<section id="area" class="relative py-24 md:py-28 px-6 overflow-hidden bg-gradient-to-br from-white via-sky-mist to-sky-pale">
   <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.30) 0%, transparent 70%);"></div>
 
   <div class="relative max-w-[1240px] mx-auto">
-    <div class="text-center mb-16">
+    <div class="text-center mb-12">
       <span class="label-en">SERVICE AREA</span>
       <h2 class="section-h2 mt-2">
         三重県全域に<span class="accent">対応しています</span>
       </h2>
+      <p class="text-muted mt-4 text-sm">
+        津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いします
+      </p>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
-      <div class="bg-white rounded-[28px] shadow-lg p-8 md:p-10">
-        <div class="relative">
-          <img
-            src="/assets/mie-map.png"
-            alt="三重県エリアマップ"
-            class="w-full h-auto"
-          />
-          {
-            pins.map((p) => (
-              <div
-                class="absolute -translate-x-1/2 -translate-y-full"
-                style={`top: ${p.top}; left: ${p.left};`}
-              >
-                <div class="relative">
+    {/* Big map with floating city tags */}
+    <div class="relative bg-white rounded-[32px] shadow-xl p-6 md:p-12 max-w-5xl mx-auto">
+      <div class="relative max-w-2xl mx-auto">
+        <img
+          src="/assets/mie-map.png"
+          alt="三重県エリアマップ"
+          class="w-full h-auto"
+        />
+        {
+          pins.map((p, idx) => (
+            <div
+              class="absolute -translate-x-1/2 -translate-y-full"
+              style={`top: ${p.top}; left: ${p.left};`}
+            >
+              <div class="relative">
+                {idx === 0 && (
                   <span class="absolute inset-0 rounded-full bg-accent/40 animate-ping" style="width: 18px; height: 18px;"></span>
-                  <span class="relative block w-[18px] h-[18px] rounded-full bg-accent shadow-md ring-2 ring-white"></span>
-                  <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 whitespace-nowrap text-xs font-black text-accent-deep bg-white/95 px-2 py-0.5 rounded shadow-sm">
-                    {p.city}
-                  </span>
-                </div>
+                )}
+                <span class="relative block w-[18px] h-[18px] rounded-full bg-accent shadow-md ring-2 ring-white"></span>
+                <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 whitespace-nowrap text-xs font-black text-accent-deep bg-white px-2 py-0.5 rounded shadow-md border border-accent/30">
+                  {p.city}
+                </span>
               </div>
-            ))
-          }
+            </div>
+          ))
+        }
+
+        {/* Floating city tags surrounding the map */}
+        <div class="hidden md:block absolute -left-4 top-1/4 -translate-x-full">
+          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
+            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
+            <div class="text-navy font-extrabold text-sm">津市</div>
+          </div>
         </div>
-        <div class="mt-6 flex items-center gap-2 justify-center text-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
-          <span class="text-muted">主要エリア（津市・松阪市・鈴鹿市）</span>
+        <div class="hidden md:block absolute -right-4 top-1/3 translate-x-full">
+          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
+            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
+            <div class="text-navy font-extrabold text-sm">鈴鹿市</div>
+          </div>
+        </div>
+        <div class="hidden md:block absolute -left-4 bottom-1/4 -translate-x-full">
+          <div class="bg-white rounded-2xl shadow-md px-4 py-3 border border-line-soft text-center min-w-[100px]">
+            <div class="text-[10px] text-muted font-bold tracking-wider mb-1">主要</div>
+            <div class="text-navy font-extrabold text-sm">松阪市</div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <p class="text-text-soft mb-8 leading-[1.9]">
-          津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いいたします。地域密着で迅速な対応が可能です。
-        </p>
-
-        <div class="mb-7">
-          <div class="text-xs text-muted font-bold mb-3 tracking-wider">主要対応エリア</div>
-          <div class="flex flex-wrap gap-2">
-            {
-              primaryAreas.map((a) => (
-                <span class="bg-navy text-white text-sm font-bold px-5 py-2 rounded-full shadow-sm">
-                  {a}
-                </span>
-              ))
-            }
-          </div>
-        </div>
-
-        <div class="mb-9">
-          <div class="text-xs text-muted font-bold mb-3 tracking-wider">その他対応エリア</div>
-          <div class="flex flex-wrap gap-2">
-            {
-              otherAreas.map((a) => (
-                <span class="bg-white text-navy text-sm px-3.5 py-1.5 rounded-full border border-line">
-                  {a}
-                </span>
-              ))
-            }
-          </div>
-        </div>
-
-        <div class="grid grid-cols-3 gap-3 mb-7">
-          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
-            <div class="num-mont text-base text-navy font-extrabold leading-tight">三重県全域</div>
-            <div class="text-[10px] text-muted mt-1.5">対応エリア</div>
-          </div>
-          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
-            <div class="num-mont text-base text-accent-deep font-extrabold">無料</div>
-            <div class="text-[10px] text-muted mt-1.5">県内出張費</div>
-          </div>
-          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
-            <div class="num-mont text-base text-navy font-extrabold leading-tight">即日相談OK</div>
-            <div class="text-[10px] text-muted mt-1.5">お見積もり</div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 text-sm text-text-soft border border-sky-light flex items-start gap-3 shadow-sm">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-navy" style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF);">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-          </div>
-          <span class="leading-relaxed pt-1">
-            エリア外の方もまずはお気軽にご相談ください。出張対応の可否を確認のうえ、ご回答いたします。
-          </span>
+      {/* Mobile-friendly area tags */}
+      <div class="md:hidden mt-7">
+        <div class="text-xs text-muted font-bold mb-2 tracking-wider text-center">主要対応エリア</div>
+        <div class="flex flex-wrap gap-2 justify-center">
+          {primaryAreas.map((a) => (
+            <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full">{a}</span>
+          ))}
         </div>
       </div>
+
+      {/* Stats + other areas (always visible) */}
+      <div class="mt-10 pt-8 border-t border-line-soft grid md:grid-cols-3 gap-5">
+        <div class="text-center">
+          <div class="num-mont text-2xl text-navy font-extrabold">三重県全域</div>
+          <div class="text-xs text-muted mt-1.5">対応エリア</div>
+        </div>
+        <div class="text-center">
+          <div class="num-mont text-2xl text-accent-deep font-extrabold">無料</div>
+          <div class="text-xs text-muted mt-1.5">県内出張費</div>
+        </div>
+        <div class="text-center">
+          <div class="num-mont text-2xl text-navy font-extrabold">即日相談OK</div>
+          <div class="text-xs text-muted mt-1.5">お見積もり</div>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-line-soft">
+        <div class="text-xs text-muted font-bold mb-3 tracking-wider">その他対応エリア</div>
+        <div class="flex flex-wrap gap-2">
+          {otherAreas.map((a) => (
+            <span class="bg-bg-soft text-text-soft text-xs px-3 py-1.5 rounded-full border border-line-soft">{a}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-2xl mx-auto mt-8 text-center text-sm text-text-soft">
+      エリア外の方もまずはお気軽にご相談ください。
     </div>
   </div>
 </section>

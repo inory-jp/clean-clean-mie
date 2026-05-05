@@ -2,7 +2,7 @@
 import Icon from "../Icon.astro";
 import faqs from "../../data/faqs.json";
 
-const featured = faqs.slice(0, 5);
+const featured = faqs.slice(0, 6);
 
 const cats = [
   { id: "", label: "すべて", icon: "clipboard" },
@@ -13,109 +13,70 @@ const cats = [
 ];
 ---
 
-<section class="faq-section">
-  <div class="text-center mb-12 relative z-[1]">
-    <span class="label-en">FAQ</span>
-    <h2 class="section-h2 mt-2">
-      よくある<span class="accent">ご質問</span>
-    </h2>
-    <p class="text-muted mt-4 text-base leading-relaxed">
-      ご検討時によくいただくご質問にお答えします。
-    </p>
-  </div>
+<section class="py-20 md:py-24 px-6 bg-white">
+  <div class="max-w-[1240px] mx-auto">
+    <div class="text-center mb-10">
+      <span class="label-en">FAQ</span>
+      <h2 class="section-h2 mt-2">
+        よくある<span class="accent">ご質問</span>
+      </h2>
+      <p class="text-muted mt-4 text-sm">
+        ご検討時によくいただくご質問にお答えします
+      </p>
+    </div>
 
-  <div class="faq-cats">
-    {
-      cats.map((c, i) => (
-        <button
-          type="button"
-          class={`faq-cat ${i === 0 ? "active" : ""}`}
-          data-category={c.id}
-        >
-          <Icon name={c.icon} size={14} />
-          {c.label}
-        </button>
-      ))
-    }
-  </div>
+    <div class="faq-cats max-w-3xl mx-auto">
+      {
+        cats.map((c, i) => (
+          <button
+            type="button"
+            class={`faq-cat ${i === 0 ? "active" : ""}`}
+            data-category={c.id}
+          >
+            <Icon name={c.icon} size={14} />
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
 
-  <div class="faq-list-wrap">
-    {
-      featured.map((f, i) => (
-        <div class={`faq-item ${i === 0 ? "open" : ""}`} data-category={f.category}>
-          <div class="faq-q-row">
-            <div class="faq-q-mark">Q</div>
-            <div class="faq-q-text">{f.question}</div>
-            <div class="faq-q-arrow">▼</div>
-          </div>
-          <div class="faq-a-row">
+    <div class="faq-grid grid md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+      {
+        featured.map((f, i) => (
+          <details class={`faq-item ${i === 0 ? "open" : ""}`} data-category={f.category} open={i === 0}>
+            <summary class="faq-q-row">
+              <div class="faq-q-mark">Q</div>
+              <div class="faq-q-text">{f.question}</div>
+              <div class="faq-q-arrow">▼</div>
+            </summary>
             <div class="faq-a-content">
               <div class="faq-a-mark">A</div>
               <div class="faq-a-text">{f.answer}</div>
             </div>
-          </div>
-        </div>
-      ))
-    }
-  </div>
-
-  <div class="faq-bottom">
-    <div>
-      <h4>解決しないお困りごとはありませんか？</h4>
-      <p>こちらに掲載していないご質問・ご相談もお気軽にお問い合わせください。</p>
+          </details>
+        ))
+      }
     </div>
-    <a href="/faq" class="btn"><Icon name="clipboard" size={16} /> すべてのFAQを見る →</a>
+
+    <div class="faq-bottom">
+      <div>
+        <h4>解決しないお困りごとはありませんか？</h4>
+        <p>こちらに掲載していないご質問・ご相談もお気軽にお問い合わせください。</p>
+      </div>
+      <a href="/faq" class="btn">
+        <Icon name="clipboard" size={16} /> すべてのFAQを見る →
+      </a>
+    </div>
   </div>
 </section>
 
 <style>
-  .faq-section {
-    padding: 96px 24px;
-    background: linear-gradient(180deg, #FFF 0%, #F5FBFD 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  @media (min-width: 768px) {
-    .faq-section { padding: 120px 24px; }
-  }
-  .faq-section::before {
-    content: "?";
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    font-size: 360px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 900;
-    color: #E8F5F9;
-    line-height: 1;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-  .faq-section::after {
-    content: "?";
-    position: absolute;
-    bottom: 8%;
-    left: 4%;
-    font-size: 220px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 900;
-    color: #E8F5F9;
-    line-height: 1;
-    pointer-events: none;
-    opacity: 0.4;
-  }
-  @media (max-width: 768px) {
-    .faq-section::before, .faq-section::after { display: none; }
-  }
-
   .faq-cats {
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
   }
   .faq-cat {
     padding: 10px 22px;
@@ -142,47 +103,43 @@ const cats = [
     border-color: #1E88B0;
   }
 
-  .faq-list-wrap {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
   .faq-item {
     background: #FFF;
     border: 1px solid #E1E8F0;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    border-radius: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
     overflow: hidden;
   }
   .faq-item:hover {
     border-color: #78C8E0;
-    box-shadow: 0 2px 8px rgba(30, 136, 176, 0.08);
   }
-  .faq-item.open {
+  .faq-item[open] {
     border-color: #1E88B0;
-    box-shadow: 0 8px 24px rgba(30, 136, 176, 0.10);
+    box-shadow: 0 4px 12px rgba(30, 136, 176, 0.08);
   }
   .faq-q-row {
-    padding: 20px 24px;
+    padding: 18px 20px;
     cursor: pointer;
     display: flex;
-    gap: 14px;
+    gap: 12px;
     align-items: flex-start;
     user-select: none;
+    list-style: none;
+  }
+  .faq-q-row::-webkit-details-marker {
+    display: none;
   }
   .faq-q-mark {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: #1E88B0;
     color: #FFF;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
     font-family: "Montserrat", sans-serif;
     font-weight: 900;
   }
@@ -190,77 +147,67 @@ const cats = [
     flex: 1;
     font-weight: 700;
     color: #1E88B0;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.55;
     padding-top: 4px;
   }
   .faq-q-arrow {
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #F7FAFC;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #6B7A8F;
-    font-size: 11px;
+    font-size: 10px;
     transition: transform 0.3s, background 0.3s, color 0.3s;
   }
-  .faq-item.open .faq-q-arrow {
+  .faq-item[open] .faq-q-arrow {
     background: #FF7A45;
     color: #FFF;
     transform: rotate(180deg);
   }
-  .faq-a-row {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  .faq-item.open .faq-a-row {
-    max-height: 400px;
-  }
   .faq-a-content {
     display: flex;
-    gap: 14px;
-    padding: 0 24px 22px 24px;
+    gap: 12px;
+    padding: 0 20px 18px 20px;
     align-items: flex-start;
   }
   .faq-a-mark {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: #FF7A45;
     color: #FFF;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
     font-family: "Montserrat", sans-serif;
     font-weight: 900;
   }
   .faq-a-text {
     flex: 1;
     color: #3F4E63;
-    font-size: 14px;
-    line-height: 1.9;
+    font-size: 13px;
+    line-height: 1.85;
   }
 
   .faq-bottom {
     max-width: 900px;
-    margin: 48px auto 0;
-    padding: 32px 40px;
+    margin: 40px auto 0;
+    padding: 28px 32px;
     background: linear-gradient(135deg, #1E88B0, #4FB0CE);
     color: #FFF;
-    border-radius: 28px;
+    border-radius: 24px;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 24px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 16px 48px rgba(30, 136, 176, 0.14);
+    box-shadow: 0 12px 36px rgba(30, 136, 176, 0.18);
   }
   @media (max-width: 768px) {
     .faq-bottom {
@@ -270,7 +217,7 @@ const cats = [
     }
   }
   .faq-bottom h4 {
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: 4px;
     font-weight: 700;
   }
@@ -285,16 +232,15 @@ const cats = [
     gap: 6px;
     background: #FFF;
     color: #1E88B0;
-    padding: 14px 28px;
+    padding: 13px 24px;
     border-radius: 999px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     transition: all 0.25s;
     white-space: nowrap;
   }
   .faq-bottom .btn:hover {
     background: #FFEB3B;
-    transform: translateY(-2px);
   }
 </style>
 
@@ -312,10 +258,5 @@ const cats = [
         it.style.display = show ? "" : "none";
       });
     });
-  });
-
-  items.forEach((it) => {
-    const row = it.querySelector(".faq-q-row");
-    row?.addEventListener("click", () => it.classList.toggle("open"));
   });
 </script>

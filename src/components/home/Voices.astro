@@ -7,6 +7,7 @@ const voices = [
     rating: 5,
     body: "エアコンの中がこんなに汚れているとは思いませんでした。完全分解で見違えるようにキレイに。栗田さんの丁寧な対応に感動しました。",
     service: "エアコンクリーニング",
+    avatarBg: "linear-gradient(135deg, #4FC3F7, #1E88B0)",
   },
   {
     initial: "T",
@@ -15,6 +16,7 @@ const voices = [
     rating: 5,
     body: "時間通りに来ていただき、養生もしっかり、価格も明朗で安心できました。お風呂もエプロン内部まで開けて洗ってもらえて、満足です。",
     service: "お風呂クリーニング",
+    avatarBg: "linear-gradient(135deg, #FFB088, #FF7A45)",
   },
   {
     initial: "A",
@@ -23,49 +25,78 @@ const voices = [
     rating: 4,
     body: "説明がわかりやすく、こちらの質問にも丁寧に答えてくれました。換気扇の油汚れがピカピカになって本当にうれしいです。",
     service: "キッチン・換気扇",
+    avatarBg: "linear-gradient(135deg, #81C784, #2E7D32)",
   },
 ];
 ---
 
-<section id="voices" class="py-24 md:py-32 px-6 bg-bg-soft">
+<section id="voices" class="py-20 md:py-24 px-6 bg-bg-soft">
   <div class="max-w-[1240px] mx-auto">
     <div class="text-center mb-12">
       <span class="label-en">CUSTOMER VOICES</span>
       <h2 class="section-h2 mt-2">
         お客様の<span class="accent">ありがとう</span>
       </h2>
+      <p class="text-muted mt-4 text-sm">
+        Google ビジネスプロフィールの実際のクチコミより抜粋
+      </p>
     </div>
 
-    <div class="voices-rating">
-      <div class="voices-rating-num">4.8</div>
-      <div class="voices-rating-info">
-        <div class="voices-rating-stars">★★★★★</div>
-        <div class="voices-rating-count">クチコミ多数 ／ 5.0 満点</div>
-        <a href="#" class="voices-rating-google">
-          oogle ビジネスプロフィール
+    {/* Google-style review summary */}
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm p-7 md:p-8 mb-12 border border-line-soft">
+      <div class="flex items-center gap-5 flex-wrap">
+        <div class="flex items-center gap-2">
+          <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+            <path fill="#4285F4" d="M22.5 12.27c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.15-4.53H2.17v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.85 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.17C1.43 8.55 1 10.22 1 12s.43 3.45 1.17 4.93l3.68-2.83z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.17 7.07l3.68 2.84C6.71 7.31 9.14 5.38 12 5.38z"/>
+          </svg>
+          <span class="font-bold text-text">Google</span>
+        </div>
+        <div class="h-10 w-px bg-line"></div>
+        <div class="flex items-center gap-3">
+          <span class="num-mont text-[44px] text-text font-bold leading-none">4.8</span>
+          <div>
+            <div class="text-gold text-base tracking-wider leading-none">★★★★★</div>
+            <div class="text-xs text-muted mt-1.5">5.0 満点中</div>
+          </div>
+        </div>
+        <a href="#" class="ml-auto text-sm font-bold text-[#4285F4] hover:underline">
+          すべてのクチコミを見る →
         </a>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-7">
+    <div class="grid md:grid-cols-3 gap-6">
       {
         voices.map((v) => (
-          <article class="voice-card">
-            <div class="voice-head">
-              <div class="voice-avatar">{v.initial}</div>
-              <div>
-                <div class="voice-name">{v.name}</div>
-                <div class="voice-date">{v.date}</div>
+          <article class="bg-white rounded-2xl p-6 border border-line-soft hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-3 mb-4">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center text-white font-extrabold text-sm shrink-0"
+                style={`background: ${v.avatarBg};`}
+              >
+                {v.initial}
               </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-bold text-text text-sm">{v.name}</div>
+                <div class="text-[11px] text-muted">ローカルガイド · {v.date}</div>
+              </div>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="shrink-0">
+                <path fill="#4285F4" d="M22.5 12.27c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.15-4.53H2.17v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.85 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.17C1.43 8.55 1 10.22 1 12s.43 3.45 1.17 4.93l3.68-2.83z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.17 7.07l3.68 2.84C6.71 7.31 9.14 5.38 12 5.38z"/>
+              </svg>
             </div>
-            <div class="voice-stars">
+            <div class="text-gold text-sm tracking-wider mb-3">
               {"★".repeat(v.rating)}
               <span style="color: #E1E8F0;">{"★".repeat(5 - v.rating)}</span>
             </div>
-            <p class="voice-text">{v.body}</p>
-            <div class="voice-meta">
-              <span>{v.service}</span>
-              <span class="voice-google">Google</span>
+            <p class="text-text-soft text-sm leading-[1.85]">{v.body}</p>
+            <div class="mt-4 pt-3 border-t border-line-soft text-xs text-muted">
+              依頼内容: <span class="font-bold text-navy">{v.service}</span>
             </div>
           </article>
         ))
@@ -73,139 +104,3 @@ const voices = [
     </div>
   </div>
 </section>
-
-<style>
-  .voices-rating {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    margin: 0 auto 56px;
-    padding: 32px 40px;
-    background: #FFF;
-    border-radius: 28px;
-    max-width: 600px;
-    box-shadow: 0 2px 8px rgba(30, 136, 176, 0.08);
-    flex-wrap: wrap;
-  }
-  .voices-rating-num {
-    font-family: "Montserrat", sans-serif;
-    font-size: 72px;
-    font-weight: 700;
-    color: #FF7A45;
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .voices-rating-info {
-    line-height: 1.6;
-  }
-  .voices-rating-stars {
-    color: #FFC107;
-    font-size: 26px;
-    letter-spacing: 4px;
-    margin-bottom: 4px;
-    text-shadow: 0 1px 3px rgba(255, 193, 7, 0.30);
-  }
-  .voices-rating-count {
-    color: #6B7A8F;
-    font-size: 14px;
-  }
-  .voices-rating-google {
-    color: #4285F4;
-    font-weight: 700;
-    font-size: 13px;
-    margin-top: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .voices-rating-google::before {
-    content: "G";
-    width: 16px;
-    height: 16px;
-    background: #4285F4;
-    color: #FFF;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 900;
-  }
-  .voice-card {
-    background: #FFF;
-    padding: 32px;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(30, 136, 176, 0.08);
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s;
-  }
-  .voice-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(30, 136, 176, 0.10);
-  }
-  .voice-card::before {
-    content: "“";
-    position: absolute;
-    top: -8px;
-    left: 24px;
-    font-size: 90px;
-    color: #C2E5EF;
-    font-family: Georgia, serif;
-    line-height: 1;
-    pointer-events: none;
-  }
-  .voice-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-    position: relative;
-  }
-  .voice-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #E8F5F9, #78C8E0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFF;
-    font-weight: 900;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(120, 200, 224, 0.40);
-  }
-  .voice-name {
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .voice-date {
-    font-size: 11px;
-    color: #6B7A8F;
-  }
-  .voice-stars {
-    color: #FFC107;
-    font-size: 16px;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-  }
-  .voice-text {
-    font-size: 14px;
-    color: #3F4E63;
-    line-height: 1.9;
-  }
-  .voice-meta {
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid #E1E8F0;
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #6B7A8F;
-    align-items: center;
-  }
-  .voice-google {
-    color: #4285F4;
-    font-weight: 700;
-  }
-</style>
