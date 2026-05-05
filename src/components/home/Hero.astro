@@ -135,7 +135,7 @@ const hasCampaigns = campaigns.length > 0;
     display: flex;
     gap: 24px;
     padding: 0 8vw;
-    transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
   }
   .slide {
     flex: 0 0 84vw;
@@ -219,7 +219,7 @@ const hasCampaigns = campaigns.length > 0;
 </style>
 
 <script>
-  const track = document.getElementById("slidesTrack");
+  const track = document.getElementById("slidesTrack") as HTMLElement | null;
   const realSlides = Array.from(document.querySelectorAll<HTMLElement>(".slide"));
   const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
   const prevBtn = document.getElementById("prevBtn");
@@ -228,11 +228,11 @@ const hasCampaigns = campaigns.length > 0;
   const noticeText = document.getElementById("noticeText");
   const noticeLink = document.getElementById("noticeLink") as HTMLAnchorElement | null;
   const total = realSlides.length;
-  let cur = 0; // logical index 0..total-1
-  let pos = total > 1 ? 1 : 0; // physical index in track (with clones)
+  let cur = 0;
+  let pos = total > 1 ? 1 : 0;
   let animating = false;
   let timer: ReturnType<typeof setInterval> | null = null;
-  const transition = "transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1)";
+  const TRANSITION = "transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1)";
 
   // Insert clones for infinite loop
   if (track && total > 1) {
@@ -246,19 +246,24 @@ const hasCampaigns = campaigns.length > 0;
     track.insertBefore(lastClone, track.firstChild);
   }
 
-  const allSlides = track ? Array.from(track.querySelectorAll<HTMLElement>(".slide")) : [];
+  const allSlides: HTMLElement[] = track
+    ? Array.from(track.querySelectorAll<HTMLElement>(".slide"))
+    : [];
 
-  function getSlideWidth() {
+  function getSlotWidth(): number {
     const first = allSlides[0];
-    if (!first) return window.innerWidth * 0.84 + 24;
-    const rect = first.getBoundingClientRect();
-    return rect.width + 24; // slide width + flex gap
+    if (!first) return 0;
+    return first.offsetWidth + 24;
   }
 
-  function applyPos(animate = true) {
+  function setTransform(px: number, animate: boolean) {
     if (!track) return;
-    track.style.transition = animate ? transition : "none";
-    track.style.transform = `translateX(${-pos * getSlideWidth()}px)`;
+    track.style.transition = animate ? TRANSITION : "none";
+    track.style.transform = `translate3d(${px}px, 0, 0)`;
+  }
+
+  function applyPos(animate: boolean) {
+    setTransform(-pos * getSlotWidth(), animate);
   }
 
   function setActive() {
@@ -290,6 +295,22 @@ const hasCampaigns = campaigns.length > 0;
     }
   }
 
+  function snapBackIfNeeded() {
+    if (total <= 1 || !track) return;
+    if (pos === 0) {
+      pos = total;
+    } else if (pos === total + 1) {
+      pos = 1;
+    } else {
+      return;
+    }
+    // Disable transition, set transform, force reflow, then re-enable
+    track.style.transition = "none";
+    track.style.transform = `translate3d(${-pos * getSlotWidth()}px, 0, 0)`;
+    // Force reflow
+    void track.offsetHeight;
+  }
+
   function next() {
     if (animating || total <= 1) return;
     animating = true;
@@ -309,7 +330,7 @@ const hasCampaigns = campaigns.length > 0;
   }
 
   function jumpTo(i: number) {
-    if (animating || total <= 1) return;
+    if (animating || total <= 1 || i === cur) return;
     animating = true;
     cur = i;
     pos = i + 1;
@@ -318,16 +339,12 @@ const hasCampaigns = campaigns.length > 0;
   }
 
   if (track) {
-    track.addEventListener("transitionend", () => {
+    track.addEventListener("transitionend", (e) => {
+      // Only handle transform end, ignore other properties
+      if (e.target !== track) return;
+      if ((e as TransitionEvent).propertyName !== "transform") return;
       animating = false;
-      // If we slid onto a clone, snap to the real slide without animation
-      if (pos === 0) {
-        pos = total;
-        applyPos(false);
-      } else if (pos === total + 1) {
-        pos = 1;
-        applyPos(false);
-      }
+      snapBackIfNeeded();
     });
   }
 
@@ -342,8 +359,18 @@ const hasCampaigns = campaigns.length > 0;
   nextBtn?.addEventListener("click", () => { next(); startTimer(); });
   window.addEventListener("resize", () => applyPos(false));
 
-  // initial
-  applyPos(false);
-  setActive();
-  startTimer();
+  // initial layout: wait for first image so width is correct
+  function init() {
+    applyPos(false);
+    setActive();
+    startTimer();
+  }
+
+  const firstImg = track?.querySelector<HTMLImageElement>("img");
+  if (firstImg && !firstImg.complete) {
+    firstImg.addEventListener("load", () => applyPos(false), { once: true });
+  }
+  // Run twice: once now, once after a frame to let layout settle
+  init();
+  requestAnimationFrame(() => applyPos(false));
 </script>
