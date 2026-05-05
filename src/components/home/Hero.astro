@@ -7,7 +7,7 @@ const hasCampaigns = campaigns.length > 0;
 
 {
   hasCampaigns ? (
-    <section class="relative overflow-hidden bg-sky-mist">
+    <section class="overflow-hidden bg-sky-mist">
       <div class="relative" id="heroSlider">
         {campaigns.map((c, i) => {
           const inner = (
@@ -37,20 +37,20 @@ const hasCampaigns = campaigns.length > 0;
             </div>
           );
         })}
-      </div>
 
-      {campaigns.length > 1 && (
-        <div class="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {campaigns.map((_, i) => (
-            <button
-              type="button"
-              class={`hero-dot w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? "bg-navy w-8" : "bg-white shadow"}`}
-              data-index={i}
-              aria-label={`スライド ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
+        {campaigns.length > 1 && (
+          <div class="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {campaigns.map((_, i) => (
+              <button
+                type="button"
+                class={`hero-dot w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? "bg-navy w-8" : "bg-white/80 shadow"}`}
+                data-index={i}
+                aria-label={`スライド ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       <div class="bg-white py-6 md:py-8 border-t border-line-soft">
         <div class="max-w-5xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row gap-3 justify-center">
