@@ -9,12 +9,14 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  showNotice?: boolean;
 }
 
 const {
   title = "CLEAN×CLEAN 津中央店｜三重県のハウスクリーニング",
   description = "三重県津市・松阪市・鈴鹿市を中心に対応。エアコン・お風呂・キッチン換気扇・水回りのハウスクリーニングなら、店主が直接施工するCLEAN×CLEAN津中央店へ。損害保険加入済で安心。",
   ogImage = "/og-image.png",
+  showNotice = false,
 } = Astro.props;
 
 const siteUrl = "https://cleanclean-mie.jp";
@@ -49,7 +51,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
     />
   </head>
   <body class="pb-20 md:pb-0">
-    <Notice />
+    {showNotice && <Notice />}
     <Header />
     <main>
       <slot />

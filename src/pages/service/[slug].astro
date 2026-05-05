@@ -25,11 +25,11 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
 ---
 
 <Layout title={title} description={description}>
-  {/* Hero: image with mask-image fade (no overlay = no seam) */}
+  {/* Hero: PC = image with mask fade (no seam) / SP = stacked image-then-text */}
   <section class="relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
-    <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>
+    <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none hidden md:block" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>
 
-    {/* Image: positioned right, faded into background via mask */}
+    {/* PC: Image positioned right, faded into background via mask */}
     <img
       src={`/assets/services/${category.slug}-hero.png`}
       alt=""
@@ -37,16 +37,19 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
       loading="eager"
       fetchpriority="high"
     />
-    {/* Mobile: image at bottom area, also masked */}
-    <img
-      src={`/assets/services/${category.slug}-hero.png`}
-      alt=""
-      class="hero-image-sp md:hidden absolute top-0 left-0 right-0 w-full h-full object-cover z-0"
-      loading="eager"
-      fetchpriority="high"
-    />
 
-    <div class="relative z-[1] py-14 md:py-24 px-5 md:px-6">
+    {/* SP: Image stacked on top with rounded bottom, text below on solid background */}
+    <div class="md:hidden">
+      <img
+        src={`/assets/services/${category.slug}-hero.png`}
+        alt=""
+        class="w-full aspect-[3/2] object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="relative z-[1] pt-8 pb-14 md:py-24 px-5 md:px-6">
       <div class="max-w-6xl mx-auto">
         <div class="md:max-w-[55%]">
           <nav class="text-xs text-text-soft mb-4">
@@ -122,9 +125,9 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
             ))}
           </div>
           <div class="mt-10 text-center">
-            <p class="inline-flex items-center gap-2 text-sm md:text-base text-navy font-bold bg-sky-pale px-5 py-3 rounded-full">
+            <p class="inline-flex flex-col sm:flex-row items-center gap-2 text-sm md:text-base text-navy font-bold bg-sky-pale px-5 py-3 rounded-2xl sm:rounded-full">
               ひとつでも当てはまる方
-              <span class="text-accent">▶</span>
+              <span class="text-accent text-xl leading-none">▼</span>
               プロの分解洗浄がおすすめです
             </p>
           </div>
@@ -363,10 +366,6 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     width: 65%;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
     mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
-  }
-  .hero-image-sp {
-    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
   }
   .svc-faq-item {
     background: #FFF;
