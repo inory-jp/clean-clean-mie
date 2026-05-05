@@ -139,7 +139,6 @@ const hasCampaigns = campaigns.length > 0;
   }
   .slide {
     flex: 0 0 84vw;
-    aspect-ratio: 16 / 7;
     border-radius: 28px;
     box-shadow: 0 24px 80px rgba(30, 136, 176, 0.18);
     overflow: hidden;
@@ -153,9 +152,16 @@ const hasCampaigns = campaigns.length > 0;
     transform: scale(1);
     opacity: 1;
   }
+  .slide picture,
+  .slide a {
+    display: block;
+    width: 100%;
+    line-height: 0;
+  }
   .slide img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    display: block;
     object-fit: cover;
   }
   .slider-arrow {
@@ -243,7 +249,10 @@ const hasCampaigns = campaigns.length > 0;
   const allSlides = track ? Array.from(track.querySelectorAll<HTMLElement>(".slide")) : [];
 
   function getSlideWidth() {
-    return window.innerWidth * 0.84 + 24;
+    const first = allSlides[0];
+    if (!first) return window.innerWidth * 0.84 + 24;
+    const rect = first.getBoundingClientRect();
+    return rect.width + 24; // slide width + flex gap
   }
 
   function applyPos(animate = true) {
