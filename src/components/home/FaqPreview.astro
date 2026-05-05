@@ -13,7 +13,7 @@ const cats = [
 ];
 ---
 
-<section class="py-20 md:py-24 px-6 bg-white">
+<section class="py-16 md:py-24 px-5 md:px-6 bg-white">
   <div class="max-w-[1240px] mx-auto">
     <div class="text-center mb-10">
       <span class="label-en">FAQ</span>
@@ -73,25 +73,35 @@ const cats = [
 <style>
   .faq-cats {
     display: flex;
-    gap: 10px;
+    gap: 6px;
     justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     flex-wrap: wrap;
   }
+  @media (min-width: 768px) {
+    .faq-cats { gap: 10px; margin-bottom: 32px; }
+  }
   .faq-cat {
-    padding: 10px 22px;
+    padding: 8px 14px;
     border: 2px solid #E1E8F0;
     border-radius: 999px;
     background: #FFF;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #6B7A8F;
     transition: all 0.25s;
     font-family: inherit;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+  }
+  @media (min-width: 768px) {
+    .faq-cat {
+      padding: 10px 22px;
+      font-size: 13px;
+      gap: 8px;
+    }
   }
   .faq-cat:hover {
     border-color: #78C8E0;
