@@ -38,6 +38,15 @@ const services = [
     price: "9,680",
     features: ["トイレ", "洗面所", "洗濯機", "窓ガラス"],
   },
+  {
+    href: "/service/akiya",
+    image: "/assets/services/akiya-hero.png",
+    name: "空き家管理事業",
+    meta: "宅建士が、ご実家・遠方の不動産を見守ります。",
+    tag: "宅建士対応",
+    price: "5,500",
+    features: ["定期巡回", "庭木管理", "不要品回収", "売却相談"],
+  },
 ];
 
 const featured = services[0];
@@ -56,11 +65,11 @@ const others = services.slice(1);
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-7">
-      {/* Featured (1st card, takes 2 columns on desktop) */}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+      {/* Featured (1st card, full width on md, 2x2 on lg) */}
       <a
         href={featured.href}
-        class="service-card lg:col-span-2 lg:row-span-2 group bg-white rounded-[28px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow flex flex-col cursor-pointer relative"
+        class="service-card md:col-span-2 lg:col-span-2 lg:row-span-2 group bg-white rounded-[28px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow flex flex-col cursor-pointer relative"
       >
         <div class="absolute top-6 left-6 z-[2]">
           <span class="bg-accent text-white px-4 py-2 rounded-full text-xs font-extrabold tracking-wider shadow-md">
