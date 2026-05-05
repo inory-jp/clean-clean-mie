@@ -61,10 +61,28 @@ const cats = [
       }
     </div>
 
-    <div class="faq-grid grid md:grid-cols-2 gap-3 md:gap-4 max-w-5xl mx-auto mt-10">
-      {
-        faqs.map((f, i) => (
-          <details class="faq-item" data-category={f.category} open={i === 0}>
+    <div class="faq-grid grid md:grid-cols-2 gap-3 md:gap-4 max-w-5xl mx-auto mt-10 items-start">
+      <div class="space-y-3 md:space-y-4">
+        {faqs.filter((_, i) => i % 2 === 0).map((f, idx) => {
+          const i = idx * 2;
+          return (
+            <details class="faq-item" data-category={f.category} open={i === 0}>
+              <summary class="faq-q-row">
+                <div class="faq-q-mark">Q</div>
+                <div class="faq-q-text">{f.question}</div>
+                <div class="faq-q-arrow">▼</div>
+              </summary>
+              <div class="faq-a-content">
+                <div class="faq-a-mark">A</div>
+                <div class="faq-a-text">{f.answer}</div>
+              </div>
+            </details>
+          );
+        })}
+      </div>
+      <div class="space-y-3 md:space-y-4">
+        {faqs.filter((_, i) => i % 2 === 1).map((f) => (
+          <details class="faq-item" data-category={f.category}>
             <summary class="faq-q-row">
               <div class="faq-q-mark">Q</div>
               <div class="faq-q-text">{f.question}</div>
@@ -75,8 +93,8 @@ const cats = [
               <div class="faq-a-text">{f.answer}</div>
             </div>
           </details>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </section>
 
