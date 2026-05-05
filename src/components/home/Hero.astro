@@ -6,7 +6,7 @@ const campaigns = await getActiveCampaigns();
 const hasCampaigns = campaigns.length > 0;
 ---
 
-<section class="hero relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%); padding: 32px 0 64px;">
+<section class="hero relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%); padding: 16px 0 48px;">
   <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
   <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
   <div class="hero-bubble b1" aria-hidden="true"></div>
@@ -378,6 +378,51 @@ const hasCampaigns = campaigns.length > 0;
   prevBtn?.addEventListener("click", () => { prev(); startTimer(); });
   nextBtn?.addEventListener("click", () => { next(); startTimer(); });
   window.addEventListener("resize", () => applyPos(false));
+
+  // Touch / swipe support for mobile
+  if (track && total > 1) {
+    let startX = 0;
+    let startY = 0;
+    let dragging = false;
+    let dragX = 0;
+    const SWIPE_THRESHOLD = 50; // px to trigger swipe
+
+    track.addEventListener("touchstart", (e) => {
+      if (animating) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      dragging = true;
+      dragX = 0;
+    }, { passive: true });
+
+    track.addEventListener("touchmove", (e) => {
+      if (!dragging) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      // If vertical scroll dominates, abort swipe
+      if (Math.abs(dy) > Math.abs(dx)) {
+        dragging = false;
+        return;
+      }
+      dragX = dx;
+      // Live drag feedback (no animation)
+      track.style.transition = "none";
+      track.style.transform = `translate3d(${-pos * getSlotWidth() + dx}px, 0, 0)`;
+    }, { passive: true });
+
+    track.addEventListener("touchend", () => {
+      if (!dragging) return;
+      dragging = false;
+      if (Math.abs(dragX) > SWIPE_THRESHOLD) {
+        if (dragX < 0) next();
+        else prev();
+      } else {
+        // Snap back
+        applyPos(true);
+      }
+      startTimer();
+    });
+  }
 
   // initial layout: wait for first image so width is correct
   function init() {
