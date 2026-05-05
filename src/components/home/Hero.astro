@@ -32,6 +32,8 @@ const hasCampaigns = campaigns.length > 0;
             <div
               class={`hero-slide ${i === 0 ? "active" : ""} transition-opacity duration-700`}
               data-index={i}
+              data-notice-text={c.notice_text || ""}
+              data-notice-link={c.link_url || ""}
             >
               {c.link_url ? <a href={c.link_url}>{inner}</a> : inner}
             </div>
@@ -119,19 +121,48 @@ const hasCampaigns = campaigns.length > 0;
 <script>
   const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
   const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
+  const noticeBar = document.getElementById("noticeBar");
+  const noticeText = document.getElementById("noticeText");
+  const noticeLink = document.getElementById("noticeLink") as HTMLAnchorElement | null;
   let cur = 0;
+
+  function syncNotice(slide: HTMLElement) {
+    if (!noticeBar || !noticeText) return;
+    const text = slide.dataset.noticeText || "";
+    const link = slide.dataset.noticeLink || "";
+    if (text.trim().length === 0) {
+      noticeBar.style.display = "none";
+      return;
+    }
+    noticeBar.style.display = "";
+    noticeText.textContent = text;
+    if (noticeLink) {
+      if (link) {
+        noticeLink.setAttribute("href", link);
+        noticeLink.style.pointerEvents = "auto";
+        noticeLink.style.textDecoration = "underline";
+      } else {
+        noticeLink.removeAttribute("href");
+        noticeLink.style.pointerEvents = "none";
+        noticeLink.style.textDecoration = "none";
+      }
+    }
+  }
 
   function show(i: number) {
     slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
     dots.forEach((d, idx) => {
       d.classList.toggle("bg-navy", idx === i);
       d.classList.toggle("w-8", idx === i);
-      d.classList.toggle("bg-white", idx !== i);
+      d.classList.toggle("bg-white/80", idx !== i);
     });
     cur = i;
+    if (slides[i]) syncNotice(slides[i]);
   }
 
   dots.forEach((d, i) => d.addEventListener("click", () => show(i)));
+
+  if (slides[0]) syncNotice(slides[0]);
 
   if (slides.length > 1) {
     setInterval(() => show((cur + 1) % slides.length), 6000);
