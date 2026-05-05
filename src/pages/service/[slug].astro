@@ -22,9 +22,43 @@ const serviceFaqs: { q: string; a: string }[] = cat.service_faqs ?? [];
 
 const title = `${category.name}｜CLEAN×CLEAN 津中央店`;
 const description = `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: category.name,
+  description: category.lead,
+  provider: { "@id": "https://cleanclean-mie.jp/#business" },
+  areaServed: { "@type": "AdministrativeArea", name: "三重県" },
+  offers: category.menus
+    .filter((m: any) => m.published && m.price != null)
+    .map((m: any) => ({
+      "@type": "Offer",
+      name: m.name,
+      price: m.price,
+      priceCurrency: "JPY",
+      description: m.description,
+    })),
+};
+
+const faqSchema = serviceFaqs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: serviceFaqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    }
+  : null;
 ---
 
 <Layout title={title} description={description}>
+  <Fragment slot="schema">
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  </Fragment>
   {/* Hero: PC = image with mask fade (no seam) / SP = stacked image-then-text */}
   <section class="relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
     <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none hidden md:block" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>

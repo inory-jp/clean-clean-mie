@@ -1,0 +1,54 @@
+---
+import site from "../data/site.json";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "@id": "https://cleanclean-mie.jp/#business",
+  name: site.business_name,
+  alternateName: "CLEAN×CLEAN 津中央店",
+  description:
+    "三重県津市・松阪市・鈴鹿市を中心に対応するハウスクリーニング店。エアコン・お風呂・キッチン換気扇・水まわりの分解洗浄、空き家管理を提供。店主が直接施工、損害保険完備。",
+  url: "https://cleanclean-mie.jp",
+  logo: "https://cleanclean-mie.jp/assets/logo.png",
+  image: "https://cleanclean-mie.jp/assets/services/aircon-hero.png",
+  telephone: site.tel,
+  email: site.email,
+  priceRange: "¥¥",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.address.replace("三重県", ""),
+    addressLocality: "津市",
+    addressRegion: "三重県",
+    postalCode: site.postal_code,
+    addressCountry: "JP",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 34.7184,
+    longitude: 136.5050,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+  ],
+  areaServed: [
+    { "@type": "City", name: "津市" },
+    { "@type": "City", name: "松阪市" },
+    { "@type": "City", name: "鈴鹿市" },
+    { "@type": "AdministrativeArea", name: "三重県" },
+  ],
+  founder: {
+    "@type": "Person",
+    name: site.representative,
+    jobTitle: "代表 / 宅地建物取引士",
+  },
+  sameAs: [],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

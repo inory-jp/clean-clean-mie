@@ -5,6 +5,16 @@ import PageCTA from "../components/PageCTA.astro";
 import Icon from "../components/Icon.astro";
 import faqs from "../data/faqs.json";
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
 const cats = [
   { id: "", label: "すべて", icon: "clipboard" },
   { id: "料金", label: "料金", icon: "money" },
@@ -19,6 +29,10 @@ const cats = [
   title="よくある質問｜CLEAN×CLEAN 津中央店"
   description="CLEAN×CLEAN 津中央店へよくいただくご質問と回答。料金・作業内容・お申込み・お支払いについて、事前に知っておきたいポイントをまとめています。"
 >
+  <Fragment slot="schema">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <PageHero
     label="FAQ"
     title="よくあるご質問"
