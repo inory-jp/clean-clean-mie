@@ -1,23 +1,42 @@
 ---
 const items = [
-  { icon: "🛡", strong: "損害保険完備", muted: "万一の事故も補償" },
-  { icon: "👨‍🔧", strong: "店主直接施工", muted: "下請けに出しません" },
-  { icon: "📍", strong: "三重県全域対応", muted: "津・松阪・鈴鹿ほか" },
-  { icon: "💴", strong: "明朗会計", muted: "掲載料金は確定料金" },
+  {
+    svg: '<path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4zm-1.4 14.6L6 11l1.4-1.4 3.2 3.2 6-6L18 8.2l-7.4 7.4z"/>',
+    strong: "損害保険完備",
+    muted: "万一の事故も補償",
+  },
+  {
+    svg: '<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>',
+    strong: "店主直接施工",
+    muted: "下請けに出しません",
+  },
+  {
+    svg: '<path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>',
+    strong: "三重県全域対応",
+    muted: "津・松阪・鈴鹿ほか",
+  },
+  {
+    svg: '<path d="M19 7h-3V5a4 4 0 0 0-8 0v2H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM10 5a2 2 0 0 1 4 0v2h-4V5zm1 10.6L7.4 12 8.8 10.6 11 12.8l4.2-4.2 1.4 1.4-5.6 5.6z"/>',
+    strong: "明朗会計",
+    muted: "掲載料金は確定料金",
+  },
 ];
 ---
 
-<div class="bg-white border-b border-line-soft">
-  <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 grid grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+<div class="bg-white border-t border-b border-line-soft px-6 py-6">
+  <div class="max-w-[1200px] mx-auto flex justify-around items-center gap-6 flex-wrap">
     {
       items.map((it) => (
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-lg shrink-0">
-            {it.icon}
+          <div
+            class="w-11 h-11 rounded-full flex items-center justify-center shrink-0 text-navy"
+            style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF);"
+          >
+            <svg viewBox="0 0 24 24" class="w-[22px] h-[22px]" fill="currentColor" set:html={it.svg} />
           </div>
-          <div class="min-w-0">
-            <div class="font-bold text-text leading-tight">{it.strong}</div>
-            <div class="text-[11px] text-muted leading-tight">{it.muted}</div>
+          <div class="leading-tight">
+            <strong class="block text-[15px] text-navy font-bold">{it.strong}</strong>
+            <span class="text-xs text-muted">{it.muted}</span>
           </div>
         </div>
       ))

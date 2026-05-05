@@ -4,36 +4,36 @@ const steps = [
     no: "01",
     title: "お申込み・お見積もり",
     body: "フォーム・電話・LINEからお気軽にどうぞ。料金の目安をその場でご確認いただけます。",
-    icon: "📋",
     duration: "5〜10分",
+    svg: '<path d="M9 2h6c1.1 0 2 .9 2 2v1h2c1.1 0 2 .9 2 2v13c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h2V4c0-1.1.9-2 2-2zm0 2v2h6V4H9zm-2 8h10v-1.5H7V12zm0 4h10v-1.5H7V16zm0 4h7v-1.5H7V20z"/>',
   },
   {
     no: "02",
     title: "日程調整・内容確認",
     body: "栗田より折り返しご連絡。希望日時を確認のうえ、施工内容を最終調整します。",
-    icon: "📅",
     duration: "翌営業日中",
+    svg: '<path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm6 4h2v2h-2v-2zm-4 0h2v2H7v-2zm8 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm-4 0h2v2H7v-2zm8 0h2v2h-2v-2z"/>',
   },
   {
     no: "03",
     title: "当日施工",
     body: "養生・分解・高圧洗浄・組立まで一貫対応。店主が直接施工します。",
-    icon: "🧴",
     duration: "1〜4時間",
+    svg: '<path d="M14 4l7-2v2l-7 2V4zM9 2h4v4l1 3v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9l1-3h0V2h2zm0 2v2h2V4H9zm-2 7v9h6v-9l-1-3h-4l-1 3z"/>',
   },
   {
     no: "04",
     title: "仕上げ確認・ご説明",
     body: "仕上がりを一緒にご確認。気になる点や次回のお手入れもお伝えします。",
-    icon: "✨",
     duration: "10〜15分",
+    svg: '<path d="M12 2l2.6 6.4L21 10l-5 4.5 1.6 6.5L12 17.5 6.4 21 8 14.5 3 10l6.4-1.6L12 2z"/>',
   },
   {
     no: "FINISH",
     title: "お支払い・完了",
     body: "作業完了後にお支払い。現金または銀行振込が可能です。領収書も発行可。",
-    icon: "✅",
     duration: "その場で",
+    svg: '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.4 14.6L6 12l1.4-1.4 3.2 3.2 6-6L18 9.2l-7.4 7.4z"/>',
   },
 ];
 ---
@@ -55,16 +55,16 @@ const steps = [
         steps.map((s, i) => (
           <li class="bg-white rounded-[24px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all relative">
             <div
-              class="num-mont absolute -top-3 left-6 px-3 py-1 rounded-full bg-navy text-white text-[10px] font-bold shadow-sm"
-              style="letter-spacing: 0.1em;"
+              class="num-mont absolute -top-3 left-6 px-3 py-1 rounded-full bg-navy text-white text-[10px] shadow-sm"
+              style="letter-spacing: 0.1em; font-weight: 700;"
             >
               STEP {s.no}
             </div>
             <div
-              class="w-14 h-14 mt-3 mb-5 rounded-2xl flex items-center justify-center text-2xl"
+              class="w-14 h-14 mt-3 mb-5 rounded-2xl flex items-center justify-center"
               style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF); box-shadow: 0 4px 12px rgba(120,200,224,0.25);"
             >
-              {s.icon}
+              <svg viewBox="0 0 24 24" class="w-7 h-7 text-navy" fill="currentColor" set:html={s.svg} />
             </div>
             <h3 class="font-extrabold text-navy text-base leading-tight mb-2">{s.title}</h3>
             <p class="text-text-soft text-xs leading-relaxed">{s.body}</p>

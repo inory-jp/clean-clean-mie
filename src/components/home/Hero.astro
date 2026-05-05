@@ -5,96 +5,90 @@ const campaigns = await getActiveCampaigns();
 const hasCampaigns = campaigns.length > 0;
 ---
 
-{
-  hasCampaigns ? (
-    <section class="overflow-hidden bg-sky-mist">
-      <div class="relative" id="heroSlider">
-        {campaigns.map((c, i) => {
-          const inner = (
-            <picture>
-              {c.banner_image_sp && (
-                <source
-                  media="(max-width: 767px)"
-                  srcset={`${c.banner_image_sp.url}?w=750&fm=webp&q=85`}
+<section class="hero relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%); padding: 32px 0 64px;">
+  <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+  <div class="hero-bubble b1" aria-hidden="true"></div>
+  <div class="hero-bubble b2" aria-hidden="true"></div>
+  <div class="hero-bubble b3" aria-hidden="true"></div>
+
+  {
+    hasCampaigns ? (
+      <div class="relative max-w-[1400px] mx-auto px-4 md:px-8 z-[1]">
+        <div class="relative" id="heroSlider">
+          {campaigns.map((c, i) => {
+            const inner = (
+              <picture>
+                {c.banner_image_sp && (
+                  <source
+                    media="(max-width: 767px)"
+                    srcset={`${c.banner_image_sp.url}?w=750&fm=webp&q=85`}
+                  />
+                )}
+                <img
+                  src={`${c.banner_image_pc.url}?w=1920&fm=webp&q=85`}
+                  alt={c.alt_text}
+                  width={c.banner_image_pc.width}
+                  height={c.banner_image_pc.height}
+                  class="w-full h-auto block"
+                  loading={i === 0 ? "eager" : "lazy"}
                 />
-              )}
-              <img
-                src={`${c.banner_image_pc.url}?w=1920&fm=webp&q=85`}
-                alt={c.alt_text}
-                width={c.banner_image_pc.width}
-                height={c.banner_image_pc.height}
-                class="w-full h-auto block"
-                loading={i === 0 ? "eager" : "lazy"}
-              />
-            </picture>
-          );
-          return (
-            <div
-              class={`hero-slide ${i === 0 ? "active" : ""} transition-opacity duration-700`}
-              data-index={i}
-              data-notice-text={c.notice_text || ""}
-              data-notice-link={c.link_url || ""}
-            >
-              {c.link_url ? <a href={c.link_url}>{inner}</a> : inner}
-            </div>
-          );
-        })}
+              </picture>
+            );
+            return (
+              <div
+                class={`hero-slide ${i === 0 ? "active" : ""}`}
+                data-index={i}
+                data-notice-text={c.notice_text || ""}
+                data-notice-link={c.link_url || ""}
+                style="border-radius: 28px; overflow: hidden; box-shadow: 0 24px 80px rgba(30,136,176,0.18);"
+              >
+                {c.link_url ? <a href={c.link_url}>{inner}</a> : inner}
+              </div>
+            );
+          })}
+        </div>
 
         {campaigns.length > 1 && (
-          <div class="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          <div class="flex gap-2 justify-center mt-7">
             {campaigns.map((_, i) => (
               <button
                 type="button"
-                class={`hero-dot w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? "bg-navy w-8" : "bg-white/80 shadow"}`}
+                class={`hero-dot rounded-full border-0 cursor-pointer p-0 transition-all duration-300 ${i === 0 ? "active" : ""}`}
                 data-index={i}
                 aria-label={`スライド ${i + 1}`}
+                style={`width: ${i === 0 ? "36px" : "8px"}; height: 8px; background: ${i === 0 ? "#1E88B0" : "#E1E8F0"};`}
               />
             ))}
           </div>
         )}
-      </div>
 
-      <div class="bg-white py-6 md:py-8 border-t border-line-soft">
-        <div class="max-w-5xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href="/contact"
-            class="inline-flex justify-center items-center px-7 py-3.5 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
-          >
+        <div class="flex gap-4 justify-center flex-wrap mt-9">
+          <a href="/contact" class="btn-cta btn-large">
             📋 お申込み・見積もり
           </a>
-          <a
-            href="tel:0592715908"
-            class="inline-flex justify-center items-center gap-2 px-7 py-3.5 rounded-full bg-white border-2 border-navy text-navy font-bold"
-          >
+          <a href="tel:0592715908" class="btn-tel btn-large">
             📞 <span class="num-mont">059-271-5908</span>
           </a>
         </div>
       </div>
-    </section>
-  ) : (
-    <section class="relative overflow-hidden bg-gradient-to-br from-sky-mist via-sky-pale to-sky-mist">
-      <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-28 grid md:grid-cols-2 gap-8 items-center">
+    ) : (
+      <div class="relative max-w-[1240px] mx-auto px-4 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-8 items-center z-[1]">
         <div>
           <span class="label-en">HOUSE CLEANING IN MIE</span>
-          <h1 class="mt-4 text-3xl md:text-5xl font-black leading-tight text-text">
+          <h1 class="mt-4 text-4xl md:text-6xl font-black leading-[1.18] text-text" style="letter-spacing: -0.02em;">
             ありがとうの輪を、地域へ。<br />
             <span class="text-navy">三重のハウスクリーニング</span>
           </h1>
-          <p class="mt-5 text-text-soft leading-relaxed">
+          <p class="mt-6 text-text-soft leading-[1.9]">
             津市・松阪市・鈴鹿市を中心に、店主が直接施工。<br class="hidden md:inline" />
             損害保険完備で、安心して任せられるクリーニングをお届けします。
           </p>
-          <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a
-              href="/contact"
-              class="inline-flex justify-center items-center px-7 py-3.5 rounded-full bg-accent text-white font-bold shadow-orange hover:bg-accent-deep transition-colors"
-            >
+          <div class="mt-9 flex flex-col sm:flex-row gap-4">
+            <a href="/contact" class="btn-cta btn-large">
               📋 お申込み・見積もり
             </a>
-            <a
-              href="tel:0592715908"
-              class="inline-flex justify-center items-center gap-2 px-7 py-3.5 rounded-full bg-white border-2 border-navy text-navy font-bold"
-            >
+            <a href="tel:0592715908" class="btn-tel btn-large">
               📞 <span class="num-mont">059-271-5908</span>
             </a>
           </div>
@@ -105,16 +99,38 @@ const hasCampaigns = campaigns.length > 0;
           </div>
         </div>
       </div>
-    </section>
-  )
-}
+    )
+  }
+</section>
 
 <style>
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-blob-1 {
+    width: 580px;
+    height: 580px;
+    background: radial-gradient(circle, rgba(120, 200, 224, 0.30) 0%, transparent 70%);
+    top: -260px;
+    left: -200px;
+  }
+  .hero-blob-2 {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(194, 229, 239, 0.40) 0%, transparent 70%);
+    bottom: -380px;
+    right: -200px;
+  }
   .hero-slide {
     display: none;
   }
   .hero-slide.active {
     display: block;
+  }
+  .hero-dot:hover {
+    background: #78c8e0 !important;
   }
 </style>
 
@@ -152,9 +168,10 @@ const hasCampaigns = campaigns.length > 0;
   function show(i: number) {
     slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
     dots.forEach((d, idx) => {
-      d.classList.toggle("bg-navy", idx === i);
-      d.classList.toggle("w-8", idx === i);
-      d.classList.toggle("bg-white/80", idx !== i);
+      const active = idx === i;
+      d.style.width = active ? "36px" : "8px";
+      d.style.background = active ? "#1E88B0" : "#E1E8F0";
+      d.classList.toggle("active", active);
     });
     cur = i;
     if (slides[i]) syncNotice(slides[i]);
