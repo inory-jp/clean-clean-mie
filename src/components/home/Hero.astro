@@ -139,6 +139,7 @@ const hasCampaigns = campaigns.length > 0;
   }
   .slide {
     flex: 0 0 84vw;
+    aspect-ratio: 12 / 5;
     border-radius: 28px;
     box-shadow: 0 24px 80px rgba(30, 136, 176, 0.18);
     overflow: hidden;
@@ -156,13 +157,14 @@ const hasCampaigns = campaigns.length > 0;
   .slide a {
     display: block;
     width: 100%;
-    line-height: 0;
+    height: 100%;
   }
   .slide img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
+    object-position: center;
   }
   .slider-arrow {
     position: absolute;
