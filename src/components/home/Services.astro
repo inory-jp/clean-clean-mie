@@ -2,7 +2,7 @@
 const services = [
   {
     href: "/service/aircon",
-    icon: "❄",
+    image: "/assets/services/aircon.png",
     name: "エアコンクリーニング",
     tag: "★ 人気No.1",
     tagColor: "bg-accent text-white",
@@ -11,7 +11,7 @@ const services = [
   },
   {
     href: "/service/bath",
-    icon: "🛁",
+    image: "/assets/services/bath.png",
     name: "お風呂クリーニング",
     tag: "セット割対象",
     tagColor: "bg-gold text-text",
@@ -20,7 +20,7 @@ const services = [
   },
   {
     href: "/service/kitchen",
-    icon: "🍳",
+    image: "/assets/services/kitchen.png",
     name: "キッチン・換気扇",
     tag: "大掃除におすすめ",
     tagColor: "bg-navy text-white",
@@ -29,7 +29,7 @@ const services = [
   },
   {
     href: "/service/other",
-    icon: "✨",
+    image: "/assets/services/other.png",
     name: "その他クリーニング",
     tag: "幅広く対応",
     tagColor: "bg-sky-mid text-navy-deep",
@@ -56,31 +56,40 @@ const services = [
         services.map((s) => (
           <a
             href={s.href}
-            class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all border border-line-soft hover:-translate-y-1"
+            class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all border border-line-soft hover:-translate-y-1 overflow-hidden flex flex-col"
           >
-            <div class="flex items-start justify-between">
-              <div class="text-5xl">{s.icon}</div>
+            <div class="relative aspect-square bg-sky-pale overflow-hidden">
+              <img
+                src={s.image}
+                alt={s.name}
+                width="700"
+                height="700"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
               <span
-                class={`text-[10px] font-bold px-2.5 py-1 rounded-full ${s.tagColor}`}
+                class={`absolute top-3 right-3 text-[10px] font-bold px-2.5 py-1 rounded-full ${s.tagColor} shadow-sm`}
               >
                 {s.tag}
               </span>
             </div>
-            <h3 class="mt-4 text-lg font-black text-text">{s.name}</h3>
-            <div class="mt-2 flex items-baseline gap-1">
-              <span class="num-mont text-2xl text-accent-deep">{s.price}</span>
-              <span class="text-xs text-muted">税込</span>
-            </div>
-            <ul class="mt-4 space-y-1.5 text-xs text-text-soft">
-              {s.features.map((f) => (
-                <li class="flex items-center gap-1.5">
-                  <span class="text-sky">✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
-              詳しく見る →
+            <div class="p-5 flex-1 flex flex-col">
+              <h3 class="text-lg font-black text-text">{s.name}</h3>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="num-mont text-2xl text-accent-deep">{s.price}</span>
+                <span class="text-xs text-muted">税込</span>
+              </div>
+              <ul class="mt-4 space-y-1.5 text-xs text-text-soft flex-1">
+                {s.features.map((f) => (
+                  <li class="flex items-center gap-1.5">
+                    <span class="text-sky">✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
+                詳しく見る →
+              </div>
             </div>
           </a>
         ))
