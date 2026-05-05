@@ -306,11 +306,11 @@ const hasCampaigns = campaigns.length > 0;
     } else {
       return;
     }
-    // Disable transition, set transform, force reflow, then re-enable
+    // Disable transition, set transform, force reflow, re-apply active class
     track.style.transition = "none";
     track.style.transform = `translate3d(${-pos * getSlotWidth()}px, 0, 0)`;
-    // Force reflow
     void track.offsetHeight;
+    allSlides.forEach((s, i) => s.classList.toggle("active", i === pos));
   }
 
   function next() {
