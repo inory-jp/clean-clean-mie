@@ -1,0 +1,26 @@
+---
+const items = [
+  { icon: "🛡", strong: "損害保険完備", muted: "万一の事故も補償" },
+  { icon: "👨‍🔧", strong: "店主直接施工", muted: "下請けに出しません" },
+  { icon: "📍", strong: "三重県全域対応", muted: "津・松阪・鈴鹿ほか" },
+  { icon: "💴", strong: "明朗会計", muted: "掲載料金は確定料金" },
+];
+---
+
+<div class="bg-white border-b border-line-soft">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 grid grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+    {
+      items.map((it) => (
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-lg shrink-0">
+            {it.icon}
+          </div>
+          <div class="min-w-0">
+            <div class="font-bold text-text leading-tight">{it.strong}</div>
+            <div class="text-[11px] text-muted leading-tight">{it.muted}</div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

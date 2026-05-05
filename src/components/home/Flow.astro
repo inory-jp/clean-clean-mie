@@ -1,0 +1,78 @@
+---
+const steps = [
+  {
+    no: "01",
+    title: "お申込み・お見積もり",
+    body: "フォーム・電話・LINEからお気軽にどうぞ。料金の目安をその場でご確認いただけます。",
+    icon: "📋",
+    duration: "5〜10分",
+  },
+  {
+    no: "02",
+    title: "日程調整・内容確認",
+    body: "栗田より折り返しご連絡。希望日時を確認のうえ、施工内容を最終調整します。",
+    icon: "📅",
+    duration: "翌営業日中",
+  },
+  {
+    no: "03",
+    title: "当日施工",
+    body: "養生・分解・高圧洗浄・組立まで一貫対応。店主が直接施工します。",
+    icon: "🧴",
+    duration: "1〜4時間",
+  },
+  {
+    no: "04",
+    title: "仕上げ確認・ご説明",
+    body: "仕上がりを一緒にご確認。気になる点や次回のお手入れもお伝えします。",
+    icon: "✨",
+    duration: "10〜15分",
+  },
+  {
+    no: "FINISH",
+    title: "お支払い・完了",
+    body: "作業完了後にお支払い。現金または銀行振込が可能です。領収書も発行可。",
+    icon: "✅",
+    duration: "その場で",
+  },
+];
+---
+
+<section id="flow" class="bg-bg-soft py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-12">
+      <span class="label-en">SERVICE FLOW</span>
+      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
+        施工の<span class="text-navy">流れ</span>
+      </h2>
+      <p class="mt-4 text-text-soft max-w-2xl mx-auto text-sm md:text-base">
+        初めての方でも安心。シンプルな5ステップでスムーズにご利用いただけます。
+      </p>
+    </div>
+
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-3 relative">
+      {
+        steps.map((s, i) => (
+          <li class="bg-white rounded-2xl p-5 border border-line-soft hover:shadow-md transition-shadow relative">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-2xl">
+                {s.icon}
+              </div>
+              <span class="num-mont text-xs text-sky font-bold mt-2">{s.no}</span>
+            </div>
+            <h3 class="font-black text-text leading-tight">{s.title}</h3>
+            <p class="mt-2 text-xs text-text-soft leading-relaxed">{s.body}</p>
+            <div class="mt-4 inline-block bg-sky-pale text-navy-deep text-[10px] font-bold px-2.5 py-1 rounded-full">
+              ⏱ {s.duration}
+            </div>
+            {i < steps.length - 1 && (
+              <span class="hidden lg:block absolute top-1/2 -right-2 -translate-y-1/2 text-sky-light text-2xl">
+                ▶
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

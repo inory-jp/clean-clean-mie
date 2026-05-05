@@ -1,10 +1,19 @@
 ---
 const primaryAreas = ["津市", "松阪市", "鈴鹿市"];
 const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名市", "他三重県全域"];
+
+// マップ画像上のピン位置（パーセント）
+const pins = [
+  { city: "津", top: "44%", left: "55%" },
+  { city: "松阪", top: "55%", left: "52%" },
+  { city: "鈴鹿", top: "32%", left: "60%" },
+];
 ---
 
-<section id="area" class="bg-white py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
+<section id="area" class="relative bg-gradient-to-br from-white via-sky-mist to-sky-pale py-16 md:py-24 overflow-hidden">
+  <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-sky-light/30 blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 md:px-8">
     <div class="text-center mb-12">
       <span class="label-en">SERVICE AREA</span>
       <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
@@ -12,18 +21,40 @@ const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名�
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-      <div class="bg-sky-mist rounded-2xl p-6 md:p-8">
-        <img
-          src="/assets/mie-map.png"
-          alt="三重県エリアマップ"
-          class="w-full h-auto"
-        />
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 border border-line-soft">
+        <div class="relative">
+          <img
+            src="/assets/mie-map.png"
+            alt="三重県エリアマップ"
+            class="w-full h-auto"
+          />
+          {
+            pins.map((p) => (
+              <div
+                class="absolute -translate-x-1/2 -translate-y-full"
+                style={`top: ${p.top}; left: ${p.left};`}
+              >
+                <div class="relative">
+                  <span class="absolute inset-0 rounded-full bg-accent/40 animate-ping" style="width: 18px; height: 18px;"></span>
+                  <span class="relative block w-[18px] h-[18px] rounded-full bg-accent shadow-md ring-2 ring-white"></span>
+                  <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap text-[11px] font-black text-accent-deep bg-white/90 px-1.5 rounded">
+                    {p.city}
+                  </span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div class="mt-5 flex items-center gap-2 justify-center text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
+          <span class="text-muted">主要エリア（津市・松阪市・鈴鹿市）</span>
+        </div>
       </div>
 
       <div>
-        <p class="text-text-soft mb-6 leading-relaxed">
-          津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いいたします。エリア外の方もまずはお気軽にご相談ください。
+        <p class="text-text-soft mb-7 leading-relaxed">
+          津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いいたします。地域密着で迅速な対応が可能です。
         </p>
 
         <div class="mb-6">
@@ -31,7 +62,7 @@ const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名�
           <div class="flex flex-wrap gap-2">
             {
               primaryAreas.map((a) => (
-                <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full">
+                <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
                   {a}
                 </span>
               ))
@@ -44,7 +75,7 @@ const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名�
           <div class="flex flex-wrap gap-2">
             {
               otherAreas.map((a) => (
-                <span class="bg-sky-pale text-navy text-sm px-3 py-1.5 rounded-full">
+                <span class="bg-white text-navy text-sm px-3 py-1.5 rounded-full border border-sky-light">
                   {a}
                 </span>
               ))
@@ -53,22 +84,25 @@ const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名�
         </div>
 
         <div class="grid grid-cols-3 gap-3 mb-6">
-          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
-            <div class="num-mont text-lg text-navy">三重県全域</div>
-            <div class="text-xs text-muted mt-1">対応エリア</div>
+          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
+            <div class="num-mont text-base text-navy font-black leading-tight">三重県全域</div>
+            <div class="text-[10px] text-muted mt-1">対応エリア</div>
           </div>
-          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
-            <div class="num-mont text-lg text-accent-deep">無料</div>
-            <div class="text-xs text-muted mt-1">県内出張費</div>
+          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
+            <div class="num-mont text-base text-accent-deep font-black">無料</div>
+            <div class="text-[10px] text-muted mt-1">県内出張費</div>
           </div>
-          <div class="bg-bg-soft rounded-xl p-4 text-center border border-line-soft">
-            <div class="num-mont text-lg text-navy">即日</div>
-            <div class="text-xs text-muted mt-1">お見積もり相談</div>
+          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
+            <div class="num-mont text-base text-navy font-black leading-tight">即日相談OK</div>
+            <div class="text-[10px] text-muted mt-1">お見積もり</div>
           </div>
         </div>
 
-        <div class="bg-sky-pale rounded-xl p-4 text-sm text-navy-deep">
-          💬 エリア外の方もまずはお気軽にご相談ください。
+        <div class="bg-white rounded-xl p-4 text-sm text-text-soft border border-sky-light flex items-start gap-3">
+          <span class="text-xl shrink-0">💬</span>
+          <span>
+            エリア外の方もまずはお気軽にご相談ください。出張対応の可否を確認のうえ、ご回答いたします。
+          </span>
         </div>
       </div>
     </div>

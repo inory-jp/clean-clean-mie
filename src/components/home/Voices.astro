@@ -1,6 +1,7 @@
 ---
 const voices = [
   {
+    initial: "M",
     name: "M.K 様",
     date: "2026年4月",
     rating: 5,
@@ -8,6 +9,7 @@ const voices = [
     service: "エアコンクリーニング",
   },
   {
+    initial: "T",
     name: "T.S 様",
     date: "2026年3月",
     rating: 5,
@@ -15,6 +17,7 @@ const voices = [
     service: "お風呂クリーニング",
   },
   {
+    initial: "A",
     name: "A.N 様",
     date: "2026年2月",
     rating: 4,
@@ -24,38 +27,54 @@ const voices = [
 ];
 ---
 
-<section id="voices" class="bg-white py-16 md:py-24">
+<section id="voices" class="bg-bg-soft py-16 md:py-24">
   <div class="max-w-7xl mx-auto px-4 md:px-8">
     <div class="text-center mb-10">
       <span class="label-en">CUSTOMER VOICES</span>
       <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
         お客様の<span class="text-navy">ありがとう</span>
       </h2>
-      <div
-        class="mt-6 inline-flex items-center gap-3 bg-bg-soft rounded-full px-5 py-2.5 border border-line-soft"
-      >
-        <span class="text-gold text-xl">★★★★★</span>
-        <span class="num-mont text-2xl text-text">4.8</span>
-        <span class="text-muted text-sm">/ 5.0</span>
-        <span class="text-muted text-xs ml-2">Google レビュー</span>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md border border-line-soft p-6 md:p-8 max-w-2xl mx-auto mb-12">
+      <div class="flex items-center justify-center gap-5 flex-wrap">
+        <div class="text-center">
+          <div class="num-mont text-5xl text-text leading-none">4.8</div>
+          <div class="text-gold text-lg mt-1 tracking-wider">★★★★★</div>
+        </div>
+        <div class="text-left text-sm">
+          <div class="text-text font-bold">5.0 満点</div>
+          <div class="text-muted text-xs">Google ビジネスプロフィール</div>
+          <a
+            href="#"
+            class="inline-block mt-2 text-navy text-xs font-bold hover:underline"
+          >
+            Googleで全てのクチコミを見る →
+          </a>
+        </div>
       </div>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
       {
         voices.map((v) => (
-          <article class="bg-bg-soft rounded-2xl p-6 border border-line-soft">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-gold">
+          <article class="bg-white rounded-2xl p-6 border border-line-soft hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center font-black text-navy text-lg shrink-0">
+                {v.initial}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-bold text-text">{v.name}</div>
+                <div class="text-[10px] text-muted num-mont">{v.date}</div>
+              </div>
+              <span class="text-gold text-sm leading-none">
                 {"★".repeat(v.rating)}
                 <span class="text-line">{"★".repeat(5 - v.rating)}</span>
               </span>
-              <span class="text-xs text-muted num-mont">{v.date}</span>
             </div>
             <p class="text-text-soft text-sm leading-relaxed">{v.body}</p>
-            <div class="mt-5 pt-4 border-t border-line-soft flex items-center justify-between">
-              <span class="font-bold text-text">{v.name}</span>
-              <span class="text-xs text-navy bg-sky-pale px-2.5 py-1 rounded-full">
+            <div class="mt-4 pt-3 border-t border-line-soft">
+              <span class="text-xs text-navy bg-sky-pale px-2.5 py-1 rounded-full font-bold">
                 {v.service}
               </span>
             </div>

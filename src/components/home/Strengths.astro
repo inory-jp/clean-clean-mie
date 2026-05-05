@@ -36,14 +36,18 @@ const items = [
     <div class="grid md:grid-cols-3 gap-6">
       {
         items.map((it) => (
-          <div class="bg-bg-soft rounded-2xl p-8 border border-line-soft hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-4">
-              <span class="num-mont text-5xl text-sky-light">{it.no}</span>
-              <span class="text-4xl">{it.icon}</span>
+          <div class="bg-bg-soft rounded-2xl p-7 border border-line-soft hover:shadow-md hover:-translate-y-1 transition-all">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-3xl shadow-sm">
+                {it.icon}
+              </div>
+              <span class="num-mont text-4xl text-sky-light leading-none">
+                {it.no}
+              </span>
             </div>
             <h3 class="text-xl font-black text-text mb-3">{it.title}</h3>
             <p class="text-text-soft text-sm leading-relaxed">{it.body}</p>
-            <div class="mt-5 inline-block bg-sky-pale text-navy text-xs font-bold px-3 py-1.5 rounded-full">
+            <div class="mt-5 inline-block bg-white text-navy text-xs font-bold px-3 py-1.5 rounded-full border border-sky-light">
               {it.tag}
             </div>
           </div>
