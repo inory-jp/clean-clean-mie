@@ -76,3 +76,35 @@ export const formatDate = (iso: string) => {
   const d = new Date(iso);
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
 };
+
+export interface Campaign {
+  id: string;
+  title: string;
+  banner_image_pc: { url: string; width: number; height: number };
+  banner_image_sp?: { url: string; width: number; height: number };
+  alt_text: string;
+  link_url?: string;
+  display_order: number;
+  start_at: string;
+  end_at: string;
+  published: boolean;
+}
+
+export async function getActiveCampaigns(): Promise<Campaign[]> {
+  if (!client) return [];
+  try {
+    const now = new Date().toISOString();
+    const res = await client.getList<Campaign>({
+      endpoint: "campaigns",
+      queries: {
+        filters: `published[equals]true[and]start_at[less_than]${now}[and]end_at[greater_than]${now}`,
+        orders: "display_order",
+        limit: 20,
+      },
+    });
+    return res.contents;
+  } catch (err) {
+    console.error("microCMS getCampaigns error:", err);
+    return [];
+  }
+}
