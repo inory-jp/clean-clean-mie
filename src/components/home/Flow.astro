@@ -211,4 +211,49 @@ const steps = [
     background: rgba(255, 122, 69, 0.10);
     color: #FF7A45;
   }
+
+  /* Mobile: horizontal layout (circle left, content right) */
+  @media (max-width: 639px) {
+    .flow-step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 14px;
+      align-items: start;
+      text-align: left;
+    }
+    .flow-step-num {
+      margin: 0;
+      width: 64px;
+      height: 64px;
+    }
+    .flow-step-num-inner {
+      font-size: 17px;
+    }
+    .flow-step-num-inner small {
+      font-size: 8px;
+    }
+    .flow-card {
+      text-align: left;
+      align-items: flex-start;
+      padding: 16px 18px 18px;
+    }
+    .flow-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .flow-card-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+    .flow-card h4 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    .flow-card p {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+  }
 </style>
