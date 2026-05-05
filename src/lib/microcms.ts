@@ -80,6 +80,7 @@ export const formatDate = (iso: string) => {
 export interface Campaign {
   id: string;
   title: string;
+  notice_text?: string;
   banner_image_pc: { url: string; width: number; height: number };
   banner_image_sp?: { url: string; width: number; height: number };
   alt_text: string;
