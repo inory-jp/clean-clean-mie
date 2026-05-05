@@ -178,23 +178,22 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
             <p class="text-muted mt-4 text-sm md:text-base">
               実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。
             </p>
-            <p class="text-xs text-muted mt-2">※ 写真は栗田さんから受領後に差し替え予定</p>
+            <p class="text-xs text-muted mt-2">※ 表示中の画像はAI生成のサンプル。栗田さんから実写真受領後に差し替え予定</p>
           </div>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {beforeAfter.map((ba) => (
+            {beforeAfter.map((ba, i) => (
               <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
-                <div class="grid grid-cols-2 relative">
-                  <div class="aspect-square bg-gradient-to-br from-text-soft/30 to-muted/30 flex items-center justify-center text-white text-xs font-bold relative">
-                    <span class="absolute top-2 left-2 bg-text-soft text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
-                    <span class="opacity-50">施工前</span>
-                  </div>
-                  <div class="aspect-square bg-gradient-to-br from-sky to-navy flex items-center justify-center text-white text-xs font-bold relative">
-                    <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
-                    <span class="opacity-80">施工後</span>
-                  </div>
-                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-accent font-black z-10">
-                    →
-                  </div>
+                <div class="relative aspect-[3/2] overflow-hidden">
+                  <img
+                    src={`/assets/before-after/${category.slug}-${String(i + 1).padStart(2, "0")}.png`}
+                    alt={ba.title}
+                    width="1536"
+                    height="1024"
+                    loading="lazy"
+                    class="w-full h-full object-cover"
+                  />
+                  <span class="absolute top-2 left-2 bg-text-soft/90 text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
+                  <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
                 </div>
                 <div class="p-4">
                   <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
