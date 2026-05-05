@@ -149,6 +149,9 @@ const hasCampaigns = campaigns.length > 0;
     transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s;
     background: #f5fbfd;
   }
+  .slides-track.no-anim .slide {
+    transition: none !important;
+  }
   .slide.active {
     transform: scale(1);
     opacity: 1;
@@ -306,11 +309,15 @@ const hasCampaigns = campaigns.length > 0;
     } else {
       return;
     }
-    // Disable transition, set transform, force reflow, re-apply active class
+    // Freeze all transitions (track + slides), snap, force reflow, then unfreeze
+    track.classList.add("no-anim");
     track.style.transition = "none";
     track.style.transform = `translate3d(${-pos * getSlotWidth()}px, 0, 0)`;
-    void track.offsetHeight;
     allSlides.forEach((s, i) => s.classList.toggle("active", i === pos));
+    void track.offsetHeight;
+    requestAnimationFrame(() => {
+      track.classList.remove("no-anim");
+    });
   }
 
   function next() {
