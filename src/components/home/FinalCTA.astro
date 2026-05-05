@@ -9,64 +9,215 @@ const metas = [
 ];
 ---
 
-<section class="relative text-white py-24 md:py-32 px-6 overflow-hidden" style="background: linear-gradient(135deg, #1E88B0 0%, #0D5B7A 100%);">
-  <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255,235,59,0.15) 0%, transparent 70%);"></div>
-  <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255,122,69,0.20) 0%, transparent 70%);"></div>
+<section class="final-cta">
+  <div class="final-cta-blob b1" aria-hidden="true"></div>
+  <div class="final-cta-blob b2" aria-hidden="true"></div>
 
-  <div class="relative max-w-2xl mx-auto text-center">
-    <span class="label-en" style="color: #C2E5EF;">CONTACT</span>
-    <span class="hidden">
-      <style>
-        .label-en::before {
-          background: #C2E5EF;
-        }
-      </style>
-    </span>
-    <h2 class="text-4xl md:text-6xl font-black leading-[1.18] mt-3" style="letter-spacing: -0.02em; text-shadow: 0 2px 6px rgba(0,0,0,0.12);">
-      暮らしを、<br />もっとキレイに。
+  <div class="final-cta-inner">
+    <span class="label-en">CONTACT</span>
+    <h2>
+      暮らしを、<br /><span class="highlight">もっとキレイに。</span>
     </h2>
-    <p class="mt-7 text-sky-light leading-[1.9]">
+    <p class="final-cta-lead">
       料金をその場でご確認いただけます。<br class="md:hidden" />送信後、栗田より折り返しご連絡いたします。
     </p>
 
-    <div class="mt-10 bg-white text-text rounded-[28px] p-8 md:p-10" style="box-shadow: 0 24px 80px rgba(0,0,0,0.30);">
-      <div
-        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-black mb-6"
-        style="background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,193,7,0.30)); color: #E55F2C;"
-      >
-        ★ おすすめ ／ カート式申込みで料金が即わかる
+    <div class="final-cta-card">
+      <div class="final-cta-card-h">
+        <strong>★ おすすめ</strong>カート式申込みで料金が即わかる
       </div>
-
-      <a
-        href="/contact"
-        class="btn-cta btn-xl block w-full"
-      >
-        📋 お申込み・見積もりフォーム →
-      </a>
-
-      <div class="my-6 text-xs text-muted flex items-center gap-3 justify-center">
-        <span class="h-px flex-1 max-w-20 bg-line"></span>
-        または
-        <span class="h-px flex-1 max-w-20 bg-line"></span>
+      <div class="final-cta-row">
+        <a href="/contact" class="btn-cta btn-xl">
+          📋 お申込み・見積もりフォーム →
+        </a>
       </div>
-
-      <a
-        href={telHref}
-        class="block bg-bg-soft hover:bg-sky-pale rounded-2xl py-5 transition-colors border border-line-soft"
-      >
-        <div class="text-xs text-muted">📞 お電話でのご相談</div>
-        <div class="num-mont text-3xl text-navy font-black mt-1.5" style="letter-spacing: 0;">{tel}</div>
+      <div class="final-cta-divider">または</div>
+      <a href={telHref} class="final-cta-tel-big">
+        <div class="tel-label">📞 お電話でのご相談</div>
+        <div class="tel-num num-mont">{tel}</div>
       </a>
     </div>
 
-    <div class="mt-9 flex flex-wrap gap-2 justify-center">
-      {
-        metas.map((m) => (
-          <span class="text-[11px] bg-white/10 backdrop-blur text-sky-light px-3.5 py-2 rounded-full border border-white/20">
-            {m}
-          </span>
-        ))
-      }
+    <div class="final-cta-meta">
+      {metas.map((m) => <span>{m}</span>)}
     </div>
   </div>
 </section>
+
+<style>
+  .final-cta {
+    background: linear-gradient(135deg, #1E88B0 0%, #4FB0CE 60%, #4185C2 100%);
+    color: #FFF;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 96px 24px;
+  }
+  @media (min-width: 768px) {
+    .final-cta { padding: 120px 24px; }
+  }
+  .final-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.18), transparent 45%),
+      radial-gradient(circle at 15% 80%, rgba(120, 200, 224, 0.30), transparent 50%);
+    pointer-events: none;
+  }
+  .final-cta-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .final-cta-blob.b1 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.10), transparent 70%);
+    top: 10%;
+    left: 5%;
+    animation: float 7s ease-in-out infinite;
+  }
+  .final-cta-blob.b2 {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(255, 235, 59, 0.10), transparent 70%);
+    bottom: 5%;
+    right: 10%;
+    animation: float 9s ease-in-out infinite reverse;
+  }
+  .final-cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .final-cta .label-en {
+    color: #C2E5EF;
+  }
+  .final-cta .label-en::before {
+    background: #C2E5EF;
+  }
+  .final-cta h2 {
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 900;
+    margin: 12px 0 20px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .final-cta h2 { font-size: 48px; }
+  }
+  .final-cta h2 .highlight {
+    background: linear-gradient(180deg, transparent 60%, rgba(255, 235, 59, 0.40) 60%);
+    padding: 0 4px;
+  }
+  .final-cta-lead {
+    font-size: 16px;
+    margin-bottom: 36px;
+    opacity: 0.95;
+    line-height: 1.9;
+  }
+  @media (min-width: 768px) {
+    .final-cta-lead { font-size: 17px; }
+  }
+  .final-cta-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 28px;
+    padding: 32px 24px;
+    margin-bottom: 32px;
+  }
+  @media (min-width: 768px) {
+    .final-cta-card { padding: 40px 36px; }
+  }
+  .final-cta-card-h {
+    font-size: 13px;
+    opacity: 0.92;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  .final-cta-card-h strong {
+    color: #FFC107;
+    font-weight: 800;
+    margin-right: 8px;
+  }
+  .final-cta-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .final-cta-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px auto;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 600;
+    max-width: 360px;
+  }
+  .final-cta-divider::before,
+  .final-cta-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .final-cta-tel-big {
+    display: inline-block;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.40);
+    border-radius: 999px;
+    color: #FFF;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  @media (min-width: 768px) {
+    .final-cta-tel-big { padding: 16px 40px; }
+  }
+  .final-cta-tel-big:hover {
+    background: #FFF;
+    color: #1E88B0;
+  }
+  .final-cta-tel-big .tel-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    opacity: 0.85;
+  }
+  .final-cta-tel-big .tel-num {
+    font-family: "Montserrat", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  @media (min-width: 768px) {
+    .final-cta-tel-big .tel-num { font-size: 28px; }
+  }
+  .final-cta-meta {
+    margin-top: 28px;
+    font-size: 13px;
+    opacity: 0.92;
+    display: flex;
+    justify-content: center;
+    gap: 12px 28px;
+    flex-wrap: wrap;
+  }
+  .final-cta-meta span::before {
+    content: "✓ ";
+    color: #FFC107;
+    margin-right: 4px;
+    font-weight: 900;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+</style>

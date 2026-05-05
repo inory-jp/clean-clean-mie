@@ -14,53 +14,57 @@ const hasCampaigns = campaigns.length > 0;
 
   {
     hasCampaigns ? (
-      <div class="relative max-w-[1400px] mx-auto px-4 md:px-8 z-[1]">
-        <div class="relative" id="heroSlider">
-          {campaigns.map((c, i) => {
-            const inner = (
-              <picture>
-                {c.banner_image_sp && (
-                  <source
-                    media="(max-width: 767px)"
-                    srcset={`${c.banner_image_sp.url}?w=750&fm=webp&q=85`}
+      <div class="relative z-[1]" id="heroSlider">
+        <div class="slider-viewport overflow-hidden">
+          <div class="slides-track" id="slidesTrack">
+            {campaigns.map((c, i) => {
+              const inner = (
+                <picture>
+                  {c.banner_image_sp && (
+                    <source
+                      media="(max-width: 767px)"
+                      srcset={`${c.banner_image_sp.url}?w=750&fm=webp&q=85`}
+                    />
+                  )}
+                  <img
+                    src={`${c.banner_image_pc.url}?w=1920&fm=webp&q=85`}
+                    alt={c.alt_text}
+                    width={c.banner_image_pc.width}
+                    height={c.banner_image_pc.height}
+                    class="w-full h-full object-cover"
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
-                )}
-                <img
-                  src={`${c.banner_image_pc.url}?w=1920&fm=webp&q=85`}
-                  alt={c.alt_text}
-                  width={c.banner_image_pc.width}
-                  height={c.banner_image_pc.height}
-                  class="w-full h-auto block"
-                  loading={i === 0 ? "eager" : "lazy"}
-                />
-              </picture>
-            );
-            return (
-              <div
-                class={`hero-slide ${i === 0 ? "active" : ""}`}
-                data-index={i}
-                data-notice-text={c.notice_text || ""}
-                data-notice-link={c.link_url || ""}
-                style="border-radius: 28px; overflow: hidden; box-shadow: 0 24px 80px rgba(30,136,176,0.18);"
-              >
-                {c.link_url ? <a href={c.link_url}>{inner}</a> : inner}
-              </div>
-            );
-          })}
+                </picture>
+              );
+              return (
+                <div
+                  class={`slide ${i === 0 ? "active" : ""}`}
+                  data-index={i}
+                  data-notice-text={c.notice_text || ""}
+                  data-notice-link={c.link_url || ""}
+                >
+                  {c.link_url ? <a href={c.link_url} class="block w-full h-full">{inner}</a> : inner}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {campaigns.length > 1 && (
-          <div class="flex gap-2 justify-center mt-7">
-            {campaigns.map((_, i) => (
-              <button
-                type="button"
-                class={`hero-dot rounded-full border-0 cursor-pointer p-0 transition-all duration-300 ${i === 0 ? "active" : ""}`}
-                data-index={i}
-                aria-label={`スライド ${i + 1}`}
-                style={`width: ${i === 0 ? "36px" : "8px"}; height: 8px; background: ${i === 0 ? "#1E88B0" : "#E1E8F0"};`}
-              />
-            ))}
-          </div>
+          <>
+            <button type="button" id="prevBtn" class="slider-arrow prev" aria-label="前へ">‹</button>
+            <button type="button" id="nextBtn" class="slider-arrow next" aria-label="次へ">›</button>
+            <div class="flex gap-2 justify-center mt-7">
+              {campaigns.map((_, i) => (
+                <button
+                  type="button"
+                  class={`hero-dot ${i === 0 ? "active" : ""}`}
+                  data-index={i}
+                  aria-label={`スライド ${i + 1}`}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         <div class="flex gap-4 justify-center flex-wrap mt-9">
@@ -123,24 +127,98 @@ const hasCampaigns = campaigns.length > 0;
     bottom: -380px;
     right: -200px;
   }
-  .hero-slide {
-    display: none;
+  .slides-track {
+    display: flex;
+    gap: 24px;
+    padding: 0 8vw;
+    transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .hero-slide.active {
-    display: block;
+  .slide {
+    flex: 0 0 84vw;
+    aspect-ratio: 16 / 7;
+    border-radius: 28px;
+    box-shadow: 0 24px 80px rgba(30, 136, 176, 0.18);
+    overflow: hidden;
+    position: relative;
+    transform: scale(0.95);
+    opacity: 0.55;
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s;
+    background: #f5fbfd;
+  }
+  .slide.active {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #FFF;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(30, 136, 176, 0.10);
+    color: #1E88B0;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: all 0.3s;
+    line-height: 1;
+    padding-bottom: 3px;
+  }
+  .slider-arrow:hover {
+    background: #1E88B0;
+    color: #FFF;
+    transform: translateY(-50%) scale(1.05);
+  }
+  .slider-arrow.prev { left: 32px; }
+  .slider-arrow.next { right: 32px; }
+  @media (max-width: 768px) {
+    .slider-arrow { display: none; }
+    .slides-track { padding: 0 6vw; gap: 16px; }
+    .slide { flex: 0 0 88vw; }
+  }
+
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E1E8F0;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .hero-dot:hover {
-    background: #78c8e0 !important;
+    background: #78c8e0;
+  }
+  .hero-dot.active {
+    background: #1E88B0;
+    width: 36px;
+    border-radius: 999px;
   }
 </style>
 
 <script>
-  const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+  const track = document.getElementById("slidesTrack");
+  const slides = document.querySelectorAll<HTMLElement>(".slide");
   const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
   const noticeBar = document.getElementById("noticeBar");
   const noticeText = document.getElementById("noticeText");
   const noticeLink = document.getElementById("noticeLink") as HTMLAnchorElement | null;
   let cur = 0;
+  let timer: ReturnType<typeof setInterval> | null = null;
 
   function syncNotice(slide: HTMLElement) {
     if (!noticeBar || !noticeText) return;
@@ -166,22 +244,28 @@ const hasCampaigns = campaigns.length > 0;
   }
 
   function show(i: number) {
-    slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
-    dots.forEach((d, idx) => {
-      const active = idx === i;
-      d.style.width = active ? "36px" : "8px";
-      d.style.background = active ? "#1E88B0" : "#E1E8F0";
-      d.classList.toggle("active", active);
-    });
-    cur = i;
-    if (slides[i]) syncNotice(slides[i]);
+    if (!track) return;
+    cur = (i + slides.length) % slides.length;
+    // 84vw + 24px gap = each slide slot
+    const slideWidth = (window.innerWidth * 0.84) + 24;
+    const offset = -cur * slideWidth;
+    track.style.transform = `translateX(${offset}px)`;
+    slides.forEach((s, idx) => s.classList.toggle("active", idx === cur));
+    dots.forEach((d, idx) => d.classList.toggle("active", idx === cur));
+    if (slides[cur]) syncNotice(slides[cur]);
   }
 
-  dots.forEach((d, i) => d.addEventListener("click", () => show(i)));
+  function startTimer() {
+    if (slides.length <= 1) return;
+    if (timer) clearInterval(timer);
+    timer = setInterval(() => show(cur + 1), 6000);
+  }
+
+  dots.forEach((d, i) => d.addEventListener("click", () => { show(i); startTimer(); }));
+  prevBtn?.addEventListener("click", () => { show(cur - 1); startTimer(); });
+  nextBtn?.addEventListener("click", () => { show(cur + 1); startTimer(); });
+  window.addEventListener("resize", () => show(cur));
 
   if (slides[0]) syncNotice(slides[0]);
-
-  if (slides.length > 1) {
-    setInterval(() => show((cur + 1) % slides.length), 6000);
-  }
+  startTimer();
 </script>

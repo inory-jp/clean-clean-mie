@@ -34,6 +34,7 @@ const steps = [
     body: "作業完了後にお支払い。現金または銀行振込が可能です。領収書も発行可。",
     duration: "その場で",
     svg: '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.4 14.6L6 12l1.4-1.4 3.2 3.2 6-6L18 9.2l-7.4 7.4z"/>',
+    isFinish: true,
   },
 ];
 ---
@@ -50,35 +51,164 @@ const steps = [
       </p>
     </div>
 
-    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
-      {
-        steps.map((s, i) => (
-          <li class="bg-white rounded-[24px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all relative">
-            <div
-              class="num-mont absolute -top-3 left-6 px-3 py-1 rounded-full bg-navy text-white text-[10px] shadow-sm"
-              style="letter-spacing: 0.1em; font-weight: 700;"
-            >
-              STEP {s.no}
+    <div class="flow-wrap relative max-w-[1200px] mx-auto">
+      <div class="flow-progress hidden lg:block"></div>
+      <div class="flow-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-4 relative z-[1]">
+        {
+          steps.map((s) => (
+            <div class={`flow-step text-center relative ${s.isFinish ? "is-finish" : ""}`}>
+              <div class="flow-step-num">
+                <div class="flow-step-num-inner">
+                  <small>STEP</small>
+                  {s.no}
+                </div>
+              </div>
+              <div class="flow-card">
+                <div class="flow-card-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" set:html={s.svg} />
+                </div>
+                <h4>{s.title}</h4>
+                <p>{s.body}</p>
+                <span class="flow-card-time">⏱ {s.duration}</span>
+              </div>
             </div>
-            <div
-              class="w-14 h-14 mt-3 mb-5 rounded-2xl flex items-center justify-center"
-              style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF); box-shadow: 0 4px 12px rgba(120,200,224,0.25);"
-            >
-              <svg viewBox="0 0 24 24" class="w-7 h-7 text-navy" fill="currentColor" set:html={s.svg} />
-            </div>
-            <h3 class="font-extrabold text-navy text-base leading-tight mb-2">{s.title}</h3>
-            <p class="text-text-soft text-xs leading-relaxed">{s.body}</p>
-            <div class="mt-4 inline-block bg-sky-pale text-navy-deep text-[10px] font-bold px-2.5 py-1 rounded-full">
-              ⏱ {s.duration}
-            </div>
-            {i < steps.length - 1 && (
-              <span class="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 text-sky-light text-2xl items-center">
-                →
-              </span>
-            )}
-          </li>
-        ))
-      }
-    </ol>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .flow-progress {
+    position: absolute;
+    top: 38px;
+    left: 8%;
+    right: 8%;
+    height: 4px;
+    background: #E1E8F0;
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .flow-progress::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #78C8E0, #4FB0CE 75%, #FF7A45);
+    border-radius: 2px;
+  }
+  .flow-step {
+    position: relative;
+  }
+  .flow-step-num {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #FFF;
+    border: 4px solid #78C8E0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 6px 20px rgba(30, 136, 176, 0.10);
+    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .flow-step:hover .flow-step-num {
+    transform: scale(1.06);
+    box-shadow: 0 10px 28px rgba(30, 136, 176, 0.18);
+    border-color: #FF7A45;
+  }
+  .flow-step-num-inner {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1E88B0;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-align: center;
+  }
+  .flow-step-num-inner small {
+    display: block;
+    font-size: 9px;
+    color: #6B7A8F;
+    letter-spacing: 0.15em;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .flow-step.is-finish .flow-step-num {
+    border-color: #FF7A45;
+    background: linear-gradient(135deg, #FF7A45, #FFB088);
+  }
+  .flow-step.is-finish .flow-step-num-inner,
+  .flow-step.is-finish .flow-step-num-inner small {
+    color: #FFF;
+  }
+  .flow-card {
+    background: #FFF;
+    border-radius: 20px;
+    padding: 24px 20px 22px;
+    box-shadow: 0 2px 8px rgba(30, 136, 176, 0.08);
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #EEF2F7;
+  }
+  .flow-step:hover .flow-card {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(30, 136, 176, 0.10);
+    border-color: #C2E5EF;
+  }
+  .flow-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #E8F5F9, #C2E5EF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: #1E88B0;
+  }
+  .flow-card-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  .flow-step.is-finish .flow-card-icon {
+    background: linear-gradient(135deg, #FFE0B2, #FFB088);
+    color: #E55F2C;
+  }
+  .flow-card h4 {
+    font-size: 15px;
+    color: #1E88B0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .flow-card p {
+    font-size: 12px;
+    color: #3F4E63;
+    line-height: 1.8;
+    margin-bottom: 14px;
+    flex: 1;
+  }
+  .flow-card-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    background: #F7FAFC;
+    color: #6B7A8F;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .flow-step.is-finish .flow-card-time {
+    background: rgba(255, 122, 69, 0.10);
+    color: #FF7A45;
+  }
+</style>

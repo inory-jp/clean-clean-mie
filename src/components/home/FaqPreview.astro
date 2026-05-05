@@ -2,48 +2,318 @@
 import faqs from "../../data/faqs.json";
 
 const featured = faqs.slice(0, 5);
+
+const cats = [
+  { id: "", label: "すべて", icon: "📋" },
+  { id: "料金", label: "料金", icon: "💰" },
+  { id: "作業", label: "作業", icon: "🛠" },
+  { id: "お申込み", label: "お申込み", icon: "📝" },
+  { id: "支払い", label: "お支払い", icon: "💳" },
+];
 ---
 
-<section id="faq" class="py-24 md:py-32 px-6 bg-bg-soft">
-  <div class="max-w-3xl mx-auto">
-    <div class="text-center mb-12">
-      <span class="label-en">FAQ</span>
-      <h2 class="section-h2 mt-2">
-        よくある<span class="accent">ご質問</span>
-      </h2>
-    </div>
+<section class="faq-section">
+  <div class="text-center mb-12 relative z-[1]">
+    <span class="label-en">FAQ</span>
+    <h2 class="section-h2 mt-2">
+      よくある<span class="accent">ご質問</span>
+    </h2>
+    <p class="text-muted mt-4 text-base leading-relaxed">
+      ご検討時によくいただくご質問にお答えします。
+    </p>
+  </div>
 
-    <div class="space-y-3">
-      {
-        featured.map((f, i) => (
-          <details class="group bg-white rounded-2xl shadow-sm overflow-hidden" open={i === 0}>
-            <summary class="flex items-start gap-4 px-6 py-5 cursor-pointer list-none">
-              <span class="num-mont text-navy text-sm shrink-0 mt-0.5">
-                Q{String(i + 1).padStart(2, "0")}
-              </span>
-              <span class="flex-1 font-bold text-text leading-snug">{f.question}</span>
-              <span class="text-[10px] bg-sky-pale text-navy px-2.5 py-1 rounded-full shrink-0 font-bold whitespace-nowrap">
-                {f.category}
-              </span>
-              <span class="text-navy text-2xl shrink-0 group-open:rotate-45 transition-transform leading-none">
-                ＋
-              </span>
-            </summary>
-            <div class="px-6 pb-6 pl-16 text-text-soft text-sm leading-[1.9]">
-              {f.answer}
+  <div class="faq-cats">
+    {
+      cats.map((c, i) => (
+        <button
+          type="button"
+          class={`faq-cat ${i === 0 ? "active" : ""}`}
+          data-category={c.id}
+        >
+          <span class="faq-cat-icon">{c.icon}</span>
+          {c.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="faq-list-wrap">
+    {
+      featured.map((f, i) => (
+        <div class={`faq-item ${i === 0 ? "open" : ""}`} data-category={f.category}>
+          <div class="faq-q-row">
+            <div class="faq-q-mark">Q</div>
+            <div class="faq-q-text">{f.question}</div>
+            <div class="faq-q-arrow">▼</div>
+          </div>
+          <div class="faq-a-row">
+            <div class="faq-a-content">
+              <div class="faq-a-mark">A</div>
+              <div class="faq-a-text">{f.answer}</div>
             </div>
-          </details>
-        ))
-      }
-    </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
 
-    <div class="mt-10 text-center">
-      <a
-        href="/faq"
-        class="inline-flex items-center px-7 py-3.5 rounded-full border-2 border-navy text-navy font-bold hover:bg-navy hover:text-white transition-colors"
-      >
-        すべてのFAQを見る →
-      </a>
+  <div class="faq-bottom">
+    <div>
+      <h4>解決しないお困りごとはありませんか？</h4>
+      <p>こちらに掲載していないご質問・ご相談もお気軽にお問い合わせください。</p>
     </div>
+    <a href="/faq" class="btn">📋 すべてのFAQを見る →</a>
   </div>
 </section>
+
+<style>
+  .faq-section {
+    padding: 96px 24px;
+    background: linear-gradient(180deg, #FFF 0%, #F5FBFD 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .faq-section { padding: 120px 24px; }
+  }
+  .faq-section::before {
+    content: "?";
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 360px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    color: #E8F5F9;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .faq-section::after {
+    content: "?";
+    position: absolute;
+    bottom: 8%;
+    left: 4%;
+    font-size: 220px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    color: #E8F5F9;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  @media (max-width: 768px) {
+    .faq-section::before, .faq-section::after { display: none; }
+  }
+
+  .faq-cats {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .faq-cat {
+    padding: 10px 22px;
+    border: 2px solid #E1E8F0;
+    border-radius: 999px;
+    background: #FFF;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6B7A8F;
+    transition: all 0.25s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .faq-cat:hover {
+    border-color: #78C8E0;
+    color: #1E88B0;
+  }
+  .faq-cat.active {
+    background: #1E88B0;
+    color: #FFF;
+    border-color: #1E88B0;
+  }
+
+  .faq-list-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .faq-item {
+    background: #FFF;
+    border: 1px solid #E1E8F0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    overflow: hidden;
+  }
+  .faq-item:hover {
+    border-color: #78C8E0;
+    box-shadow: 0 2px 8px rgba(30, 136, 176, 0.08);
+  }
+  .faq-item.open {
+    border-color: #1E88B0;
+    box-shadow: 0 8px 24px rgba(30, 136, 176, 0.10);
+  }
+  .faq-q-row {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    user-select: none;
+  }
+  .faq-q-mark {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #1E88B0;
+    color: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  .faq-q-text {
+    flex: 1;
+    font-weight: 700;
+    color: #1E88B0;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 4px;
+  }
+  .faq-q-arrow {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #F7FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7A8F;
+    font-size: 11px;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+  }
+  .faq-item.open .faq-q-arrow {
+    background: #FF7A45;
+    color: #FFF;
+    transform: rotate(180deg);
+  }
+  .faq-a-row {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .faq-item.open .faq-a-row {
+    max-height: 400px;
+  }
+  .faq-a-content {
+    display: flex;
+    gap: 14px;
+    padding: 0 24px 22px 24px;
+    align-items: flex-start;
+  }
+  .faq-a-mark {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #FF7A45;
+    color: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  .faq-a-text {
+    flex: 1;
+    color: #3F4E63;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  .faq-bottom {
+    max-width: 900px;
+    margin: 48px auto 0;
+    padding: 32px 40px;
+    background: linear-gradient(135deg, #1E88B0, #4FB0CE);
+    color: #FFF;
+    border-radius: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 16px 48px rgba(30, 136, 176, 0.14);
+  }
+  @media (max-width: 768px) {
+    .faq-bottom {
+      grid-template-columns: 1fr;
+      padding: 24px 20px;
+      text-align: center;
+    }
+  }
+  .faq-bottom h4 {
+    font-size: 18px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .faq-bottom p {
+    opacity: 0.92;
+    font-size: 13px;
+  }
+  .faq-bottom .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    color: #1E88B0;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  .faq-bottom .btn:hover {
+    background: #FFEB3B;
+    transform: translateY(-2px);
+  }
+</style>
+
+<script>
+  const cats = document.querySelectorAll<HTMLButtonElement>(".faq-cat");
+  const items = document.querySelectorAll<HTMLElement>(".faq-item");
+
+  cats.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cats.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const cat = btn.dataset.category || "";
+      items.forEach((it) => {
+        const show = !cat || it.dataset.category === cat;
+        it.style.display = show ? "" : "none";
+      });
+    });
+  });
+
+  items.forEach((it) => {
+    const row = it.querySelector(".faq-q-row");
+    row?.addEventListener("click", () => it.classList.toggle("open"));
+  });
+</script>
