@@ -23,20 +23,20 @@ const items = [
 ];
 ---
 
-<div class="bg-white border-t border-b border-line-soft px-6 py-6">
-  <div class="max-w-[1200px] mx-auto flex justify-around items-center gap-6 flex-wrap">
+<div class="bg-white border-t border-b border-line-soft px-4 md:px-6 py-5 md:py-6">
+  <div class="max-w-[1200px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-4 md:gap-x-6">
     {
       items.map((it) => (
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5 md:gap-3">
           <div
-            class="w-11 h-11 rounded-full flex items-center justify-center shrink-0 text-navy"
+            class="w-10 h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center shrink-0 text-navy"
             style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF);"
           >
-            <svg viewBox="0 0 24 24" class="w-[22px] h-[22px]" fill="currentColor" set:html={it.svg} />
+            <svg viewBox="0 0 24 24" class="w-5 h-5 md:w-[22px] md:h-[22px]" fill="currentColor" set:html={it.svg} />
           </div>
-          <div class="leading-tight">
-            <strong class="block text-[15px] text-navy font-bold">{it.strong}</strong>
-            <span class="text-xs text-muted">{it.muted}</span>
+          <div class="leading-tight min-w-0">
+            <strong class="block text-[13px] md:text-[15px] text-navy font-bold truncate">{it.strong}</strong>
+            <span class="text-[11px] md:text-xs text-muted truncate block">{it.muted}</span>
           </div>
         </div>
       ))
