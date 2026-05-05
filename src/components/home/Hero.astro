@@ -84,20 +84,24 @@ const hasCampaigns = campaigns.length > 0;
       <div class="relative max-w-[1240px] mx-auto px-4 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-8 items-center z-[1]">
         <div>
           <span class="label-en">HOUSE CLEANING IN MIE</span>
-          <h1 class="mt-4 text-4xl md:text-6xl font-black leading-[1.18] text-text" style="letter-spacing: -0.02em;">
-            ありがとうの輪を、地域へ。<br />
-            <span class="text-navy">三重のハウスクリーニング</span>
+          <h1 class="mt-4 text-3xl sm:text-4xl md:text-[52px] font-black leading-[1.2] text-text" style="letter-spacing: -0.02em;">
+            津・松阪のエアコン、<br />
+            <span class="text-navy">3時間で新品同様</span>に。
           </h1>
-          <p class="mt-6 text-text-soft leading-[1.9]">
-            津市・松阪市・鈴鹿市を中心に、店主が直接施工。<br class="hidden md:inline" />
-            損害保険完備で、安心して任せられるクリーニングをお届けします。
+          <p class="mt-5 text-text-soft leading-[1.85] text-sm md:text-base">
+            店主が直接施工。損害保険完備。三重県内出張費 無料。<br class="hidden md:inline" />
+            分解洗浄でカビ・ホコリを徹底除去します。
           </p>
-          <div class="mt-9 flex flex-col sm:flex-row gap-4">
+          <div class="mt-5 flex flex-wrap items-baseline gap-2 md:gap-3">
+            <span class="num-mont text-accent text-3xl md:text-4xl font-black">¥12,100</span>
+            <span class="text-xs md:text-sm text-muted">〜（壁掛け1台・税込）</span>
+          </div>
+          <div class="mt-7 md:mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <a href="/contact" class="btn-cta btn-large">
-              📋 お申込み・見積もり
+              <Icon name="clipboard" size={18} /> お申込み・見積もり
             </a>
             <a href="tel:0592715908" class="btn-tel btn-large">
-              📞 <span class="num-mont">059-271-5908</span>
+              <Icon name="phone" size={18} /> <span class="num-mont">059-271-5908</span>
             </a>
           </div>
         </div>
@@ -198,7 +202,7 @@ const hasCampaigns = campaigns.length > 0;
   .slider-arrow.prev { left: 32px; }
   .slider-arrow.next { right: 32px; }
   @media (max-width: 768px) {
-    .slider-arrow { display: none; }
+    .slider-arrow { display: none !important; }
     .slides-track { padding: 0 6vw; gap: 12px; }
     .slide {
       flex: 0 0 88vw;

@@ -5,6 +5,16 @@ import PageCTA from "../components/PageCTA.astro";
 import Icon from "../components/Icon.astro";
 import faqs from "../data/faqs.json";
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
 const cats = [
   { id: "", label: "すべて", icon: "clipboard" },
   { id: "料金", label: "料金", icon: "money" },
@@ -19,6 +29,10 @@ const cats = [
   title="よくある質問｜CLEAN×CLEAN 津中央店"
   description="CLEAN×CLEAN 津中央店へよくいただくご質問と回答。料金・作業内容・お申込み・お支払いについて、事前に知っておきたいポイントをまとめています。"
 >
+  <Fragment slot="schema">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <PageHero
     label="FAQ"
     title="よくあるご質問"
@@ -47,10 +61,28 @@ const cats = [
       }
     </div>
 
-    <div class="faq-grid grid md:grid-cols-2 gap-3 md:gap-4 max-w-5xl mx-auto mt-10">
-      {
-        faqs.map((f, i) => (
-          <details class="faq-item" data-category={f.category} open={i === 0}>
+    <div class="faq-grid grid md:grid-cols-2 gap-3 md:gap-4 max-w-5xl mx-auto mt-10 items-start">
+      <div class="space-y-3 md:space-y-4">
+        {faqs.filter((_, i) => i % 2 === 0).map((f, idx) => {
+          const i = idx * 2;
+          return (
+            <details class="faq-item" data-category={f.category} open={i === 0}>
+              <summary class="faq-q-row">
+                <div class="faq-q-mark">Q</div>
+                <div class="faq-q-text">{f.question}</div>
+                <div class="faq-q-arrow">▼</div>
+              </summary>
+              <div class="faq-a-content">
+                <div class="faq-a-mark">A</div>
+                <div class="faq-a-text">{f.answer}</div>
+              </div>
+            </details>
+          );
+        })}
+      </div>
+      <div class="space-y-3 md:space-y-4">
+        {faqs.filter((_, i) => i % 2 === 1).map((f) => (
+          <details class="faq-item" data-category={f.category}>
             <summary class="faq-q-row">
               <div class="faq-q-mark">Q</div>
               <div class="faq-q-text">{f.question}</div>
@@ -61,8 +93,8 @@ const cats = [
               <div class="faq-a-text">{f.answer}</div>
             </div>
           </details>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </section>
 

@@ -1,0 +1,56 @@
+---
+import Icon from "../Icon.astro";
+
+const promises = [
+  {
+    icon: "shield",
+    no: "01",
+    title: "損害保険完備",
+    body: "万一の事故・破損には損害賠償保険でしっかり補償。安心してお任せください。",
+  },
+  {
+    icon: "check",
+    no: "02",
+    title: "見積りキャンセル無料",
+    body: "お見積り後のキャンセルも無料。前日までならご予約のキャンセル料も発生しません。",
+  },
+  {
+    icon: "star",
+    no: "03",
+    title: "仕上がり満足保証",
+    body: "施工後3日以内に気になる箇所があれば、無償で再施工対応いたします。",
+  },
+];
+---
+
+<section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="text-center mb-10 md:mb-14">
+      <span class="label-en">OUR PROMISES</span>
+      <h2 class="section-h2 mt-2">
+        ご安心いただくための<span class="accent">3つの約束</span>
+      </h2>
+      <p class="text-muted mt-4 text-sm md:text-base">
+        初めてのお客様にも安心してご依頼いただけるよう、当店からのお約束です。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 md:gap-6">
+      {
+        promises.map((p) => (
+          <div class="bg-bg-soft rounded-[24px] p-7 md:p-8 border border-line-soft text-center">
+            <div
+              class="w-16 h-16 md:w-[72px] md:h-[72px] mx-auto rounded-full flex items-center justify-center text-white"
+              style="background: linear-gradient(135deg, #1E88B0, #4FB0CE); box-shadow: 0 8px 24px rgba(30,136,176,0.20);"
+            >
+              <Icon name={p.icon} size={32} />
+            </div>
+            <div class="num-mont text-xs text-sky tracking-widest mt-4">{p.no}</div>
+            <h3 class="text-navy text-lg md:text-xl font-extrabold mt-2">{p.title}</h3>
+            <p class="text-text-soft text-sm leading-[1.85] mt-3">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

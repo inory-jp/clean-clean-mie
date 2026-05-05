@@ -22,14 +22,48 @@ const serviceFaqs: { q: string; a: string }[] = cat.service_faqs ?? [];
 
 const title = `${category.name}｜CLEAN×CLEAN 津中央店`;
 const description = `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: category.name,
+  description: category.lead,
+  provider: { "@id": "https://cleanclean-mie.jp/#business" },
+  areaServed: { "@type": "AdministrativeArea", name: "三重県" },
+  offers: category.menus
+    .filter((m: any) => m.published && m.price != null)
+    .map((m: any) => ({
+      "@type": "Offer",
+      name: m.name,
+      price: m.price,
+      priceCurrency: "JPY",
+      description: m.description,
+    })),
+};
+
+const faqSchema = serviceFaqs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: serviceFaqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    }
+  : null;
 ---
 
 <Layout title={title} description={description}>
-  {/* Hero: image with mask-image fade (no overlay = no seam) */}
+  <Fragment slot="schema">
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  </Fragment>
+  {/* Hero: PC = image with mask fade (no seam) / SP = stacked image-then-text */}
   <section class="relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
-    <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>
+    <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none hidden md:block" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>
 
-    {/* Image: positioned right, faded into background via mask */}
+    {/* PC: Image positioned right, faded into background via mask */}
     <img
       src={`/assets/services/${category.slug}-hero.png`}
       alt=""
@@ -37,16 +71,19 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
       loading="eager"
       fetchpriority="high"
     />
-    {/* Mobile: image at bottom area, also masked */}
-    <img
-      src={`/assets/services/${category.slug}-hero.png`}
-      alt=""
-      class="hero-image-sp md:hidden absolute top-0 left-0 right-0 w-full h-full object-cover z-0"
-      loading="eager"
-      fetchpriority="high"
-    />
 
-    <div class="relative z-[1] py-14 md:py-24 px-5 md:px-6">
+    {/* SP: Image stacked on top with rounded bottom, text below on solid background */}
+    <div class="md:hidden">
+      <img
+        src={`/assets/services/${category.slug}-hero.png`}
+        alt=""
+        class="w-full aspect-[3/2] object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="relative z-[1] pt-8 pb-14 md:py-24 px-5 md:px-6">
       <div class="max-w-6xl mx-auto">
         <div class="md:max-w-[55%]">
           <nav class="text-xs text-text-soft mb-4">
@@ -122,9 +159,10 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
             ))}
           </div>
           <div class="mt-10 text-center">
-            <p class="inline-flex items-center gap-2 text-sm md:text-base text-navy font-bold bg-sky-pale px-5 py-3 rounded-full">
+            <p class="inline-flex flex-col sm:flex-row items-center gap-2 text-sm md:text-base text-navy font-bold bg-sky-pale px-5 py-3 rounded-2xl sm:rounded-full">
               ひとつでも当てはまる方
-              <span class="text-accent">▶</span>
+              <span class="text-accent text-xl leading-none sm:hidden">▼</span>
+              <span class="text-accent text-xl leading-none hidden sm:inline">▶</span>
               プロの分解洗浄がおすすめです
             </p>
           </div>
@@ -170,46 +208,59 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     )
   }
 
-  {/* Before & After */}
+  {/* Cases: Before/After for cleaning, Single image for akiya */}
   {
-    beforeAfter.length > 0 && (
-      <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-          <div class="text-center mb-10 md:mb-14">
-            <span class="label-en">BEFORE &amp; AFTER</span>
-            <h2 class="section-h2 mt-2">
-              施工事例<span class="accent">（Before / After）</span>
-            </h2>
-            <p class="text-muted mt-4 text-sm md:text-base">
-              実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。
-            </p>
-            <p class="text-xs text-muted mt-2">※ 表示中の画像はAI生成のサンプル。栗田さんから実写真受領後に差し替え予定</p>
-          </div>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {beforeAfter.map((ba, i) => (
-              <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
-                <div class="relative aspect-[3/2] overflow-hidden">
-                  <img
-                    src={`/assets/before-after/${category.slug}-${String(i + 1).padStart(2, "0")}.png`}
-                    alt={ba.title}
-                    width="1536"
-                    height="1024"
-                    loading="lazy"
-                    class="w-full h-full object-cover"
-                  />
-                  <span class="absolute top-2 left-2 bg-text-soft/90 text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
-                  <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
+    beforeAfter.length > 0 && (() => {
+      const isSingleStyle = category.slug === "akiya";
+      return (
+        <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+          <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10 md:mb-14">
+              <span class="label-en">{isSingleStyle ? "OUR SERVICES" : "BEFORE & AFTER"}</span>
+              <h2 class="section-h2 mt-2">
+                {isSingleStyle ? (
+                  <>サービス<span class="accent">事例</span></>
+                ) : (
+                  <>施工事例<span class="accent">（Before / After）</span></>
+                )}
+              </h2>
+              <p class="text-muted mt-4 text-sm md:text-base">
+                {isSingleStyle
+                  ? "実際の現場でこんな対応をしています。お客様のお困りごとに合わせて柔軟にご相談ください。"
+                  : "実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。"}
+              </p>
+              <p class="text-xs text-muted mt-2">※ 表示中の画像はAI生成のサンプル。実写真受領後に差し替え予定</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+              {beforeAfter.map((ba, i) => (
+                <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
+                  <div class="relative aspect-[3/2] overflow-hidden">
+                    <img
+                      src={`/assets/before-after/${category.slug}-${String(i + 1).padStart(2, "0")}.png`}
+                      alt={ba.title}
+                      width="1536"
+                      height="1024"
+                      loading="lazy"
+                      class="w-full h-full object-cover"
+                    />
+                    {!isSingleStyle && (
+                      <>
+                        <span class="absolute top-2 left-2 bg-text-soft/90 text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
+                        <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
+                      </>
+                    )}
+                  </div>
+                  <div class="p-4">
+                    <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
+                    <p class="text-muted text-[11px] mt-1.5 leading-relaxed">{ba.meta}</p>
+                  </div>
                 </div>
-                <div class="p-4">
-                  <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
-                  <p class="text-muted text-[11px] mt-1.5 leading-relaxed">{ba.meta}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    )
+        </section>
+      );
+    })()
   }
 
   {/* Pricing Table */}
@@ -350,10 +401,6 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     width: 65%;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
     mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
-  }
-  .hero-image-sp {
-    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
   }
   .svc-faq-item {
     background: #FFF;

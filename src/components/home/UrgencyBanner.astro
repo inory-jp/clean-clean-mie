@@ -1,0 +1,32 @@
+---
+import Icon from "../Icon.astro";
+
+const month = new Date().getMonth() + 1;
+
+let msg = "予約受付中。お早めにご相談ください。";
+let highlight = "今月分";
+
+if (month >= 5 && month <= 7) {
+  msg = "夏本番前は予約が集中します。早めのご予約がおすすめです。";
+  highlight = "5〜7月";
+} else if (month >= 11 || month <= 1) {
+  msg = "年末・年始は予約が集中します。お早めのご相談を。";
+  highlight = "年末・年始";
+} else if (month >= 8 && month <= 9) {
+  msg = "残暑のエアコンクリーニングを承り中。すぐご相談ください。";
+  highlight = "残暑";
+} else if (month >= 2 && month <= 4) {
+  msg = "新生活前のクリーニングはお早めに。";
+  highlight = "春の新生活";
+}
+---
+
+<div class="bg-gold/10 border-y border-gold/30 px-5 md:px-6 py-3">
+  <div class="max-w-5xl mx-auto flex items-center justify-center gap-2 md:gap-3 text-xs md:text-sm text-text-soft text-center flex-wrap">
+    <span class="inline-flex items-center gap-1.5 bg-gold text-text px-3 py-1 rounded-full font-black text-[11px] md:text-xs whitespace-nowrap">
+      <Icon name="clock" size={12} />
+      {highlight}
+    </span>
+    <span class="leading-snug">{msg}</span>
+  </div>
+</div>

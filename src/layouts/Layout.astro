@@ -4,17 +4,20 @@ import Notice from "../components/Notice.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FloatingCTA from "../components/FloatingCTA.astro";
+import SchemaLocalBusiness from "../components/SchemaLocalBusiness.astro";
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  showNotice?: boolean;
 }
 
 const {
   title = "CLEAN×CLEAN 津中央店｜三重県のハウスクリーニング",
   description = "三重県津市・松阪市・鈴鹿市を中心に対応。エアコン・お風呂・キッチン換気扇・水回りのハウスクリーニングなら、店主が直接施工するCLEAN×CLEAN津中央店へ。損害保険加入済で安心。",
-  ogImage = "/og-image.png",
+  ogImage = "/assets/services/aircon-hero.png",
+  showNotice = false,
 } = Astro.props;
 
 const siteUrl = "https://cleanclean-mie.jp";
@@ -27,19 +30,30 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <meta name="theme-color" content="#1E88B0" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="CLEAN×CLEAN 津中央店" />
+
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CLEAN×CLEAN 津中央店" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={new URL(ogImage, siteUrl).toString()} />
+    <meta property="og:image:width" content="1536" />
+    <meta property="og:image:height" content="1024" />
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteUrl).toString()} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,9 +61,12 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
+
+    <SchemaLocalBusiness />
+    <slot name="schema" />
   </head>
   <body class="pb-20 md:pb-0">
-    <Notice />
+    {showNotice && <Notice />}
     <Header />
     <main>
       <slot />

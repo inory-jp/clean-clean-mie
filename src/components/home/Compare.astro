@@ -1,0 +1,66 @@
+---
+import Icon from "../Icon.astro";
+
+const rows = [
+  { label: "壁掛けエアコン料金", clean: "¥12,100〜", major: "¥14,300〜", icon: "money" },
+  { label: "予約スピード", clean: "最短翌営業日", major: "1〜2週間待ち", icon: "clock" },
+  { label: "施工担当", clean: "店主が直接対応", major: "派遣スタッフ", icon: "shield" },
+  { label: "出張費（県内）", clean: "無料", major: "別途", icon: "pin" },
+  { label: "損害保険", clean: "完備", major: "完備", icon: "check" },
+];
+---
+
+<section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10 md:mb-12">
+      <span class="label-en">WHY CHOOSE US</span>
+      <h2 class="section-h2 mt-2">
+        大手と<span class="accent">何が違うの？</span>
+      </h2>
+      <p class="text-muted mt-4 text-sm md:text-base">
+        三重県の地域密着・店主直接施工だから実現できる、CLEAN×CLEANならではの強み。
+      </p>
+    </div>
+
+    <div class="bg-white rounded-[24px] md:rounded-[28px] shadow-md overflow-hidden border border-line-soft">
+      <div class="grid grid-cols-[1.2fr_1fr_1fr] text-xs md:text-sm">
+        {/* Header */}
+        <div class="bg-sky-pale px-3 md:px-5 py-3 md:py-4 font-bold text-navy-deep text-[10px] md:text-sm">
+          項目
+        </div>
+        <div class="bg-navy text-white px-3 md:px-5 py-3 md:py-4 text-center">
+          <div class="text-[10px] md:text-xs opacity-80">当店</div>
+          <div class="font-extrabold text-sm md:text-base mt-0.5">CLEAN×CLEAN</div>
+        </div>
+        <div class="bg-line-soft text-text-soft px-3 md:px-5 py-3 md:py-4 text-center">
+          <div class="text-[10px] md:text-xs opacity-70">参考</div>
+          <div class="font-bold text-sm md:text-base mt-0.5">大手チェーン</div>
+        </div>
+
+        {/* Rows */}
+        {
+          rows.map((r) => (
+            <>
+              <div class="px-3 md:px-5 py-3 md:py-4 border-t border-line-soft text-text font-bold flex items-center gap-2">
+                <Icon name={r.icon} size={14} class="text-sky shrink-0 hidden sm:inline" />
+                <span class="leading-tight">{r.label}</span>
+              </div>
+              <div class="px-3 md:px-5 py-3 md:py-4 border-t border-line-soft text-center bg-sky-mist">
+                <span class="font-extrabold text-accent-deep text-sm md:text-base">
+                  {r.clean}
+                </span>
+              </div>
+              <div class="px-3 md:px-5 py-3 md:py-4 border-t border-line-soft text-center text-muted">
+                <span class="text-sm md:text-base">{r.major}</span>
+              </div>
+            </>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="text-xs text-muted text-center mt-5 leading-relaxed">
+      ※ 大手チェーンの参考価格は2026年4月時点の公開料金より。実際の価格は個社により異なります。
+    </p>
+  </div>
+</section>
