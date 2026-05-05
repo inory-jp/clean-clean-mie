@@ -128,38 +128,43 @@ const categories = menusData.categories;
                                 追加できるオプション
                               </div>
                               <div class="space-y-2">
-                                {menuOptions.map((o) => (
-                                  <div class="flex items-start gap-3 bg-white rounded-lg p-3">
-                                    <div class="flex-1 min-w-0">
-                                      <div class="font-bold text-sm text-text">{o.name}</div>
-                                      <p class="text-xs text-muted mt-0.5">{o.description}</p>
-                                      <div class="mt-1 num-mont text-sm text-accent">
-                                        +¥{o.price.toLocaleString()} ({o.duration})
+                                {menuOptions.map((o) => {
+                                  // Composite ID: option scoped per parent menu
+                                  const cid = `${o.id}@${m.id}`;
+                                  const composedName = `${o.name}（${m.name}用）`;
+                                  return (
+                                    <div class="flex items-start gap-3 bg-white rounded-lg p-3">
+                                      <div class="flex-1 min-w-0">
+                                        <div class="font-bold text-sm text-text">{o.name}</div>
+                                        <p class="text-xs text-muted mt-0.5">{o.description}</p>
+                                        <div class="mt-1 num-mont text-sm text-accent">
+                                          +¥{o.price.toLocaleString()} ({o.duration})
+                                        </div>
+                                      </div>
+                                      <div class="flex items-center gap-1.5 shrink-0">
+                                        <button
+                                          type="button"
+                                          class="w-8 h-8 rounded-full border border-navy text-navy font-black hover:bg-sky-pale text-sm"
+                                          @click={`updateQty('${cid}', -1)`}
+                                        >
+                                          −
+                                        </button>
+                                        <span
+                                          class="num-mont text-base w-6 text-center"
+                                          x-text={`getQty('${cid}')`}
+                                        />
+                                        <button
+                                          type="button"
+                                          class="w-8 h-8 rounded-full bg-accent text-white font-black hover:bg-accent-deep text-sm disabled:bg-muted-soft disabled:cursor-not-allowed"
+                                          :disabled={`getQty('${cid}') >= getQty('${m.id}')`}
+                                          @click={`addOption('${cid}', '${composedName.replace(/'/g, "\\'")}', ${o.price}, '${o.duration}', '${m.id}')`}
+                                        >
+                                          ＋
+                                        </button>
                                       </div>
                                     </div>
-                                    <div class="flex items-center gap-1.5 shrink-0">
-                                      <button
-                                        type="button"
-                                        class="w-8 h-8 rounded-full border border-navy text-navy font-black hover:bg-sky-pale text-sm"
-                                        @click={`updateQty('${o.id}', -1)`}
-                                      >
-                                        −
-                                      </button>
-                                      <span
-                                        class="num-mont text-base w-6 text-center"
-                                        x-text={`getQty('${o.id}')`}
-                                      />
-                                      <button
-                                        type="button"
-                                        class="w-8 h-8 rounded-full bg-accent text-white font-black hover:bg-accent-deep text-sm disabled:bg-muted-soft disabled:cursor-not-allowed"
-                                        :disabled={`getQty('${o.id}') >= maxOptionQty(${JSON.stringify(o.applies_to)})`}
-                                        @click={`addOption('${o.id}', '${o.name.replace(/'/g, "\\'")}', ${o.price}, '${o.duration}', ${JSON.stringify(o.applies_to)})`}
-                                      >
-                                        ＋
-                                      </button>
-                                    </div>
-                                  </div>
-                                ))}
+                                  );
+                                })}
                               </div>
                             </div>
                           )}
@@ -420,8 +425,6 @@ const categories = menusData.categories;
         submitting: false,
         submitError: "",
 
-        optionParents: {},
-
         init() {
           try {
             const saved = localStorage.getItem("ccmie_cart");
@@ -437,22 +440,17 @@ const categories = menusData.categories;
           return this.cart.find((i) => i.id === id)?.qty || 0;
         },
 
-        maxOptionQty(parentIds) {
-          if (!parentIds || !parentIds.length) return Infinity;
-          return parentIds.reduce((sum, pid) => sum + this.getQty(pid), 0);
-        },
-
         addItem(id, name, price, duration) {
           const ex = this.cart.find((i) => i.id === id);
           if (ex) ex.qty++;
           else this.cart.push({ id, name, price, qty: 1, duration });
         },
 
-        addOption(id, name, price, duration, appliesTo) {
-          const max = this.maxOptionQty(appliesTo);
-          if (this.getQty(id) >= max) return;
-          this.optionParents[id] = appliesTo;
-          this.addItem(id, name, price, duration);
+        addOption(compositeId, name, price, duration, parentId) {
+          const parentQty = this.getQty(parentId);
+          const optQty = this.getQty(compositeId);
+          if (optQty >= parentQty) return;
+          this.addItem(compositeId, name, price, duration);
         },
 
         updateQty(id, delta) {
@@ -463,18 +461,19 @@ const categories = menusData.categories;
         },
 
         removeItem(id) {
-          this.cart = this.cart.filter((i) => i.id !== id);
+          // Also remove options scoped to this parent (id@parentId pattern)
+          this.cart = this.cart.filter((i) => i.id !== id && !i.id.endsWith("@" + id));
         },
 
+        // After cart change, clamp each option's qty <= its parent's qty
         clampOptions() {
-          for (const optId in this.optionParents) {
-            const parents = this.optionParents[optId];
-            const max = this.maxOptionQty(parents);
-            const cur = this.getQty(optId);
-            if (cur > max) {
-              const item = this.cart.find((i) => i.id === optId);
-              if (max <= 0) this.removeItem(optId);
-              else if (item) item.qty = max;
+          for (const item of [...this.cart]) {
+            if (!item.id.includes("@")) continue;
+            const parentId = item.id.split("@")[1];
+            const parentQty = this.getQty(parentId);
+            if (item.qty > parentQty) {
+              if (parentQty <= 0) this.removeItem(item.id);
+              else item.qty = parentQty;
             }
           }
         },
