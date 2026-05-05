@@ -35,15 +35,15 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
         loading="eager"
         fetchpriority="high"
       />
-      {/* Gradient overlay: stronger on left for text readability */}
+      {/* Gradient overlay: stronger on left for text readability, smoothly fading to right */}
       <div
         class="absolute inset-0 hidden md:block"
-        style="background: linear-gradient(90deg, rgba(232,245,249,0.95) 0%, rgba(232,245,249,0.85) 30%, rgba(232,245,249,0.45) 55%, rgba(232,245,249,0) 75%);"
+        style="background: linear-gradient(90deg, rgba(232,245,249,0.95) 0%, rgba(232,245,249,0.92) 25%, rgba(232,245,249,0.75) 45%, rgba(232,245,249,0.45) 65%, rgba(232,245,249,0.2) 85%, rgba(232,245,249,0.05) 100%);"
       ></div>
       {/* Mobile: bottom gradient */}
       <div
         class="absolute inset-0 md:hidden"
-        style="background: linear-gradient(180deg, rgba(245,251,253,0.4) 0%, rgba(232,245,249,0.85) 50%, rgba(232,245,249,0.98) 100%);"
+        style="background: linear-gradient(180deg, rgba(245,251,253,0.3) 0%, rgba(232,245,249,0.6) 40%, rgba(232,245,249,0.92) 75%, rgba(232,245,249,0.98) 100%);"
       ></div>
     </div>
 
