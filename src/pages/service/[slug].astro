@@ -25,27 +25,26 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
 ---
 
 <Layout title={title} description={description}>
-  {/* Hero with full-width image + gradient overlay */}
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 z-0">
-      <img
-        src={`/assets/services/${category.slug}-hero.png`}
-        alt=""
-        class="w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-      />
-      {/* Gradient overlay: stronger on left for text readability, smoothly fading to right */}
-      <div
-        class="absolute inset-0 hidden md:block"
-        style="background: linear-gradient(90deg, rgba(232,245,249,0.95) 0%, rgba(232,245,249,0.92) 25%, rgba(232,245,249,0.75) 45%, rgba(232,245,249,0.45) 65%, rgba(232,245,249,0.2) 85%, rgba(232,245,249,0.05) 100%);"
-      ></div>
-      {/* Mobile: bottom gradient */}
-      <div
-        class="absolute inset-0 md:hidden"
-        style="background: linear-gradient(180deg, rgba(245,251,253,0.3) 0%, rgba(232,245,249,0.6) 40%, rgba(232,245,249,0.92) 75%, rgba(232,245,249,0.98) 100%);"
-      ></div>
-    </div>
+  {/* Hero: image with mask-image fade (no overlay = no seam) */}
+  <section class="relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
+    <div class="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.18) 0%, transparent 70%);"></div>
+
+    {/* Image: positioned right, faded into background via mask */}
+    <img
+      src={`/assets/services/${category.slug}-hero.png`}
+      alt=""
+      class="hero-image hidden md:block absolute top-0 right-0 h-full object-cover z-0"
+      loading="eager"
+      fetchpriority="high"
+    />
+    {/* Mobile: image at bottom area, also masked */}
+    <img
+      src={`/assets/services/${category.slug}-hero.png`}
+      alt=""
+      class="hero-image-sp md:hidden absolute top-0 left-0 right-0 w-full h-full object-cover z-0"
+      loading="eager"
+      fetchpriority="high"
+    />
 
     <div class="relative z-[1] py-14 md:py-24 px-5 md:px-6">
       <div class="max-w-6xl mx-auto">
@@ -347,6 +346,15 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
 </Layout>
 
 <style>
+  .hero-image {
+    width: 65%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 60%, #000 100%);
+  }
+  .hero-image-sp {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+    mask-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+  }
   .svc-faq-item {
     background: #FFF;
     border: 1px solid #E1E8F0;
