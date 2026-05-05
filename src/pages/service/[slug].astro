@@ -25,64 +25,70 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
 ---
 
 <Layout title={title} description={description}>
-  {/* Hero */}
-  <section class="relative overflow-hidden py-12 md:py-20 px-5 md:px-6" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
-    <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.25) 0%, transparent 70%);"></div>
-    <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(194,229,239,0.30) 0%, transparent 70%);"></div>
+  {/* Hero with full-width image + gradient overlay */}
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src={`/assets/services/${category.slug}-hero.png`}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+      {/* Gradient overlay: stronger on left for text readability */}
+      <div
+        class="absolute inset-0 hidden md:block"
+        style="background: linear-gradient(90deg, rgba(232,245,249,0.95) 0%, rgba(232,245,249,0.85) 30%, rgba(232,245,249,0.45) 55%, rgba(232,245,249,0) 75%);"
+      ></div>
+      {/* Mobile: bottom gradient */}
+      <div
+        class="absolute inset-0 md:hidden"
+        style="background: linear-gradient(180deg, rgba(245,251,253,0.4) 0%, rgba(232,245,249,0.85) 50%, rgba(232,245,249,0.98) 100%);"
+      ></div>
+    </div>
 
-    <div class="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-10 items-center">
-      <div>
-        <nav class="text-xs text-muted mb-4">
-          <a href="/" class="hover:text-navy">HOME</a>
-          <span class="mx-2 text-muted-soft">/</span>
-          <a href="/service" class="hover:text-navy">サービス</a>
-          <span class="mx-2 text-muted-soft">/</span>
-          <span class="text-navy">{category.name}</span>
-        </nav>
-        <span class="label-en">{category.slug.toUpperCase()} CLEANING</span>
-        <h1 class="section-h2 mt-3 leading-tight">
-          <span set:html={category.name.replace("クリーニング", '<span class="accent">クリーニング</span>')} />
-        </h1>
-        <p class="mt-3 text-navy font-bold text-sm md:text-base">{category.tagline}</p>
-        <p class="mt-4 text-text-soft text-sm md:text-base leading-[1.85]">{category.lead}</p>
+    <div class="relative z-[1] py-14 md:py-24 px-5 md:px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="md:max-w-[55%]">
+          <nav class="text-xs text-text-soft mb-4">
+            <a href="/" class="hover:text-navy">HOME</a>
+            <span class="mx-2 text-muted">/</span>
+            <a href="/service" class="hover:text-navy">サービス</a>
+            <span class="mx-2 text-muted">/</span>
+            <span class="text-navy font-bold">{category.name}</span>
+          </nav>
+          <span class="label-en">{category.slug.toUpperCase()} CLEANING</span>
+          <h1 class="section-h2 mt-3 leading-tight">
+            <span set:html={category.name.replace("クリーニング", '<span class="accent">クリーニング</span>')} />
+          </h1>
+          <p class="mt-3 text-navy font-bold text-sm md:text-base">{category.tagline}</p>
+          <p class="mt-4 text-text-soft text-sm md:text-base leading-[1.85]">{category.lead}</p>
 
-        <div class="mt-6 flex flex-wrap gap-2 md:gap-3">
-          <div class="bg-white rounded-xl px-4 py-3 border border-line-soft">
-            <div class="text-[10px] text-muted font-bold tracking-wider">料金</div>
-            <div class="num-mont text-base md:text-xl text-accent-deep font-bold mt-0.5">
-              {formatPrice(category.starting_price)}〜
+          <div class="mt-6 flex flex-wrap gap-2 md:gap-3">
+            <div class="bg-white/90 backdrop-blur rounded-xl px-4 py-3 border border-line-soft shadow-sm">
+              <div class="text-[10px] text-muted font-bold tracking-wider">料金</div>
+              <div class="num-mont text-base md:text-xl text-accent-deep font-bold mt-0.5">
+                {formatPrice(category.starting_price)}〜
+              </div>
+            </div>
+            <div class="bg-white/90 backdrop-blur rounded-xl px-4 py-3 border border-line-soft shadow-sm">
+              <div class="text-[10px] text-muted font-bold tracking-wider">所要時間</div>
+              <div class="num-mont text-base md:text-xl text-navy font-bold mt-0.5">{category.duration}</div>
+            </div>
+            <div class="bg-white/90 backdrop-blur rounded-xl px-4 py-3 border border-line-soft shadow-sm">
+              <div class="text-[10px] text-muted font-bold tracking-wider">保険</div>
+              <div class="text-xs md:text-sm font-bold text-navy mt-0.5">損害保険完備</div>
             </div>
           </div>
-          <div class="bg-white rounded-xl px-4 py-3 border border-line-soft">
-            <div class="text-[10px] text-muted font-bold tracking-wider">所要時間</div>
-            <div class="num-mont text-base md:text-xl text-navy font-bold mt-0.5">{category.duration}</div>
-          </div>
-          <div class="bg-white rounded-xl px-4 py-3 border border-line-soft">
-            <div class="text-[10px] text-muted font-bold tracking-wider">保険</div>
-            <div class="text-xs md:text-sm font-bold text-navy mt-0.5">損害保険完備</div>
-          </div>
-        </div>
 
-        <div class="mt-7 md:mt-9 flex flex-col sm:flex-row gap-3">
-          <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large">
-            <Icon name="clipboard" size={18} /> このサービスを申込む
-          </a>
-          <a href="#pricing" class="btn-tel btn-large">
-            <Icon name="money" size={18} /> 料金を見る
-          </a>
-        </div>
-      </div>
-
-      <div class="hidden md:flex justify-center">
-        <div class="relative">
-          <div class="absolute inset-0 rounded-full" style="background: radial-gradient(circle, rgba(120,200,224,0.20) 0%, transparent 70%); transform: scale(1.3);"></div>
-          <img
-            src={`/assets/services/${category.slug}.png`}
-            alt={category.name}
-            width="500"
-            height="500"
-            class="relative w-[400px] h-[400px] object-cover rounded-[40px] shadow-xl"
-          />
+          <div class="mt-7 md:mt-9 flex flex-col sm:flex-row gap-3">
+            <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large">
+              <Icon name="clipboard" size={18} /> このサービスを申込む
+            </a>
+            <a href="#pricing" class="btn-tel btn-large bg-white/90 backdrop-blur">
+              <Icon name="money" size={18} /> 料金を見る
+            </a>
+          </div>
         </div>
       </div>
     </div>
