@@ -1,0 +1,87 @@
+---
+import Icon from "../Icon.astro";
+---
+
+<section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="text-center mb-10 md:mb-14">
+      <span class="label-en">SPECIAL PROGRAMS</span>
+      <h2 class="section-h2 mt-2">
+        長くお付き合いいただく<span class="accent">特別プログラム</span>
+      </h2>
+      <p class="text-muted mt-4 text-sm md:text-base">
+        繰り返しご利用いただく方・ご紹介いただく方への感謝プログラムです。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+      {/* Maintenance Pack */}
+      <div class="relative bg-gradient-to-br from-sky-pale to-sky-light rounded-[28px] p-7 md:p-9 overflow-hidden">
+        <span class="absolute top-5 right-5 bg-navy text-white text-[10px] font-black px-3 py-1 rounded-full">
+          年間パック
+        </span>
+        <div class="num-mont text-sky text-sm tracking-widest font-bold">PROGRAM 01</div>
+        <h3 class="text-navy text-xl md:text-2xl font-extrabold mt-2 leading-tight">
+          年間メンテナンスパック
+        </h3>
+        <p class="text-text-soft text-sm mt-3 leading-[1.85]">
+          年2回の定期クリーニング（春・冬）をまとめてご予約。シーズン前に確実に予約枠を確保でき、毎回お申込みの手間も省けます。
+        </p>
+
+        <div class="bg-white/70 backdrop-blur rounded-2xl p-5 mt-5 border border-white">
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <span class="text-xs text-muted">通常2回ご利用</span>
+            <span class="num-mont text-xl text-muted line-through">¥24,200</span>
+          </div>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="num-mont text-3xl md:text-[36px] text-accent-deep font-black">¥22,200</span>
+            <span class="text-xs text-text-soft font-bold">（−2,000円）</span>
+          </div>
+          <div class="text-[11px] text-muted mt-2">エアコン1台×2回の場合の例 / 税込</div>
+        </div>
+
+        <a
+          href="/contact"
+          class="mt-6 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full font-bold hover:bg-navy-deep transition-colors"
+        >
+          <Icon name="clipboard" size={16} />
+          パックで申込む
+        </a>
+      </div>
+
+      {/* Referral */}
+      <div class="relative bg-gradient-to-br from-accent/15 to-accent-light/30 rounded-[28px] p-7 md:p-9 overflow-hidden border border-accent/20">
+        <span class="absolute top-5 right-5 bg-accent text-white text-[10px] font-black px-3 py-1 rounded-full">
+          紹介プログラム
+        </span>
+        <div class="num-mont text-accent text-sm tracking-widest font-bold">PROGRAM 02</div>
+        <h3 class="text-accent-deep text-xl md:text-2xl font-extrabold mt-2 leading-tight">
+          ご紹介で、おたがい¥1,000 OFF
+        </h3>
+        <p class="text-text-soft text-sm mt-3 leading-[1.85]">
+          ご友人・ご家族・お知り合いをご紹介いただくと、紹介された方の初回利用時に¥1,000 OFF。<br />
+          さらに紹介者ご本人も次回ご利用時に¥1,000 OFFです。
+        </p>
+
+        <div class="bg-white/80 backdrop-blur rounded-2xl p-5 mt-5">
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div>
+              <div class="text-[10px] text-muted font-bold">ご紹介者</div>
+              <div class="num-mont text-2xl text-accent-deep font-black mt-1">¥1,000 OFF</div>
+              <div class="text-[10px] text-muted mt-1">次回ご利用時</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-muted font-bold">ご紹介された方</div>
+              <div class="num-mont text-2xl text-accent-deep font-black mt-1">¥1,000 OFF</div>
+              <div class="text-[10px] text-muted mt-1">初回ご利用時</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-muted mt-4 leading-relaxed">
+          お申込みフォームの「紹介者名」欄にお名前をご記入ください。後日折り返しご連絡時に割引適用後の金額をお伝えします。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
