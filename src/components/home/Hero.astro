@@ -257,8 +257,11 @@ const hasCampaigns = campaigns.length > 0;
 
   function getSlotWidth(): number {
     const first = allSlides[0];
+    const second = allSlides[1];
     if (!first) return 0;
-    return first.offsetWidth + 24;
+    // Use offsetLeft delta if two slides exist (handles different gap at breakpoints)
+    if (second) return second.offsetLeft - first.offsetLeft;
+    return first.offsetWidth;
   }
 
   function setTransform(px: number, animate: boolean) {
