@@ -27,54 +27,52 @@ const voices = [
 ];
 ---
 
-<section id="voices" class="bg-bg-soft py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-10">
+<section id="voices" class="py-24 md:py-32 px-6 bg-bg-soft">
+  <div class="max-w-[1240px] mx-auto">
+    <div class="text-center mb-12">
       <span class="label-en">CUSTOMER VOICES</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        お客様の<span class="text-navy">ありがとう</span>
+      <h2 class="section-h2 mt-2">
+        お客様の<span class="accent">ありがとう</span>
       </h2>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-md border border-line-soft p-6 md:p-8 max-w-2xl mx-auto mb-12">
-      <div class="flex items-center justify-center gap-5 flex-wrap">
-        <div class="text-center">
-          <div class="num-mont text-5xl text-text leading-none">4.8</div>
-          <div class="text-gold text-lg mt-1 tracking-wider">★★★★★</div>
-        </div>
-        <div class="text-left text-sm">
-          <div class="text-text font-bold">5.0 満点</div>
-          <div class="text-muted text-xs">Google ビジネスプロフィール</div>
-          <a
-            href="#"
-            class="inline-block mt-2 text-navy text-xs font-bold hover:underline"
-          >
-            Googleで全てのクチコミを見る →
-          </a>
-        </div>
+    <div class="bg-white rounded-[28px] shadow-md max-w-2xl mx-auto p-8 mb-14 flex items-center justify-center gap-6 flex-wrap">
+      <div class="text-center">
+        <div class="num-mont text-[64px] text-text leading-none font-extrabold" style="letter-spacing: -0.02em;">4.8</div>
+        <div class="text-gold text-xl mt-1 tracking-wider">★★★★★</div>
+      </div>
+      <div class="text-left text-sm">
+        <div class="text-text font-bold">5.0 満点</div>
+        <div class="text-muted text-xs mt-0.5">Google ビジネスプロフィール</div>
+        <a href="#" class="inline-block mt-2 text-navy text-xs font-bold hover:underline">
+          Googleで全てのクチコミを見る →
+        </a>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-3 gap-7">
       {
         voices.map((v) => (
-          <article class="bg-white rounded-2xl p-6 border border-line-soft hover:shadow-md transition-shadow">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center font-black text-navy text-lg shrink-0">
+          <article class="bg-white rounded-[24px] p-7 shadow-sm hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-full flex items-center justify-center font-black text-navy text-lg shrink-0 shadow-sm"
+                style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF);"
+              >
                 {v.initial}
               </div>
               <div class="flex-1 min-w-0">
                 <div class="font-bold text-text">{v.name}</div>
                 <div class="text-[10px] text-muted num-mont">{v.date}</div>
               </div>
-              <span class="text-gold text-sm leading-none">
-                {"★".repeat(v.rating)}
-                <span class="text-line">{"★".repeat(5 - v.rating)}</span>
-              </span>
             </div>
-            <p class="text-text-soft text-sm leading-relaxed">{v.body}</p>
-            <div class="mt-4 pt-3 border-t border-line-soft">
-              <span class="text-xs text-navy bg-sky-pale px-2.5 py-1 rounded-full font-bold">
+            <div class="text-gold text-sm mb-3 tracking-wider">
+              {"★".repeat(v.rating)}
+              <span class="text-line">{"★".repeat(5 - v.rating)}</span>
+            </div>
+            <p class="text-text-soft text-sm leading-[1.85]">{v.body}</p>
+            <div class="mt-5 pt-4 border-t border-line-soft">
+              <span class="text-[11px] text-navy bg-sky-pale px-2.5 py-1 rounded-full font-bold">
                 {v.service}
               </span>
             </div>

@@ -4,92 +4,100 @@ const services = [
     href: "/service/aircon",
     image: "/assets/services/aircon.png",
     name: "エアコンクリーニング",
+    meta: "分解洗浄でカビ・ホコリをすっきり除去。健康と省エネに。",
     tag: "★ 人気No.1",
-    tagColor: "bg-accent text-white",
-    price: "¥12,100〜",
+    tagPopular: true,
+    price: "12,100",
     features: ["壁掛け", "お掃除機能付", "天井埋込", "完全分解OP"],
   },
   {
     href: "/service/bath",
     image: "/assets/services/bath.png",
     name: "お風呂クリーニング",
+    meta: "浴室まるごと、エプロン内部のカビまで徹底洗浄。",
     tag: "セット割対象",
-    tagColor: "bg-gold text-text",
-    price: "¥18,150〜",
+    price: "18,150",
     features: ["浴室まるごと", "エプロン内部", "鏡うろこ取り", "防カビ"],
   },
   {
     href: "/service/kitchen",
     image: "/assets/services/kitchen.png",
-    name: "キッチン・換気扇",
+    name: "キッチン・換気扇クリーニング",
+    meta: "頑固な油汚れも分解洗浄で。吸い込み復活。",
     tag: "大掃除におすすめ",
-    tagColor: "bg-navy text-white",
-    price: "¥12,100〜",
+    price: "12,100",
     features: ["レンジフード型", "プロペラ型"],
   },
   {
     href: "/service/other",
     image: "/assets/services/other.png",
     name: "その他クリーニング",
+    meta: "水まわり・家電・窓まで、暮らしのあらゆる場所に。",
     tag: "幅広く対応",
-    tagColor: "bg-sky-mid text-navy-deep",
-    price: "¥9,680〜",
+    price: "9,680",
     features: ["トイレ", "洗面所", "洗濯機", "冷蔵庫", "窓ガラス"],
   },
 ];
 ---
 
-<section id="services" class="bg-sky-mist py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-12">
+<section id="services" class="py-24 md:py-32 px-6 bg-white">
+  <div class="max-w-[1240px] mx-auto">
+    <div class="text-center mb-16">
       <span class="label-en">OUR SERVICES</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        清潔と安心を、<span class="text-navy">プロの技術で</span>
+      <h2 class="section-h2 mt-2">
+        清潔と安心を、<span class="accent">プロの技術で</span>
       </h2>
-      <p class="text-text-soft mt-4 max-w-2xl mx-auto text-sm md:text-base">
+      <p class="text-muted mt-4 text-base leading-relaxed">
         ご家庭の主要な水回り・空調設備を、高品質な技術と専用機材で隅々まで美しく仕上げます。
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid sm:grid-cols-2 gap-8">
       {
         services.map((s) => (
           <a
             href={s.href}
-            class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all border border-line-soft hover:-translate-y-1 overflow-hidden flex flex-col"
+            class="service-card group bg-white rounded-[28px] overflow-hidden shadow-sm transition-all duration-400 hover:-translate-y-2 hover:shadow-xl flex flex-col cursor-pointer"
           >
-            <div class="relative aspect-square bg-sky-pale overflow-hidden">
+            <div class="relative aspect-video overflow-hidden bg-sky-pale">
               <img
                 src={s.image}
                 alt={s.name}
                 width="700"
                 height="700"
                 loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
+              <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.35) 100%);" />
               <span
-                class={`absolute top-3 right-3 text-[10px] font-bold px-2.5 py-1 rounded-full ${s.tagColor} shadow-sm`}
+                class:list={[
+                  "absolute top-[18px] left-[18px] px-3.5 py-1.5 rounded-full text-[11px] font-extrabold tracking-wider shadow-sm",
+                  s.tagPopular ? "bg-accent text-white" : "bg-white/95 text-accent",
+                ]}
+                style="letter-spacing: 0.08em;"
               >
                 {s.tag}
               </span>
             </div>
-            <div class="p-5 flex-1 flex flex-col">
-              <h3 class="text-lg font-black text-text">{s.name}</h3>
-              <div class="mt-2 flex items-baseline gap-1">
-                <span class="num-mont text-2xl text-accent-deep">{s.price}</span>
-                <span class="text-xs text-muted">税込</span>
-              </div>
-              <ul class="mt-4 space-y-1.5 text-xs text-text-soft flex-1">
+            <div class="px-9 pt-8 pb-9 flex-1 flex flex-col">
+              <h3 class="text-navy mb-2 text-[22px] font-extrabold">{s.name}</h3>
+              <p class="text-muted text-[13px] mb-5 leading-[1.7]">{s.meta}</p>
+              <div class="flex gap-1.5 mb-5 flex-wrap">
                 {s.features.map((f) => (
-                  <li class="flex items-center gap-1.5">
-                    <span class="text-sky">✓</span>
+                  <span class="bg-sky-pale text-navy px-2.5 py-0.5 rounded text-[11px] font-semibold">
                     {f}
-                  </li>
+                  </span>
                 ))}
-              </ul>
-              <div class="mt-5 text-navy text-sm font-bold group-hover:translate-x-1 transition-transform">
-                詳しく見る →
               </div>
+              <div class="flex items-baseline gap-2 mb-6 pt-5 border-t border-dashed border-line">
+                <span class="text-[11px] text-muted">料金</span>
+                <span class="num-mont text-accent text-[32px] font-bold leading-none" style="letter-spacing: -0.02em;">¥{s.price}</span>
+                <span class="text-muted text-xs">〜（税込）</span>
+              </div>
+              <span class="service-link inline-flex items-center gap-2 text-navy font-bold text-sm mt-auto">
+                詳しく見る
+                <span class="arrow inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
             </div>
           </a>
         ))

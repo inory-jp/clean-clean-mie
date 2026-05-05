@@ -4,17 +4,23 @@ import { getNewsList, formatDate } from "../../lib/microcms";
 const { contents: news } = await getNewsList({ limit: 5 });
 const featured = news[0];
 const others = news.slice(1, 5);
+
+const categoryColor: Record<string, string> = {
+  お知らせ: "bg-navy text-white",
+  施工事例: "bg-accent text-white",
+  お役立ちコラム: "bg-sky text-white",
+};
 ---
 
 {
   news.length > 0 && (
-    <section id="news" class="bg-white py-16 md:py-24">
-      <div class="max-w-7xl mx-auto px-4 md:px-8">
-        <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+    <section id="news" class="py-24 md:py-32 px-6 bg-white">
+      <div class="max-w-[1240px] mx-auto">
+        <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
           <div>
             <span class="label-en">NEWS &amp; BLOG</span>
-            <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-              お知らせ・<span class="text-navy">お役立ち情報</span>
+            <h2 class="section-h2 mt-2">
+              お知らせ・<span class="accent">お役立ち情報</span>
             </h2>
           </div>
           <a href="/news" class="text-navy font-bold text-sm hover:underline">
@@ -26,7 +32,7 @@ const others = news.slice(1, 5);
           {featured && (
             <a
               href={`/news/${featured.slug}`}
-              class="lg:row-span-2 bg-bg-soft rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden flex flex-col group"
+              class="lg:row-span-2 bg-bg-soft rounded-[24px] hover:shadow-lg transition-shadow overflow-hidden flex flex-col group"
             >
               {featured.eyecatch ? (
                 <div class="aspect-video lg:aspect-[4/3] bg-line-soft overflow-hidden">
@@ -35,7 +41,7 @@ const others = news.slice(1, 5);
                     alt={featured.title}
                     width={featured.eyecatch.width}
                     height={featured.eyecatch.height}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
               ) : (
@@ -43,30 +49,31 @@ const others = news.slice(1, 5);
                   📝
                 </div>
               )}
-              <div class="p-6 flex-1 flex flex-col">
+              <div class="p-7 flex-1 flex flex-col">
                 <div class="flex items-center gap-3 mb-3">
-                  <span class="text-xs bg-accent text-white px-2.5 py-1 rounded-full font-bold">
+                  <span class:list={["text-[11px] px-3 py-1 rounded-full font-bold", categoryColor[featured.category] || "bg-sky-pale text-navy"]}>
                     {featured.category}
                   </span>
                   <span class="text-xs text-muted num-mont">
                     {formatDate(featured.published_at || featured.publishedAt)}
                   </span>
                 </div>
-                <h3 class="text-lg md:text-xl font-black text-text leading-snug">
+                <h3 class="text-xl md:text-2xl font-black text-navy leading-snug">
                   {featured.title}
                 </h3>
-                <div class="mt-auto pt-4 text-navy text-sm font-bold">
-                  続きを読む →
+                <div class="mt-auto pt-5 text-navy text-sm font-bold inline-flex items-center gap-2">
+                  続きを読む
+                  <span class="transition-transform group-hover:translate-x-1">→</span>
                 </div>
               </div>
             </a>
           )}
 
-          <div class="grid sm:grid-cols-2 gap-4 lg:col-span-2">
+          <div class="grid sm:grid-cols-2 gap-5 lg:col-span-2">
             {others.map((n) => (
               <a
                 href={`/news/${n.slug}`}
-                class="bg-bg-soft rounded-2xl border border-line-soft hover:shadow-md transition-shadow overflow-hidden flex flex-col group"
+                class="bg-bg-soft rounded-[20px] hover:shadow-md transition-shadow overflow-hidden flex flex-col group"
               >
                 {n.eyecatch ? (
                   <div class="aspect-video bg-line-soft overflow-hidden">
@@ -76,7 +83,7 @@ const others = news.slice(1, 5);
                       width={n.eyecatch.width}
                       height={n.eyecatch.height}
                       loading="lazy"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 ) : (
@@ -84,9 +91,9 @@ const others = news.slice(1, 5);
                     📝
                   </div>
                 )}
-                <div class="p-4 flex-1 flex flex-col">
+                <div class="p-5 flex-1 flex flex-col">
                   <div class="flex items-center gap-2 mb-2">
-                    <span class="text-[10px] bg-sky-pale text-navy px-2 py-0.5 rounded-full font-bold">
+                    <span class:list={["text-[10px] px-2 py-0.5 rounded-full font-bold", categoryColor[n.category] || "bg-sky-pale text-navy"]}>
                       {n.category}
                     </span>
                     <span class="text-[10px] text-muted num-mont">

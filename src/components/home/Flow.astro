@@ -38,36 +38,42 @@ const steps = [
 ];
 ---
 
-<section id="flow" class="bg-bg-soft py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-12">
+<section id="flow" class="py-24 md:py-32 px-6 bg-white">
+  <div class="max-w-[1240px] mx-auto">
+    <div class="text-center mb-16">
       <span class="label-en">SERVICE FLOW</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        施工の<span class="text-navy">流れ</span>
+      <h2 class="section-h2 mt-2">
+        施工の<span class="accent">流れ</span>
       </h2>
-      <p class="mt-4 text-text-soft max-w-2xl mx-auto text-sm md:text-base">
+      <p class="text-muted mt-4 text-base leading-relaxed">
         初めての方でも安心。シンプルな5ステップでスムーズにご利用いただけます。
       </p>
     </div>
 
-    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-3 relative">
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
       {
         steps.map((s, i) => (
-          <li class="bg-white rounded-2xl p-5 border border-line-soft hover:shadow-md transition-shadow relative">
-            <div class="flex items-start justify-between mb-3">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-2xl">
-                {s.icon}
-              </div>
-              <span class="num-mont text-xs text-sky font-bold mt-2">{s.no}</span>
+          <li class="bg-white rounded-[24px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all relative">
+            <div
+              class="num-mont absolute -top-3 left-6 px-3 py-1 rounded-full bg-navy text-white text-[10px] font-bold shadow-sm"
+              style="letter-spacing: 0.1em;"
+            >
+              STEP {s.no}
             </div>
-            <h3 class="font-black text-text leading-tight">{s.title}</h3>
-            <p class="mt-2 text-xs text-text-soft leading-relaxed">{s.body}</p>
+            <div
+              class="w-14 h-14 mt-3 mb-5 rounded-2xl flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #E8F5F9, #C2E5EF); box-shadow: 0 4px 12px rgba(120,200,224,0.25);"
+            >
+              {s.icon}
+            </div>
+            <h3 class="font-extrabold text-navy text-base leading-tight mb-2">{s.title}</h3>
+            <p class="text-text-soft text-xs leading-relaxed">{s.body}</p>
             <div class="mt-4 inline-block bg-sky-pale text-navy-deep text-[10px] font-bold px-2.5 py-1 rounded-full">
               ⏱ {s.duration}
             </div>
             {i < steps.length - 1 && (
-              <span class="hidden lg:block absolute top-1/2 -right-2 -translate-y-1/2 text-sky-light text-2xl">
-                ▶
+              <span class="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 text-sky-light text-2xl items-center">
+                →
               </span>
             )}
           </li>

@@ -24,30 +24,45 @@ const items = [
 ];
 ---
 
-<section id="strengths" class="bg-white py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-12">
+<section id="strengths" class="bg-bg-soft py-24 md:py-32 px-6">
+  <div class="max-w-[1240px] mx-auto">
+    <div class="text-center mb-16">
       <span class="label-en">OUR STRENGTHS</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        選ばれる<span class="text-navy">3つの理由</span>
+      <h2 class="section-h2 mt-2">
+        選ばれる<span class="accent">3つの理由</span>
       </h2>
+      <p class="text-muted mt-4 text-base leading-relaxed">
+        地域に根ざした、店主直接施工のハウスクリーニング。<br class="hidden sm:inline" />
+        顔の見える安心と、確かな品質をお届けします。
+      </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-3 gap-7">
       {
         items.map((it) => (
-          <div class="bg-bg-soft rounded-2xl p-7 border border-line-soft hover:shadow-md hover:-translate-y-1 transition-all">
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-pale to-sky-light flex items-center justify-center text-3xl shadow-sm">
-                {it.icon}
-              </div>
-              <span class="num-mont text-4xl text-sky-light leading-none">
-                {it.no}
-              </span>
+          <div class="strength-card relative bg-white rounded-[28px] px-9 pt-12 pb-10 text-left shadow-sm overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
+            <span
+              aria-hidden="true"
+              class="absolute top-0 left-0 right-0 h-1 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
+              style="background: linear-gradient(90deg, #78C8E0, #1E88B0); transform: scaleX(0); transform-origin: left;"
+            />
+            <div
+              class="num-mont absolute top-6 right-7 text-[72px] leading-none text-sky-pale pointer-events-none"
+              style="letter-spacing: -0.04em;"
+            >
+              {it.no}
             </div>
-            <h3 class="text-xl font-black text-text mb-3">{it.title}</h3>
-            <p class="text-text-soft text-sm leading-relaxed">{it.body}</p>
-            <div class="mt-5 inline-block bg-white text-navy text-xs font-bold px-3 py-1.5 rounded-full border border-sky-light">
+            <div
+              class="w-[72px] h-[72px] mb-6 rounded-[18px] flex items-center justify-center text-3xl"
+              style="background: linear-gradient(135deg, #E8F5F9, #9CD8E8); box-shadow: 0 6px 20px rgba(120,200,224,0.30);"
+            >
+              {it.icon}
+            </div>
+            <h3 class="text-navy mb-3 text-[22px] font-extrabold leading-snug">
+              {it.title}
+            </h3>
+            <p class="text-text-soft text-sm leading-[1.9]">{it.body}</p>
+            <div class="mt-5 inline-block px-3 py-1 bg-sky-pale text-navy text-[11px] font-bold rounded-full">
               {it.tag}
             </div>
           </div>
@@ -56,3 +71,21 @@ const items = [
     </div>
   </div>
 </section>
+
+<style>
+  .strength-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #78C8E0, #1E88B0);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .strength-card:hover::before {
+    transform: scaleX(1);
+  }
+</style>

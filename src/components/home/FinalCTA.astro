@@ -9,50 +9,60 @@ const metas = [
 ];
 ---
 
-<section class="relative bg-gradient-to-br from-navy to-navy-deep text-white py-20 md:py-28 overflow-hidden">
-  <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-sky/30 blur-3xl"></div>
-  <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl"></div>
+<section class="relative text-white py-24 md:py-32 px-6 overflow-hidden" style="background: linear-gradient(135deg, #1E88B0 0%, #0D5B7A 100%);">
+  <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255,235,59,0.15) 0%, transparent 70%);"></div>
+  <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255,122,69,0.20) 0%, transparent 70%);"></div>
 
-  <div class="relative max-w-3xl mx-auto px-4 md:px-8 text-center">
-    <span class="label-en !text-sky-light">CONTACT</span>
-    <h2 class="text-4xl md:text-6xl font-black leading-tight mt-3">
+  <div class="relative max-w-2xl mx-auto text-center">
+    <span class="label-en" style="color: #C2E5EF;">CONTACT</span>
+    <span class="hidden">
+      <style>
+        .label-en::before {
+          background: #C2E5EF;
+        }
+      </style>
+    </span>
+    <h2 class="text-4xl md:text-6xl font-black leading-[1.18] mt-3" style="letter-spacing: -0.02em; text-shadow: 0 2px 6px rgba(0,0,0,0.12);">
       暮らしを、<br />もっとキレイに。
     </h2>
-    <p class="mt-7 text-sky-light leading-relaxed">
+    <p class="mt-7 text-sky-light leading-[1.9]">
       料金をその場でご確認いただけます。<br class="md:hidden" />送信後、栗田より折り返しご連絡いたします。
     </p>
 
-    <div class="mt-10 bg-white text-text rounded-3xl p-6 md:p-8 shadow-xl">
-      <div class="inline-flex items-center gap-2 bg-gold/20 text-accent-deep px-3 py-1.5 rounded-full text-xs font-black mb-5">
+    <div class="mt-10 bg-white text-text rounded-[28px] p-8 md:p-10" style="box-shadow: 0 24px 80px rgba(0,0,0,0.30);">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-black mb-6"
+        style="background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,193,7,0.30)); color: #E55F2C;"
+      >
         ★ おすすめ ／ カート式申込みで料金が即わかる
       </div>
 
       <a
         href="/contact"
-        class="block w-full px-8 py-5 rounded-2xl bg-accent hover:bg-accent-deep text-white font-black text-base md:text-lg shadow-orange transition-colors"
+        class="btn-cta btn-xl block w-full"
       >
         📋 お申込み・見積もりフォーム →
       </a>
 
-      <div class="my-5 text-xs text-muted flex items-center gap-3 justify-center">
-        <span class="h-px flex-1 max-w-16 bg-line"></span>
+      <div class="my-6 text-xs text-muted flex items-center gap-3 justify-center">
+        <span class="h-px flex-1 max-w-20 bg-line"></span>
         または
-        <span class="h-px flex-1 max-w-16 bg-line"></span>
+        <span class="h-px flex-1 max-w-20 bg-line"></span>
       </div>
 
       <a
         href={telHref}
-        class="block bg-bg-soft hover:bg-sky-pale rounded-2xl py-4 transition-colors border border-line-soft"
+        class="block bg-bg-soft hover:bg-sky-pale rounded-2xl py-5 transition-colors border border-line-soft"
       >
         <div class="text-xs text-muted">📞 お電話でのご相談</div>
-        <div class="num-mont text-3xl text-navy font-black mt-1">{tel}</div>
+        <div class="num-mont text-3xl text-navy font-black mt-1.5" style="letter-spacing: 0;">{tel}</div>
       </a>
     </div>
 
-    <div class="mt-8 flex flex-wrap gap-2 justify-center">
+    <div class="mt-9 flex flex-wrap gap-2 justify-center">
       {
         metas.map((m) => (
-          <span class="text-[11px] bg-white/10 backdrop-blur text-sky-light px-3 py-1.5 rounded-full border border-white/20">
+          <span class="text-[11px] bg-white/10 backdrop-blur text-sky-light px-3.5 py-2 rounded-full border border-white/20">
             {m}
           </span>
         ))

@@ -4,32 +4,32 @@ import faqs from "../../data/faqs.json";
 const featured = faqs.slice(0, 5);
 ---
 
-<section id="faq" class="bg-white py-16 md:py-24">
-  <div class="max-w-3xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-10">
+<section id="faq" class="py-24 md:py-32 px-6 bg-bg-soft">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
       <span class="label-en">FAQ</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        よくある<span class="text-navy">ご質問</span>
+      <h2 class="section-h2 mt-2">
+        よくある<span class="accent">ご質問</span>
       </h2>
     </div>
 
     <div class="space-y-3">
       {
         featured.map((f, i) => (
-          <details class={`bg-bg-soft rounded-2xl border border-line-soft overflow-hidden group ${i === 0 ? "[&]:open" : ""}`} open={i === 0}>
-            <summary class="flex items-start gap-4 px-5 py-4 cursor-pointer list-none">
+          <details class="group bg-white rounded-2xl shadow-sm overflow-hidden" open={i === 0}>
+            <summary class="flex items-start gap-4 px-6 py-5 cursor-pointer list-none">
               <span class="num-mont text-navy text-sm shrink-0 mt-0.5">
                 Q{String(i + 1).padStart(2, "0")}
               </span>
-              <span class="flex-1 font-bold text-text">{f.question}</span>
-              <span class="text-xs bg-sky-pale text-navy px-2.5 py-1 rounded-full shrink-0 font-bold">
+              <span class="flex-1 font-bold text-text leading-snug">{f.question}</span>
+              <span class="text-[10px] bg-sky-pale text-navy px-2.5 py-1 rounded-full shrink-0 font-bold whitespace-nowrap">
                 {f.category}
               </span>
-              <span class="text-navy text-xl shrink-0 group-open:rotate-45 transition-transform">
+              <span class="text-navy text-2xl shrink-0 group-open:rotate-45 transition-transform leading-none">
                 ＋
               </span>
             </summary>
-            <div class="px-5 pb-5 pt-0 pl-14 text-text-soft text-sm leading-relaxed">
+            <div class="px-6 pb-6 pl-16 text-text-soft text-sm leading-[1.9]">
               {f.answer}
             </div>
           </details>
@@ -40,7 +40,7 @@ const featured = faqs.slice(0, 5);
     <div class="mt-10 text-center">
       <a
         href="/faq"
-        class="inline-flex items-center px-6 py-3 rounded-full border-2 border-navy text-navy font-bold hover:bg-sky-pale transition-colors"
+        class="inline-flex items-center px-7 py-3.5 rounded-full border-2 border-navy text-navy font-bold hover:bg-navy hover:text-white transition-colors"
       >
         すべてのFAQを見る →
       </a>

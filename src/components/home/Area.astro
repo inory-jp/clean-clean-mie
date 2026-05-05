@@ -2,7 +2,6 @@
 const primaryAreas = ["津市", "松阪市", "鈴鹿市"];
 const otherAreas = ["伊勢市", "名張市", "伊賀市", "亀山市", "桑名市", "他三重県全域"];
 
-// マップ画像上のピン位置（パーセント）
 const pins = [
   { city: "津", top: "44%", left: "55%" },
   { city: "松阪", top: "55%", left: "52%" },
@@ -10,19 +9,19 @@ const pins = [
 ];
 ---
 
-<section id="area" class="relative bg-gradient-to-br from-white via-sky-mist to-sky-pale py-16 md:py-24 overflow-hidden">
-  <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-sky-light/30 blur-3xl"></div>
+<section id="area" class="relative py-24 md:py-32 px-6 overflow-hidden bg-gradient-to-br from-white via-sky-mist to-sky-pale">
+  <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.30) 0%, transparent 70%);"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-12">
+  <div class="relative max-w-[1240px] mx-auto">
+    <div class="text-center mb-16">
       <span class="label-en">SERVICE AREA</span>
-      <h2 class="text-3xl md:text-4xl font-black text-text mt-2">
-        三重県全域に<span class="text-navy">対応しています</span>
+      <h2 class="section-h2 mt-2">
+        三重県全域に<span class="accent">対応しています</span>
       </h2>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-10 items-center">
-      <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 border border-line-soft">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="bg-white rounded-[28px] shadow-lg p-8 md:p-10">
         <div class="relative">
           <img
             src="/assets/mie-map.png"
@@ -38,7 +37,7 @@ const pins = [
                 <div class="relative">
                   <span class="absolute inset-0 rounded-full bg-accent/40 animate-ping" style="width: 18px; height: 18px;"></span>
                   <span class="relative block w-[18px] h-[18px] rounded-full bg-accent shadow-md ring-2 ring-white"></span>
-                  <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap text-[11px] font-black text-accent-deep bg-white/90 px-1.5 rounded">
+                  <span class="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 whitespace-nowrap text-xs font-black text-accent-deep bg-white/95 px-2 py-0.5 rounded shadow-sm">
                     {p.city}
                   </span>
                 </div>
@@ -46,23 +45,23 @@ const pins = [
             ))
           }
         </div>
-        <div class="mt-5 flex items-center gap-2 justify-center text-xs">
+        <div class="mt-6 flex items-center gap-2 justify-center text-xs">
           <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
           <span class="text-muted">主要エリア（津市・松阪市・鈴鹿市）</span>
         </div>
       </div>
 
       <div>
-        <p class="text-text-soft mb-7 leading-relaxed">
+        <p class="text-text-soft mb-8 leading-[1.9]">
           津市・松阪市・鈴鹿市を中心に、三重県全域へお伺いいたします。地域密着で迅速な対応が可能です。
         </p>
 
-        <div class="mb-6">
-          <div class="text-xs text-muted font-bold mb-3">主要対応エリア</div>
+        <div class="mb-7">
+          <div class="text-xs text-muted font-bold mb-3 tracking-wider">主要対応エリア</div>
           <div class="flex flex-wrap gap-2">
             {
               primaryAreas.map((a) => (
-                <span class="bg-navy text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
+                <span class="bg-navy text-white text-sm font-bold px-5 py-2 rounded-full shadow-sm">
                   {a}
                 </span>
               ))
@@ -70,12 +69,12 @@ const pins = [
           </div>
         </div>
 
-        <div class="mb-8">
-          <div class="text-xs text-muted font-bold mb-3">その他対応エリア</div>
+        <div class="mb-9">
+          <div class="text-xs text-muted font-bold mb-3 tracking-wider">その他対応エリア</div>
           <div class="flex flex-wrap gap-2">
             {
               otherAreas.map((a) => (
-                <span class="bg-white text-navy text-sm px-3 py-1.5 rounded-full border border-sky-light">
+                <span class="bg-white text-navy text-sm px-3.5 py-1.5 rounded-full border border-line">
                   {a}
                 </span>
               ))
@@ -83,24 +82,24 @@ const pins = [
           </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
-            <div class="num-mont text-base text-navy font-black leading-tight">三重県全域</div>
-            <div class="text-[10px] text-muted mt-1">対応エリア</div>
+        <div class="grid grid-cols-3 gap-3 mb-7">
+          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+            <div class="num-mont text-base text-navy font-extrabold leading-tight">三重県全域</div>
+            <div class="text-[10px] text-muted mt-1.5">対応エリア</div>
           </div>
-          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
-            <div class="num-mont text-base text-accent-deep font-black">無料</div>
-            <div class="text-[10px] text-muted mt-1">県内出張費</div>
+          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+            <div class="num-mont text-base text-accent-deep font-extrabold">無料</div>
+            <div class="text-[10px] text-muted mt-1.5">県内出張費</div>
           </div>
-          <div class="bg-white rounded-xl p-4 text-center border border-line-soft shadow-sm">
-            <div class="num-mont text-base text-navy font-black leading-tight">即日相談OK</div>
-            <div class="text-[10px] text-muted mt-1">お見積もり</div>
+          <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+            <div class="num-mont text-base text-navy font-extrabold leading-tight">即日相談OK</div>
+            <div class="text-[10px] text-muted mt-1.5">お見積もり</div>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl p-4 text-sm text-text-soft border border-sky-light flex items-start gap-3">
-          <span class="text-xl shrink-0">💬</span>
-          <span>
+        <div class="bg-white rounded-2xl p-5 text-sm text-text-soft border border-sky-light flex items-start gap-3 shadow-sm">
+          <span class="text-2xl shrink-0 leading-none">💬</span>
+          <span class="leading-relaxed">
             エリア外の方もまずはお気軽にご相談ください。出張対応の可否を確認のうえ、ご回答いたします。
           </span>
         </div>
