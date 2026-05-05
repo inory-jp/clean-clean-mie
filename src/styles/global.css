@@ -101,15 +101,21 @@
 }
 
 @utility section-h2 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 900;
   color: var(--color-navy);
   letter-spacing: -0.02em;
-  line-height: 1.3;
+  line-height: 1.35;
+}
+@media (min-width: 640px) {
+  .section-h2 {
+    font-size: 30px;
+  }
 }
 @media (min-width: 768px) {
   .section-h2 {
     font-size: 38px;
+    line-height: 1.3;
   }
 }
 

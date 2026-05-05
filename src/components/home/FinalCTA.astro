@@ -8,7 +8,7 @@ const telHref = "tel:0592715908";
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-10">
       <span class="label-en">CONTACT</span>
-      <h2 class="section-h2 mt-3" style="font-size: 32px; line-height: 1.2;">
+      <h2 class="section-h2 mt-3">
         料金が<span class="accent">即わかる</span>。<br />
         まずは<span class="text-navy">お見積もり</span>から。
       </h2>
@@ -17,12 +17,12 @@ const telHref = "tel:0592715908";
       </p>
     </div>
 
-    <div class="bg-white rounded-[28px] shadow-xl p-7 md:p-9 border border-line-soft">
+    <div class="bg-white rounded-[24px] md:rounded-[28px] shadow-xl p-5 md:p-9 border border-line-soft">
       <div class="grid md:grid-cols-2 gap-4">
         {/* Primary: form */}
         <a
           href="/contact"
-          class="group relative flex flex-col text-center bg-accent text-white rounded-2xl px-6 py-9 hover:bg-accent-deep transition-colors shadow-orange min-h-[220px] justify-center"
+          class="group relative flex flex-col text-center bg-accent text-white rounded-2xl px-5 md:px-6 py-7 md:py-9 hover:bg-accent-deep transition-colors shadow-orange md:min-h-[220px] justify-center"
         >
           <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-text text-[10px] font-black px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
             ★ おすすめ
@@ -43,7 +43,7 @@ const telHref = "tel:0592715908";
         {/* Secondary: phone */}
         <a
           href={telHref}
-          class="group flex flex-col text-center bg-white border-2 border-navy text-navy rounded-2xl px-6 py-9 hover:bg-sky-pale transition-colors min-h-[220px] justify-center"
+          class="group flex flex-col text-center bg-white border-2 border-navy text-navy rounded-2xl px-5 md:px-6 py-7 md:py-9 hover:bg-sky-pale transition-colors md:min-h-[220px] justify-center"
         >
           <div class="flex justify-center mb-3">
             <Icon name="phone" size={32} />

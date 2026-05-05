@@ -68,15 +68,15 @@ const hasCampaigns = campaigns.length > 0;
           </>
         )}
 
-        <div class="flex gap-4 justify-center flex-wrap mt-9">
-          <a href="/contact" class="btn-cta btn-large">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:flex-wrap mt-7 sm:mt-9 px-6">
+          <a href="/contact" class="btn-cta btn-large w-full sm:w-auto">
             <Icon name="clipboard" size={18} /> お申込み・見積もり
           </a>
-          <a href="tel:0592715908" class="btn-tel btn-large">
+          <a href="tel:0592715908" class="btn-tel btn-large w-full sm:w-auto">
             <Icon name="phone" size={18} /> <span class="num-mont">059-271-5908</span>
           </a>
         </div>
-        <div class="mt-5 text-center text-xs text-muted">
+        <div class="mt-5 px-4 text-center text-[11px] sm:text-xs text-muted leading-relaxed">
           対応エリア: 津・松阪・鈴鹿ほか三重県全域 ／ 損害保険完備 ／ 翌営業日中に一次返信
         </div>
       </div>
@@ -199,8 +199,12 @@ const hasCampaigns = campaigns.length > 0;
   .slider-arrow.next { right: 32px; }
   @media (max-width: 768px) {
     .slider-arrow { display: none; }
-    .slides-track { padding: 0 6vw; gap: 16px; }
-    .slide { flex: 0 0 88vw; }
+    .slides-track { padding: 0 6vw; gap: 12px; }
+    .slide {
+      flex: 0 0 88vw;
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+    }
   }
 
   .hero-dot {
