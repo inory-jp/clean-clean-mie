@@ -15,16 +15,22 @@ const { category } = Astro.props;
 const formatPrice = (n: number | null, label?: string) =>
   n != null ? `¥${n.toLocaleString()}` : (label ?? "要問合せ");
 
+const cat = category as any;
+const painPoints: { title: string; body: string }[] = cat.pain_points ?? [];
+const beforeAfter: { title: string; meta: string }[] = cat.before_after ?? [];
+const serviceFaqs: { q: string; a: string }[] = cat.service_faqs ?? [];
+
 const title = `${category.name}｜CLEAN×CLEAN 津中央店`;
 const description = `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
 ---
 
 <Layout title={title} description={description}>
+  {/* Hero */}
   <section class="relative overflow-hidden py-12 md:py-20 px-5 md:px-6" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%);">
     <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(120,200,224,0.25) 0%, transparent 70%);"></div>
     <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(194,229,239,0.30) 0%, transparent 70%);"></div>
 
-    <div class="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+    <div class="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-10 items-center">
       <div>
         <nav class="text-xs text-muted mb-4">
           <a href="/" class="hover:text-navy">HOME</a>
@@ -34,15 +40,13 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
           <span class="text-navy">{category.name}</span>
         </nav>
         <span class="label-en">{category.slug.toUpperCase()} CLEANING</span>
-        <h1 class="section-h2 mt-3 leading-tight" style="font-size: 30px;">
+        <h1 class="section-h2 mt-3 leading-tight">
           <span set:html={category.name.replace("クリーニング", '<span class="accent">クリーニング</span>')} />
         </h1>
         <p class="mt-3 text-navy font-bold text-sm md:text-base">{category.tagline}</p>
-        <p class="mt-4 md:mt-5 text-text-soft text-sm md:text-base leading-[1.85]">
-          {category.lead}
-        </p>
+        <p class="mt-4 text-text-soft text-sm md:text-base leading-[1.85]">{category.lead}</p>
 
-        <div class="mt-6 md:mt-7 flex flex-wrap gap-2 md:gap-3">
+        <div class="mt-6 flex flex-wrap gap-2 md:gap-3">
           <div class="bg-white rounded-xl px-4 py-3 border border-line-soft">
             <div class="text-[10px] text-muted font-bold tracking-wider">料金</div>
             <div class="num-mont text-base md:text-xl text-accent-deep font-bold mt-0.5">
@@ -63,8 +67,8 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
           <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large">
             <Icon name="clipboard" size={18} /> このサービスを申込む
           </a>
-          <a href="tel:0592715908" class="btn-tel btn-large">
-            <Icon name="phone" size={18} /> <span class="num-mont">059-271-5908</span>
+          <a href="#pricing" class="btn-tel btn-large">
+            <Icon name="money" size={18} /> 料金を見る
           </a>
         </div>
       </div>
@@ -84,16 +88,140 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     </div>
   </section>
 
-  <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+  {/* Pain Points */}
+  {
+    painPoints.length > 0 && (
+      <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-10 md:mb-14">
+            <span class="label-en">YOUR CONCERNS</span>
+            <h2 class="section-h2 mt-2">
+              こんな<span class="accent">お悩み</span>ありませんか？
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+            {painPoints.map((p) => (
+              <div class="bg-bg-soft rounded-2xl p-5 md:p-6 border border-line-soft">
+                <div class="flex items-start gap-2.5 mb-2">
+                  <div class="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <Icon name="check" size={14} />
+                  </div>
+                  <h3 class="text-navy font-extrabold text-sm md:text-base leading-snug">
+                    {p.title}
+                  </h3>
+                </div>
+                <p class="text-text-soft text-xs md:text-sm leading-[1.85] pl-9">
+                  {p.body}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div class="mt-10 text-center">
+            <p class="inline-flex items-center gap-2 text-sm md:text-base text-navy font-bold bg-sky-pale px-5 py-3 rounded-full">
+              ひとつでも当てはまる方
+              <span class="text-accent">▶</span>
+              プロの分解洗浄がおすすめです
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {/* Process Flow */}
+  {
+    category.flow.length > 0 && (
+      <section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-10 md:mb-14">
+            <span class="label-en">SERVICE FLOW</span>
+            <h2 class="section-h2 mt-2">
+              当日の<span class="accent">施工の流れ</span>
+            </h2>
+            <p class="text-muted mt-4 text-sm md:text-base">
+              養生から動作確認まで、{category.flow.length}ステップで丁寧に作業いたします。
+            </p>
+          </div>
+          <ol class="space-y-4">
+            {category.flow.map((f) => (
+              <li class="bg-white rounded-2xl p-5 md:p-6 flex gap-4 md:gap-5 items-start border border-line-soft">
+                <div class="num-mont text-3xl md:text-4xl text-sky shrink-0 leading-none mt-1">
+                  {f.step}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between gap-3 flex-wrap">
+                    <h3 class="font-black text-text text-base md:text-lg">{f.title}</h3>
+                    <span class="text-[10px] md:text-xs text-muted bg-sky-pale px-3 py-1 rounded-full whitespace-nowrap">
+                      ⏱ {f.duration}
+                    </span>
+                  </div>
+                  <p class="mt-2 text-text-soft text-xs md:text-sm leading-[1.85]">{f.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  {/* Before & After */}
+  {
+    beforeAfter.length > 0 && (
+      <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-10 md:mb-14">
+            <span class="label-en">BEFORE &amp; AFTER</span>
+            <h2 class="section-h2 mt-2">
+              施工事例<span class="accent">（Before / After）</span>
+            </h2>
+            <p class="text-muted mt-4 text-sm md:text-base">
+              実際の施工によるBefore/Afterをご覧ください。すべて店主が直接施工した実績です。
+            </p>
+            <p class="text-xs text-muted mt-2">※ 写真は栗田さんから受領後に差し替え予定</p>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+            {beforeAfter.map((ba) => (
+              <div class="bg-white rounded-[20px] border border-line-soft overflow-hidden hover:shadow-md transition-shadow">
+                <div class="grid grid-cols-2 relative">
+                  <div class="aspect-square bg-gradient-to-br from-text-soft/30 to-muted/30 flex items-center justify-center text-white text-xs font-bold relative">
+                    <span class="absolute top-2 left-2 bg-text-soft text-white text-[10px] px-2 py-0.5 rounded font-bold">BEFORE</span>
+                    <span class="opacity-50">施工前</span>
+                  </div>
+                  <div class="aspect-square bg-gradient-to-br from-sky to-navy flex items-center justify-center text-white text-xs font-bold relative">
+                    <span class="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded font-bold">AFTER</span>
+                    <span class="opacity-80">施工後</span>
+                  </div>
+                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-accent font-black z-10">
+                    →
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="text-navy font-extrabold text-sm leading-snug">{ba.title}</h3>
+                  <p class="text-muted text-[11px] mt-1.5 leading-relaxed">{ba.meta}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {/* Pricing Table */}
+  <section id="pricing" class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft scroll-mt-20">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-10 md:mb-12">
         <span class="label-en">PRICE LIST</span>
         <h2 class="section-h2 mt-2">
-          料金<span class="accent">表</span>
+          料金<span class="accent">表（税込）</span>
         </h2>
+        <p class="text-muted mt-4 text-sm md:text-base">
+          掲載料金は確定料金です。気になるメニューを「カートに追加」してそのまま申込みへ。
+        </p>
       </div>
 
-      <div class="bg-bg-soft rounded-[24px] md:rounded-[28px] border border-line-soft overflow-hidden">
+      <div class="bg-white rounded-[24px] md:rounded-[28px] border border-line-soft overflow-hidden shadow-sm">
         <table class="w-full text-sm">
           <thead class="bg-navy text-white">
             <tr>
@@ -133,9 +261,7 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
                 <tr class="border-t border-line-soft bg-sky-mist">
                   <td class="px-4 md:px-6 py-4">
                     <div class="flex items-center gap-2">
-                      <span class="text-xs bg-sky text-white px-2 py-0.5 rounded font-bold">
-                        OPTION
-                      </span>
+                      <span class="text-xs bg-sky text-white px-2 py-0.5 rounded font-bold">OPTION</span>
                       <span class="font-bold text-text">{o.name}</span>
                     </div>
                     <p class="text-xs text-muted mt-1 leading-relaxed">{o.description}</p>
@@ -153,9 +279,15 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
         </table>
       </div>
 
+      <div class="mt-6 text-center">
+        <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large inline-flex">
+          <Icon name="cart" size={18} /> カートに追加して申込む
+        </a>
+      </div>
+
       {
         category.notes.length > 0 && (
-          <div class="mt-6 bg-sky-pale rounded-xl p-5 text-xs text-navy-deep space-y-1.5">
+          <div class="mt-8 bg-sky-pale rounded-xl p-5 text-xs text-navy-deep space-y-1.5">
             {category.notes.map((n) => <p>※ {n}</p>)}
           </div>
         )
@@ -166,36 +298,41 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
     </div>
   </section>
 
+  {/* Service-specific FAQ */}
   {
-    category.flow.length > 0 && (
-      <section class="py-16 md:py-24 px-5 md:px-6 bg-bg-soft">
-        <div class="max-w-5xl mx-auto">
-          <div class="text-center mb-10 md:mb-14">
-            <span class="label-en">SERVICE FLOW</span>
+    serviceFaqs.length > 0 && (
+      <section class="py-16 md:py-24 px-5 md:px-6 bg-white">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-10 md:mb-12">
+            <span class="label-en">FAQ</span>
             <h2 class="section-h2 mt-2">
-              施工の<span class="accent">流れ</span>
+              {category.name.replace("クリーニング", "")}{" "}
+              <span class="accent">よくある質問</span>
             </h2>
+            <p class="text-muted mt-4 text-sm md:text-base">
+              このサービスに関してよくいただくご質問をまとめました。
+            </p>
           </div>
-          <ol class="space-y-4">
-            {category.flow.map((f) => (
-              <li class="bg-white rounded-2xl p-5 md:p-6 flex gap-4 md:gap-5 items-start border border-line-soft">
-                <div class="num-mont text-3xl md:text-4xl text-sky shrink-0 leading-none mt-1">
-                  {f.step}
+
+          <div class="space-y-3">
+            {serviceFaqs.map((f, i) => (
+              <details class="svc-faq-item" open={i === 0}>
+                <summary class="svc-faq-q">
+                  <span class="svc-faq-mark q">Q</span>
+                  <span class="flex-1 font-bold text-navy text-sm md:text-base leading-snug">
+                    {f.q}
+                  </span>
+                  <span class="svc-faq-arrow">▼</span>
+                </summary>
+                <div class="svc-faq-a">
+                  <span class="svc-faq-mark a">A</span>
+                  <span class="flex-1 text-text-soft text-xs md:text-sm leading-[1.85]">
+                    {f.a}
+                  </span>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center justify-between gap-3 flex-wrap">
-                    <h3 class="font-black text-text text-base md:text-lg">{f.title}</h3>
-                    <span class="text-[10px] md:text-xs text-muted bg-sky-pale px-3 py-1 rounded-full whitespace-nowrap">
-                      ⏱ {f.duration}
-                    </span>
-                  </div>
-                  <p class="mt-2 text-text-soft text-xs md:text-sm leading-[1.85]">
-                    {f.body}
-                  </p>
-                </div>
-              </li>
+              </details>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
     )
@@ -203,3 +340,66 @@ const description = `津市・松阪市・鈴鹿市を中心に対応する${cat
 
   <PageCTA />
 </Layout>
+
+<style>
+  .svc-faq-item {
+    background: #FFF;
+    border: 1px solid #E1E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .svc-faq-item:hover { border-color: #78C8E0; }
+  .svc-faq-item[open] {
+    border-color: #1E88B0;
+    box-shadow: 0 4px 12px rgba(30, 136, 176, 0.08);
+  }
+  .svc-faq-q {
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    user-select: none;
+    list-style: none;
+  }
+  .svc-faq-q::-webkit-details-marker { display: none; }
+  .svc-faq-mark {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    color: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  .svc-faq-mark.q { background: #1E88B0; }
+  .svc-faq-mark.a { background: #FF7A45; }
+  .svc-faq-arrow {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #F7FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7A8F;
+    font-size: 10px;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+  }
+  .svc-faq-item[open] .svc-faq-arrow {
+    background: #FF7A45;
+    color: #FFF;
+    transform: rotate(180deg);
+  }
+  .svc-faq-a {
+    display: flex;
+    gap: 12px;
+    padding: 0 18px 18px 18px;
+    align-items: flex-start;
+  }
+</style>
