@@ -4,10 +4,13 @@ import Icon from "./Icon.astro";
 const tel = "059-271-5908";
 const telHref = "tel:0592715908";
 const services = [
-  { href: "/service/aircon", label: "エアコンクリーニング" },
-  { href: "/service/bath", label: "お風呂クリーニング" },
+  { href: "/service/aircon-wall", label: "エアコン（壁掛け）" },
+  { href: "/service/aircon-other", label: "エアコン（天井・床置）" },
+  { href: "/service/wash", label: "洗濯機クリーニング" },
+  { href: "/service/water", label: "水まわりクリーニング" },
   { href: "/service/kitchen", label: "キッチン・換気扇クリーニング" },
-  { href: "/service/other", label: "その他クリーニング" },
+  { href: "/service/house", label: "ハウスクリーニング" },
+  { href: "/service/akiya", label: "空き家管理事業" },
 ];
 const info = [
   { href: "/about", label: "会社概要・店主紹介" },
@@ -20,7 +23,7 @@ const year = new Date().getFullYear();
 const infoItems = [
   { icon: "phone", label: "TEL", value: tel, href: telHref },
   { icon: "clock", label: "営業時間", value: "9:00〜18:00 / 不定休" },
-  { icon: "pin", label: "所在地", value: "三重県津市上浜町3-15-2" },
+  { icon: "pin", label: "所在地", value: "三重県津市上浜町3丁目49番地" },
   { icon: "shield", label: "保険", value: "損害賠償保険加入済" },
 ];
 ---
