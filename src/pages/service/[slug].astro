@@ -19,6 +19,10 @@ const cat = category as any;
 const painPoints: { title: string; body: string }[] = cat.pain_points ?? [];
 const beforeAfter: { title: string; meta: string }[] = cat.before_after ?? [];
 const serviceFaqs: { q: string; a: string }[] = cat.service_faqs ?? [];
+const orderable = cat.orderable !== false;
+const labelEn = cat.label_en ?? `${category.slug.toUpperCase()} CLEANING`;
+const tel = "059-271-5908";
+const telHref = "tel:0592715908";
 
 const title = `${category.name}｜CLEAN×CLEAN 津中央店`;
 const description = `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
@@ -93,7 +97,7 @@ const faqSchema = serviceFaqs.length
             <span class="mx-2 text-muted">/</span>
             <span class="text-navy font-bold">{category.name}</span>
           </nav>
-          <span class="label-en">{category.slug.toUpperCase()} CLEANING</span>
+          <span class="label-en">{labelEn}</span>
           <h1 class="section-h2 mt-3 leading-tight">
             <span set:html={category.name.replace("クリーニング", '<span class="accent">クリーニング</span>')} />
           </h1>
@@ -118,9 +122,15 @@ const faqSchema = serviceFaqs.length
           </div>
 
           <div class="mt-7 md:mt-9 flex flex-col sm:flex-row gap-3">
-            <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large">
-              <Icon name="clipboard" size={18} /> このサービスを申込む
-            </a>
+            {orderable ? (
+              <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large">
+                <Icon name="clipboard" size={18} /> このサービスを申込む
+              </a>
+            ) : (
+              <a href={telHref} class="btn-cta btn-large">
+                <Icon name="phone" size={18} /> 電話で相談する（{tel}）
+              </a>
+            )}
             <a href="#pricing" class="btn-tel btn-large bg-white/90 backdrop-blur">
               <Icon name="money" size={18} /> 料金を見る
             </a>
@@ -335,9 +345,15 @@ const faqSchema = serviceFaqs.length
       </div>
 
       <div class="mt-6 text-center">
-        <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large inline-flex">
-          <Icon name="cart" size={18} /> カートに追加して申込む
-        </a>
+        {orderable ? (
+          <a href={`/contact?service=${category.slug}`} class="btn-cta btn-large inline-flex">
+            <Icon name="cart" size={18} /> カートに追加して申込む
+          </a>
+        ) : (
+          <a href={telHref} class="btn-cta btn-large inline-flex">
+            <Icon name="phone" size={18} /> 電話で相談する（{tel}）
+          </a>
+        )}
       </div>
 
       {

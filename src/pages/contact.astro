@@ -2,7 +2,29 @@
 import Layout from "../layouts/Layout.astro";
 import menusData from "../data/menus.json";
 
-const categories = menusData.categories;
+// 申込フォームは注文可能カテゴリのみ（orderable:false は対象外＝相談ベース）
+const categories = menusData.categories.filter(
+  (c) => (c as any).orderable !== false,
+);
+
+// カート復元時の照合用：現在カートに追加できる有効項目（メニュー＋オプション）の一覧。
+// localStorage に残った旧メニューの項目を破棄し、価格・名称を最新化するために使う。
+const validItems: Record<string, { name: string; price: number; duration: string }> = {};
+for (const cat of categories) {
+  for (const m of cat.menus) {
+    if (!m.published || m.price == null) continue;
+    validItems[m.id] = { name: m.name, price: m.price, duration: m.duration };
+    for (const o of (cat.options as any[]) ?? []) {
+      if (o.applies_to?.includes(m.id)) {
+        validItems[`${o.id}@${m.id}`] = {
+          name: `${o.name}（${m.name}用）`,
+          price: o.price,
+          duration: o.duration,
+        };
+      }
+    }
+  }
+}
 ---
 
 <Layout
@@ -403,6 +425,9 @@ const categories = menusData.categories;
     </div>
   </section>
 
+  <script define:vars={{ validItems }}>
+    window.CCMIE_VALID_ITEMS = validItems;
+  </script>
   <script is:inline>
     window.orderForm = function () {
       return {
@@ -426,10 +451,24 @@ const categories = menusData.categories;
         submitError: "",
 
         init() {
+          const valid = window.CCMIE_VALID_ITEMS || {};
           try {
             const saved = localStorage.getItem("ccmie_cart");
-            if (saved) this.cart = JSON.parse(saved) || [];
+            if (saved) {
+              // 現行メニューに存在する項目だけ残し、名称・価格を最新化（旧メニューの項目は破棄）
+              this.cart = (JSON.parse(saved) || [])
+                .filter((i) => i && valid[i.id])
+                .map((i) => ({
+                  id: i.id,
+                  qty: i.qty,
+                  name: valid[i.id].name,
+                  price: valid[i.id].price,
+                  duration: valid[i.id].duration,
+                }));
+              localStorage.setItem("ccmie_cart", JSON.stringify(this.cart));
+            }
           } catch (e) {}
+          this.clampOptions();
           this.$watch("cart", (v) => {
             try { localStorage.setItem("ccmie_cart", JSON.stringify(v)); } catch (e) {}
             this.clampOptions();

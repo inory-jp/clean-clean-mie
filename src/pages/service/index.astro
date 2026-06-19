@@ -10,19 +10,25 @@ const formatPrice = (n: number | null, label?: string) =>
 
 const tagStyle = (slug: string) => {
   const map: Record<string, string> = {
-    aircon: "bg-accent text-white",
-    bath: "bg-gold text-text",
+    "aircon-wall": "bg-accent text-white",
+    "aircon-other": "bg-sky-mid text-navy-deep",
+    wash: "bg-navy text-white",
+    water: "bg-gold text-text",
     kitchen: "bg-navy text-white",
-    other: "bg-sky-mid text-navy-deep",
+    house: "bg-sky-mid text-navy-deep",
+    akiya: "bg-gold text-text",
   };
   return map[slug] || "bg-navy text-white";
 };
 const tagText = (slug: string) => {
   const map: Record<string, string> = {
-    aircon: "★ 人気No.1",
-    bath: "セット割対象",
+    "aircon-wall": "★ 人気No.1",
+    "aircon-other": "店舗・オフィス対応",
+    wash: "黒カビ・におい対策",
+    water: "浴室・トイレ・洗面",
     kitchen: "大掃除におすすめ",
-    other: "幅広く対応",
+    house: "窓・床・外まわり",
+    akiya: "宅建士対応",
   };
   return map[slug] || "";
 };

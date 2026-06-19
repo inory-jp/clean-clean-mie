@@ -118,7 +118,7 @@ TEL: 059-271-5908（9:00〜18:00 / 不定休）
 
 CLEAN×CLEAN 津中央店
 栗田 祐志
-〒514-0008 三重県津市上浜町3-15-2
+〒514-0008 三重県津市上浜町3丁目49番地
 `;
 
     const customerHtml = `
@@ -157,7 +157,7 @@ ${c.notes ? `<tr><td style="padding:4px 0;color:#6B7A8F">備考</td><td style="w
 </div>
 </div>
 <div style="background:#0D5B7A;color:#fff;padding:15px;text-align:center;font-size:12px">
-CLEAN×CLEAN 津中央店<br>〒514-0008 三重県津市上浜町3-15-2
+CLEAN×CLEAN 津中央店<br>〒514-0008 三重県津市上浜町3丁目49番地
 </div>
 </div>
 </body></html>`;
