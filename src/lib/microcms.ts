@@ -86,24 +86,31 @@ export interface Campaign {
   alt_text: string;
   link_url?: string;
   display_order: number;
-  start_at: string;
-  end_at: string;
+  start_at?: string;
+  end_at?: string;
   published: boolean;
 }
 
 export async function getActiveCampaigns(): Promise<Campaign[]> {
   if (!client) return [];
   try {
-    const now = new Date().toISOString();
+    // 期間（start_at / end_at）は任意項目。published のみ microCMS 側で絞り、
+    // 期間判定はコード側で行う。期間未設定のバナーは常時表示し、
+    // 設定されている場合だけその範囲内に限定する（入れ忘れで消えない運用）。
     const res = await client.getList<Campaign>({
       endpoint: "campaigns",
       queries: {
-        filters: `published[equals]true[and]start_at[less_than]${now}[and]end_at[greater_than]${now}`,
+        filters: `published[equals]true`,
         orders: "display_order",
         limit: 20,
       },
     });
-    return res.contents;
+    const now = Date.now();
+    return res.contents.filter((c) => {
+      const startOk = !c.start_at || new Date(c.start_at).getTime() <= now;
+      const endOk = !c.end_at || new Date(c.end_at).getTime() >= now;
+      return startOk && endOk;
+    });
   } catch (err) {
     console.error("microCMS getCampaigns error:", err);
     return [];
