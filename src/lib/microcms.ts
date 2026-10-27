@@ -1,4 +1,5 @@
 import { createClient } from "microcms-js-sdk";
+import { withUniqueNewsSlugs } from "./news-slugs";
 
 export interface NewsArticle {
   id: string;
@@ -29,16 +30,26 @@ export async function getNewsList(opts: {
   if (!client) return { contents: [], totalCount: 0 };
   try {
     const filters = opts.category ? `category[equals]${opts.category}` : undefined;
-    const res = await client.getList<NewsArticle>({
-      endpoint: "news",
-      queries: {
-        limit: opts.limit ?? 12,
-        offset: opts.offset ?? 0,
-        filters,
-        orders: "-published_at",
-      },
-    });
-    return { contents: res.contents, totalCount: res.totalCount };
+    const [res, all] = await Promise.all([
+      client.getList<NewsArticle>({
+        endpoint: "news",
+        queries: {
+          limit: opts.limit ?? 12,
+          offset: opts.offset ?? 0,
+          filters,
+          orders: "-published_at",
+        },
+      }),
+      getAllNewsForPaths(),
+    ]);
+    const slugs = new Map(all.map((article) => [article.id, article.slug]));
+    return {
+      contents: res.contents.map((article) => ({
+        ...article,
+        slug: slugs.get(article.id) ?? article.slug,
+      })),
+      totalCount: res.totalCount,
+    };
   } catch (err) {
     console.error("microCMS getList error:", err);
     return { contents: [], totalCount: 0 };
@@ -48,28 +59,28 @@ export async function getNewsList(opts: {
 export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
   if (!client) return null;
   try {
-    const res = await client.getList<NewsArticle>({
-      endpoint: "news",
-      queries: { filters: `slug[equals]${slug}`, limit: 1 },
-    });
-    return res.contents[0] ?? null;
+    const all = await getAllNewsForPaths();
+    return all.find((article) => article.slug === slug) ?? null;
   } catch (err) {
     console.error("microCMS getBySlug error:", err);
     return null;
   }
 }
 
+let newsForPaths: Promise<NewsArticle[]> | undefined;
+
 export async function getAllNewsForPaths(): Promise<NewsArticle[]> {
   if (!client) return [];
-  try {
-    const res = await client.getAllContents<NewsArticle>({
+  // ビルド中は一覧・関連記事・詳細で同じURL割り当てを共有する。
+  newsForPaths ??= client.getAllContents<NewsArticle>({
       endpoint: "news",
+    })
+    .then(withUniqueNewsSlugs)
+    .catch((err) => {
+      newsForPaths = undefined;
+      throw err;
     });
-    return res;
-  } catch (err) {
-    console.error("microCMS getAll error:", err);
-    return [];
-  }
+  return newsForPaths;
 }
 
 export const formatDate = (iso: string) => {
