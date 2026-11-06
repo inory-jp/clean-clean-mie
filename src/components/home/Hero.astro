@@ -1,9 +1,11 @@
 ---
 import Icon from "../Icon.astro";
 import { getActiveCampaigns } from "../../lib/microcms";
+import site from "../../data/site.json";
 
 const campaigns = await getActiveCampaigns();
 const hasCampaigns = campaigns.length > 0;
+const brand = `CLEAN×CLEAN（${site.brand_kana}）津中央店`;
 ---
 
 <section class="hero relative overflow-hidden" style="background: linear-gradient(180deg, #FFF 0%, #F5FBFD 60%, #E8F5F9 100%); padding: 16px 0 48px;">
@@ -16,6 +18,12 @@ const hasCampaigns = campaigns.length > 0;
   {
     hasCampaigns ? (
       <div class="relative z-[1]" id="heroSlider">
+        <div class="px-4 pt-3 pb-5 md:pb-7 text-center">
+          <p class="text-xs md:text-sm font-bold text-navy">{brand}</p>
+          <h1 class="mt-2 text-xl sm:text-2xl md:text-3xl font-black leading-tight text-text">
+            津市・松阪市のエアコンクリーニング
+          </h1>
+        </div>
         <div class="slider-viewport overflow-hidden">
           <div class="slides-track" id="slidesTrack">
             {campaigns.map((c, i) => {
@@ -83,10 +91,10 @@ const hasCampaigns = campaigns.length > 0;
     ) : (
       <div class="relative max-w-[1240px] mx-auto px-4 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-8 items-center z-[1]">
         <div>
-          <span class="label-en">HOUSE CLEANING IN MIE</span>
+          <p class="text-sm md:text-base font-bold text-navy">{brand}</p>
           <h1 class="mt-4 text-3xl sm:text-4xl md:text-[52px] font-black leading-[1.2] text-text" style="letter-spacing: -0.02em;">
-            津・松阪のエアコン、<br />
-            <span class="text-navy">1時間で新品同様</span>に。
+            津市・松阪市の<br />
+            <span class="text-navy">エアコンクリーニング</span>
           </h1>
           <p class="mt-5 text-text-soft leading-[1.85] text-sm md:text-base">
             店主が直接施工。損害保険完備。三重県内出張費 無料。<br class="hidden md:inline" />

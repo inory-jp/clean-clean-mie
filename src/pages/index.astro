@@ -16,9 +16,14 @@ import News from "../components/home/News.astro";
 import FaqPreview from "../components/home/FaqPreview.astro";
 import Area from "../components/home/Area.astro";
 import FinalCTA from "../components/home/FinalCTA.astro";
+import site from "../data/site.json";
 ---
 
-<Layout showNotice={true}>
+<Layout
+  title={`${site.brand_kana}（CLEAN×CLEAN）津中央店｜津市のエアコンクリーニング`}
+  description={`CLEAN×CLEAN（${site.brand_kana}）津中央店は、津市・松阪市・鈴鹿市を中心に三重県全域へ出張。エアコンクリーニングや浴室・換気扇などのハウスクリーニングを、店主が直接施工します。`}
+  showNotice={true}
+>
   <Hero />
   <UrgencyBanner />
   <FirstTimeOffer />

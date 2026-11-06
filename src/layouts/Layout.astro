@@ -5,6 +5,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FloatingCTA from "../components/FloatingCTA.astro";
 import SchemaLocalBusiness from "../components/SchemaLocalBusiness.astro";
+import site from "../data/site.json";
 
 interface Props {
   title?: string;
@@ -22,6 +23,14 @@ const {
 
 const siteUrl = "https://cleanclean-mie.jp";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  url: `${siteUrl}/`,
+  name: site.business_name,
+  alternateName: [`${site.brand_kana} 津中央店`, site.brand_kana],
+};
 ---
 
 <!doctype html>
@@ -42,7 +51,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
     <meta name="author" content="CLEAN×CLEAN 津中央店" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="CLEAN×CLEAN 津中央店" />
+    <meta property="og:site_name" content={site.business_name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
@@ -62,6 +71,9 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
       rel="stylesheet"
     />
 
+    {Astro.url.pathname === "/" && (
+      <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    )}
     <SchemaLocalBusiness />
     <slot name="schema" />
   </head>

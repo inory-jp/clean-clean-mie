@@ -7,6 +7,7 @@ import site from "../data/site.json";
 
 const companyInfo = [
   { label: "屋号", value: site.business_name },
+  { label: "屋号の読み", value: `${site.brand_kana} つちゅうおうてん` },
   { label: "代表者", value: `${site.representative}（${site.representative_kana}）` },
   { label: "所在地", value: `〒${site.postal_code} ${site.address}`, icon: "pin" },
   { label: "電話", value: site.tel, href: site.tel_href, icon: "phone" },

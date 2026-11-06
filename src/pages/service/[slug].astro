@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import PageCTA from "../../components/PageCTA.astro";
 import Icon from "../../components/Icon.astro";
 import menusData from "../../data/menus.json";
+import site from "../../data/site.json";
 
 export function getStaticPaths() {
   return menusData.categories.map((c) => ({
@@ -24,8 +25,14 @@ const labelEn = cat.label_en ?? `${category.slug.toUpperCase()} CLEANING`;
 const tel = "059-271-5908";
 const telHref = "tel:0592715908";
 
-const title = `${category.name}｜CLEAN×CLEAN 津中央店`;
-const description = `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
+const airconTitle =
+  category.slug === "aircon-wall" ? "津市の壁掛けエアコンクリーニング" :
+  category.slug === "aircon-other" ? "津市の天井・床置エアコンクリーニング" :
+  null;
+const title = `${airconTitle ?? category.name}｜${site.business_name}`;
+const description = airconTitle
+  ? `津市・松阪市・鈴鹿市を中心に三重県全域に対応。${site.brand_kana} 津中央店の${category.name}は、店主が直接施工。料金${formatPrice(category.starting_price)}〜（税込）、所要時間の目安は${category.duration}。`
+  : `津市・松阪市・鈴鹿市を中心に対応する${category.name}。${category.tagline}。料金${formatPrice(category.starting_price)}〜（税込）、所要${category.duration}、損害保険完備で安心。`;
 
 const serviceSchema = {
   "@context": "https://schema.org",
